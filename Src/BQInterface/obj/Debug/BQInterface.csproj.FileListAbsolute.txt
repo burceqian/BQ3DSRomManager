@@ -1,0 +1,7 @@
+C:\D\TestProject\BQ3DSRomManager\BQInterface\bin\Debug\BQInterface.dll
+C:\D\TestProject\BQ3DSRomManager\BQInterface\bin\Debug\BQInterface.pdb
+C:\D\TestProject\BQ3DSRomManager\BQInterface\bin\Debug\BQStructure.dll
+C:\D\TestProject\BQ3DSRomManager\BQInterface\bin\Debug\BQStructure.pdb
+C:\D\TestProject\BQ3DSRomManager\BQInterface\obj\Debug\BQInterface.csprojResolveAssemblyReference.cache
+C:\D\TestProject\BQ3DSRomManager\BQInterface\obj\Debug\BQInterface.dll
+C:\D\TestProject\BQ3DSRomManager\BQInterface\obj\Debug\BQInterface.pdb

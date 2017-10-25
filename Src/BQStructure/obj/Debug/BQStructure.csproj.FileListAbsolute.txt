@@ -1,0 +1,5 @@
+C:\D\TestProject\BQ3DSRomManager\BQStructure\bin\Debug\BQStructure.dll
+C:\D\TestProject\BQ3DSRomManager\BQStructure\bin\Debug\BQStructure.pdb
+C:\D\TestProject\BQ3DSRomManager\BQStructure\obj\Debug\BQStructure.csprojResolveAssemblyReference.cache
+C:\D\TestProject\BQ3DSRomManager\BQStructure\obj\Debug\BQStructure.dll
+C:\D\TestProject\BQ3DSRomManager\BQStructure\obj\Debug\BQStructure.pdb

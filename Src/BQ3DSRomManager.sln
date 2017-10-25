@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQ3DSRomManager", "BQ3DSRomManager\BQ3DSRomManager.csproj", "{FC656618-C3CA-42B0-906C-6525C2F16C49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQ3DSRomLoader", "BQ3DSRomLoader\BQ3DSRomLoader.csproj", "{54F1CBAD-078D-40D3-9E8A-4C89D479A693}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQStructure", "BQStructure\BQStructure.csproj", "{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQInterface", "BQInterface\BQInterface.csproj", "{265D943B-3590-4BE7-B542-F2B938903C23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC656618-C3CA-42B0-906C-6525C2F16C49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC656618-C3CA-42B0-906C-6525C2F16C49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC656618-C3CA-42B0-906C-6525C2F16C49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC656618-C3CA-42B0-906C-6525C2F16C49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54F1CBAD-078D-40D3-9E8A-4C89D479A693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54F1CBAD-078D-40D3-9E8A-4C89D479A693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54F1CBAD-078D-40D3-9E8A-4C89D479A693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54F1CBAD-078D-40D3-9E8A-4C89D479A693}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{265D943B-3590-4BE7-B542-F2B938903C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{265D943B-3590-4BE7-B542-F2B938903C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{265D943B-3590-4BE7-B542-F2B938903C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{265D943B-3590-4BE7-B542-F2B938903C23}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
