@@ -1,5 +1,7 @@
 ﻿using BQ3DSRomLoader;
 using BQInterface;
+using BQStructure;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,8 @@ namespace BQ3DSRomManager
     /// </summary>
     public partial class MainWindow : Window
     {
+        RomInfo lRomInfo = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,8 +33,16 @@ namespace BQ3DSRomManager
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog lOFD = new OpenFileDialog();
+            if (lOFD.ShowDialog() != true)
+            {
+                return;
+            }
             IRomLoader ll = new Loader3DS();
-            ll.GetRomInfo(@"C:\D\ThDS\[TWN]Nintendogs + Cats - Shiba and New Friends.3ds");
+            lRomInfo = ll.GetRomInfo(lOFD.FileName);
+            WRomInfo lWRI = new WRomInfo();
+            lWRI.GameRomInfo = lRomInfo;
+            lWRI.ShowDialog();
         }
     }
 }

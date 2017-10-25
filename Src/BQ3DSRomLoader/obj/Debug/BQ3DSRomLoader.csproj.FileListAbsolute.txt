@@ -16,3 +16,13 @@ C:\D\TestProject\BQ3DSRomManager\BQ3DSRomLoader\bin\Debug\BQStructure.pdb
 C:\D\TestProject\BQ3DSRomManager\BQ3DSRomLoader\obj\Debug\BQ3DSRomLoader.csprojResolveAssemblyReference.cache
 C:\D\TestProject\BQ3DSRomManager\BQ3DSRomLoader\obj\Debug\BQ3DSRomLoader.dll
 C:\D\TestProject\BQ3DSRomManager\BQ3DSRomLoader\obj\Debug\BQ3DSRomLoader.pdb
+D:\学习\我的项目\BQ3DSRomManager\Src\BQ3DSRomLoader\bin\Debug\BQ3DSRomLoader.dll
+D:\学习\我的项目\BQ3DSRomManager\Src\BQ3DSRomLoader\bin\Debug\BQ3DSRomLoader.pdb
+D:\学习\我的项目\BQ3DSRomManager\Src\BQ3DSRomLoader\bin\Debug\BQInterface.dll
+D:\学习\我的项目\BQ3DSRomManager\Src\BQ3DSRomLoader\bin\Debug\BQStructure.dll
+D:\学习\我的项目\BQ3DSRomManager\Src\BQ3DSRomLoader\bin\Debug\BQInterface.pdb
+D:\学习\我的项目\BQ3DSRomManager\Src\BQ3DSRomLoader\bin\Debug\BQStructure.pdb
+D:\学习\我的项目\BQ3DSRomManager\Src\BQ3DSRomLoader\obj\Debug\BQ3DSRomLoader.csprojResolveAssemblyReference.cache
+D:\学习\我的项目\BQ3DSRomManager\Src\BQ3DSRomLoader\obj\Debug\BQ3DSRomLoader.csproj.CoreCompileInputs.cache
+D:\学习\我的项目\BQ3DSRomManager\Src\BQ3DSRomLoader\obj\Debug\BQ3DSRomLoader.dll
+D:\学习\我的项目\BQ3DSRomManager\Src\BQ3DSRomLoader\obj\Debug\BQ3DSRomLoader.pdb

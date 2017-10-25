@@ -142,6 +142,24 @@ namespace BQ3DSRomLoader
                 lRomInfo.Chip_ID += "98";
             }
 
+            // Title_ID
+            tFS.Position = 0X1200;
+            tByteContent = new byte[16];
+            tFS.Read(tByteContent, 0, tByteContent.Length);
+            if (tByteContent[0].ToString("X2") == "FF")
+            {
+                lRomInfo.Card_ID = "No ID in Rom";
+            }
+            else
+            {
+                tStrContent = "";
+                for (int i = 0; i < tByteContent.Length; i++)
+                {
+                    tStrContent += tByteContent[i].ToString("X2");
+                }
+                lRomInfo.Card_ID = tStrContent;
+            }
+
             tFS.Close();
 
             return lRomInfo;
