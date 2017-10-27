@@ -9,3 +9,8 @@ D:\学习\我的项目\BQ3DSRomManager\Src\BQStructure\obj\Debug\BQStructure.csp
 D:\学习\我的项目\BQ3DSRomManager\Src\BQStructure\obj\Debug\BQStructure.csproj.CoreCompileInputs.cache
 D:\学习\我的项目\BQ3DSRomManager\Src\BQStructure\obj\Debug\BQStructure.dll
 D:\学习\我的项目\BQ3DSRomManager\Src\BQStructure\obj\Debug\BQStructure.pdb
+C:\D\GithubProject\BQ3DSRomManager\Src\BQStructure\bin\Debug\BQStructure.dll
+C:\D\GithubProject\BQ3DSRomManager\Src\BQStructure\bin\Debug\BQStructure.pdb
+C:\D\GithubProject\BQ3DSRomManager\Src\BQStructure\obj\Debug\BQStructure.csprojResolveAssemblyReference.cache
+C:\D\GithubProject\BQ3DSRomManager\Src\BQStructure\obj\Debug\BQStructure.dll
+C:\D\GithubProject\BQ3DSRomManager\Src\BQStructure\obj\Debug\BQStructure.pdb

@@ -1,0 +1,7 @@
+C:\D\GithubProject\BQ3DSRomManager\Src\BQGetRomInfoListOnline\bin\Debug\BQGetRomInfoListOnline.dll
+C:\D\GithubProject\BQ3DSRomManager\Src\BQGetRomInfoListOnline\bin\Debug\BQGetRomInfoListOnline.pdb
+C:\D\GithubProject\BQ3DSRomManager\Src\BQGetRomInfoListOnline\bin\Debug\BQStructure.dll
+C:\D\GithubProject\BQ3DSRomManager\Src\BQGetRomInfoListOnline\bin\Debug\BQStructure.pdb
+C:\D\GithubProject\BQ3DSRomManager\Src\BQGetRomInfoListOnline\obj\Debug\BQGetRomInfoListOnline.csprojResolveAssemblyReference.cache
+C:\D\GithubProject\BQ3DSRomManager\Src\BQGetRomInfoListOnline\obj\Debug\BQGetRomInfoListOnline.dll
+C:\D\GithubProject\BQ3DSRomManager\Src\BQGetRomInfoListOnline\obj\Debug\BQGetRomInfoListOnline.pdb

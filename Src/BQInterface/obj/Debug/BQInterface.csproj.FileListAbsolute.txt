@@ -13,3 +13,10 @@ D:\学习\我的项目\BQ3DSRomManager\Src\BQInterface\obj\Debug\BQInterface.csp
 D:\学习\我的项目\BQ3DSRomManager\Src\BQInterface\obj\Debug\BQInterface.csproj.CoreCompileInputs.cache
 D:\学习\我的项目\BQ3DSRomManager\Src\BQInterface\obj\Debug\BQInterface.dll
 D:\学习\我的项目\BQ3DSRomManager\Src\BQInterface\obj\Debug\BQInterface.pdb
+C:\D\GithubProject\BQ3DSRomManager\Src\BQInterface\bin\Debug\BQInterface.dll
+C:\D\GithubProject\BQ3DSRomManager\Src\BQInterface\bin\Debug\BQInterface.pdb
+C:\D\GithubProject\BQ3DSRomManager\Src\BQInterface\bin\Debug\BQStructure.dll
+C:\D\GithubProject\BQ3DSRomManager\Src\BQInterface\bin\Debug\BQStructure.pdb
+C:\D\GithubProject\BQ3DSRomManager\Src\BQInterface\obj\Debug\BQInterface.csprojResolveAssemblyReference.cache
+C:\D\GithubProject\BQ3DSRomManager\Src\BQInterface\obj\Debug\BQInterface.dll
+C:\D\GithubProject\BQ3DSRomManager\Src\BQInterface\obj\Debug\BQInterface.pdb

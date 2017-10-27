@@ -107,6 +107,10 @@
       <Project>{54F1CBAD-078D-40D3-9E8A-4C89D479A693}</Project>
       <Name>BQ3DSRomLoader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BQGetRomInfoListOnline\BQGetRomInfoListOnline.csproj">
+      <Project>{86651A5F-CE36-4F4C-B90A-81754E799462}</Project>
+      <Name>BQGetRomInfoListOnline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BQInterface\BQInterface.csproj">
       <Project>{265D943B-3590-4BE7-B542-F2B938903C23}</Project>
       <Name>BQInterface</Name>

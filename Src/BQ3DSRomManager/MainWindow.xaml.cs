@@ -1,4 +1,5 @@
 ﻿using BQ3DSRomLoader;
+using BQGetRomInfoListOnline;
 using BQInterface;
 using BQStructure;
 using Microsoft.Win32;
@@ -43,6 +44,12 @@ namespace BQ3DSRomManager
             WRomInfo lWRI = new WRomInfo();
             lWRI.GameRomInfo = lRomInfo;
             lWRI.ShowDialog();
+        }
+
+        private void button_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            Web3dsdb w3d = new Web3dsdb();
+            w3d.GetRomInfo(null);
         }
     }
 }

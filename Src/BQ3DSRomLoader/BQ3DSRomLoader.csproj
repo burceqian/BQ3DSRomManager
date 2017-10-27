@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ReaderCIA.cs" />
+    <Compile Include="LoaderCIA.cs" />
     <Compile Include="Loader3DS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
