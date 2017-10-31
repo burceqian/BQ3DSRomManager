@@ -1,4 +1,5 @@
-﻿using BQStructure;
+﻿using BQ3DSCommonFunction;
+using BQStructure;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,18 +14,20 @@ namespace BQGetRomInfoListOnline
 {
     public class Web3dsdb
     {
-        string _3dsreleasesFilePath = System.Environment.CurrentDirectory + @"\3dsreleases\3dsreleases.xml";
+        const string URL3dsdb = "http://3dsdb.com/xml.php";
+        string _3dsreleasesFileFullName = System.Environment.CurrentDirectory + @"\3dsreleases\3dsreleases.xml";
+        string _3dsreleasesFilePath = System.Environment.CurrentDirectory + @"\3dsreleases\";
 
         public void GetRomInfo(RomInfo pCurrentRomInfo)
         {
-            if (Directory.Exists(System.Environment.CurrentDirectory + @"\3dsreleases\") == false)
+            if (Directory.Exists(_3dsreleasesFilePath) == false)
             {
-                Directory.CreateDirectory(System.Environment.CurrentDirectory + @"\3dsreleases\");
+                Directory.CreateDirectory(_3dsreleasesFilePath);
             }
 
             GetRomInfoFrom3dsreleaseXML();
 
-            if (Download3dsdbFile("http://3dsdb.com/xml.php", _3dsreleasesFilePath))
+            if (BQWeb.DownloadWebFile("http://3dsdb.com/xml.php", _3dsreleasesFileFullName))
             {
                 GetRomInfoFrom3dsreleaseXML();
             }
@@ -32,60 +35,24 @@ namespace BQGetRomInfoListOnline
 
         public void Update3dsreleases()
         {
-            if (Directory.Exists(System.Environment.CurrentDirectory + @"\3dsreleases\") == false)
+            if (Directory.Exists(_3dsreleasesFilePath) == false)
             {
-                Directory.CreateDirectory(System.Environment.CurrentDirectory + @"\3dsreleases\");
+                Directory.CreateDirectory(_3dsreleasesFilePath);
             }
 
-            Download3dsdbFile("http://3dsdb.com/xml.php", _3dsreleasesFilePath);
-        }
-
-        private bool Download3dsdbFile(string pURL, string pFileName)
-        {
-            float lPercent = 0;
-            try
-            {
-                HttpWebRequest lHWRT = (HttpWebRequest)HttpWebRequest.Create(pURL);
-                HttpWebResponse lHWRS = (HttpWebResponse)lHWRT.GetResponse();
-                long lTotal = lHWRS.ContentLength;
-                Stream lWebStream = lHWRS.GetResponseStream();
-
-                if (File.Exists(_3dsreleasesFilePath))
-                {
-                    File.Delete(_3dsreleasesFilePath);
-                }
-
-                Stream lFileStream = new FileStream(pFileName, FileMode.Create);
-                long totalDownloadedByte = 0;
-                byte[] lByteListContent = new byte[1024];
-                int lDataSize = lWebStream.Read(lByteListContent, 0, (int)lByteListContent.Length);
-                while (lDataSize > 0)
-                {
-                    totalDownloadedByte = lDataSize + totalDownloadedByte;
-                    lFileStream.Write(lByteListContent, 0, lDataSize);
-                    lDataSize = lWebStream.Read(lByteListContent, 0, (int)lByteListContent.Length);
-                    lPercent = (float)totalDownloadedByte / (float)lTotal * 100;
-                }
-                lFileStream.Close();
-                lWebStream.Close();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
+            BQWeb.DownloadWebFile(URL3dsdb, _3dsreleasesFileFullName);
         }
 
         private List<Rom3dsdbInfo> GetRomInfoFrom3dsreleaseXML()
         {
-            if (File.Exists(_3dsreleasesFilePath) == false)
+            if (File.Exists(_3dsreleasesFileFullName) == false)
             {
                 return null;
             }
 
             List<Rom3dsdbInfo> lResult = new List<Rom3dsdbInfo>();
             XmlDocument lXmlDoc = new XmlDocument();
-            lXmlDoc.Load(_3dsreleasesFilePath);
+            lXmlDoc.Load(_3dsreleasesFileFullName);
 
             XmlNode xn = lXmlDoc.SelectSingleNode("releases");
             XmlNodeList xnl = xn.ChildNodes;

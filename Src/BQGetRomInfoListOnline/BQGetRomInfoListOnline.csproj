@@ -42,8 +42,13 @@
   <ItemGroup>
     <Compile Include="Web3dsdb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Webgametdb3ds.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BQ3DSCommonFunction\BQ3DSCommonFunction.csproj">
+      <Project>{BD20FFCB-958A-42E3-80C7-7B94902B5B89}</Project>
+      <Name>BQ3DSCommonFunction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BQStructure\BQStructure.csproj">
       <Project>{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}</Project>
       <Name>BQStructure</Name>

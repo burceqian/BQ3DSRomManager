@@ -40,10 +40,15 @@ namespace BQ3DSRomManager
                 return;
             }
             IRomLoader ll = new Loader3DS();
+            //ll = new LoaderCIA();
             lRomInfo = ll.GetRomInfo(lOFD.FileName);
-            WRomInfo lWRI = new WRomInfo();
-            lWRI.GameRomInfo = lRomInfo;
-            lWRI.ShowDialog();
+            //WRomInfo lWRI = new WRomInfo();
+            //lWRI.GameRomInfo = lRomInfo;
+            //lWRI.ShowDialog();
+
+            Webgametdb3ds webgametdb3Ds = new Webgametdb3ds();
+            webgametdb3Ds.GetGameConver(lRomInfo.SubSerial);
+
         }
 
         private void button_Copy_Click(object sender, RoutedEventArgs e)

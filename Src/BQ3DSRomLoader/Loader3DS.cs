@@ -142,7 +142,7 @@ namespace BQ3DSRomLoader
                 lRomInfo.Chip_ID += "98";
             }
 
-            // Title_ID
+            // Card_ID
             tFS.Position = 0X1200;
             tByteContent = new byte[16];
             tFS.Read(tByteContent, 0, tByteContent.Length);
