@@ -17,11 +17,13 @@ namespace BQGetRomInfoListOnline
 
         public bool GetGameConver(string pGameSerial)
         {
+            string lRegexImagePattern = @"href=""(?<imgLink>http:\/\/[-A-Za-z0-9+&@#\/%?=~_|!:,.;]+[-A-Za-z0-9+&@#\/%=~_|].jpg)""";
+
             List<string> lImageURLList = new List<string>();
             string lWebSoruce = BQWeb.DownloadWebHtml(URL3dsdb + pGameSerial);
             lWebSoruce = lWebSoruce.Replace("\n", "");
             lWebSoruce = lWebSoruce.Replace("\r", "");
-            string lRegexImagePattern = @"href=""(?<imgLink>http:\/\/[-A-Za-z0-9+&@#\/%?=~_|!:,.;]+[-A-Za-z0-9+&@#\/%=~_|].jpg)""";
+            
             MatchCollection lResult = Regex.Matches(lWebSoruce, lRegexImagePattern);
             if (lResult.Count <= 0)
             {
@@ -39,12 +41,12 @@ namespace BQGetRomInfoListOnline
                 string tImagePath = imageUrl.Replace(@"http://art.gametdb.com/3ds/", "");
                 tImagePath = tImagePath.Replace(@"/", @"\");
                 string tImageFullName = _3dsdbFilePath + tImagePath;
-                if (System.IO.File.Exists(tImageFullName))
+                if (File.Exists(tImageFullName))
                 {
                     continue;
                 }
 
-                FileInfo fileInfo = new System.IO.FileInfo(tImageFullName);
+                FileInfo fileInfo = new FileInfo(tImageFullName);
 
                 if (Directory.Exists(fileInfo.DirectoryName) == false)
                 {
@@ -62,15 +64,16 @@ namespace BQGetRomInfoListOnline
             string lWebSoruce = BQWeb.DownloadWebHtml(URL3dsdb + pGameSerial);
             lWebSoruce = lWebSoruce.Replace("\n", "");
             lWebSoruce = lWebSoruce.Replace("\r", "");
-            Regex lRegexInfo = new Regex(@"(<)\s*(table)\s*(class)\s*(=)('DQedit')\s*(>)(?<body>.*)(<)(\/)\s*(table)(>)");
+            Regex lRegexInfo = new Regex(@"(<\s*?table\s*?class\s*?=\s*?'DQedit'\s*?>)(?<body>.*)(<\/\s*table>)");
             // <tr>???</tr>
-            Regex lRegextr = new Regex(@"(<)\s*(tr)\s(>)(?<tr>.*)(<)(\/)\s*(tr)\s*(>)");
+            //Regex lRegextr = new Regex(@"(<\s*?tr\s*?>)(?<tr>.*?)(<\/\s*?tr\s*?>)");
             // <td>???</td>
-            Regex lRegextd = new Regex(@"(?<td>(<)\s*(td).*(>).*(<)(\/)\s*(td)\s*(>))");
+            Regex lRegextd = new Regex(@"<\s*?td.*?>(?<tdValue>.*?)<\/\s*?td\s*?>");
             Regex lRegextdValue = new Regex(@"(>)(?<value>.*)(<)");
             // <td class='head' align='right' width='110'  valign='top'>??</td>
             //Regex lRegextdHead = new Regex(@"(<)\s*(td)\s+(class)\s*(=)\s*('head')\s+(align)\s*(=)\s*('right')\s+.+(valign)\s*(=)\s*('top')\s*(>)(?<tdValue>.*)(<)(\/)\s*(td)\s*(>)");
             //Regex lRegextdValue = new Regex(@"(<)\s*(td)\s+(align)\s*(=)\s*('right')\s+.+(valign)\s*(=)\s*('top')\s*(>)(?<tdValue>.*)(<)(\/)\s*(td)\s*(>)");
+
             Match lResult = lRegexInfo.Match(lWebSoruce);
             if (lResult.Success == false)
             {
@@ -78,8 +81,20 @@ namespace BQGetRomInfoListOnline
             }
 
             string lRomInfo = lResult.Groups["body"].Value.ToString();
+            MatchCollection lMatchCollection = lRegextd.Matches(lRomInfo);
+            if (lMatchCollection.Count <= 0)
+            {
+                return false;
+            }
+            List<string> lTrList = new List<string>();
+            foreach (Match match in lMatchCollection)
+            {
+                GroupCollection gc = match.Groups;
+                lTrList.Add(gc["tdValue"].ToString());
+            }
 
-            lResult = lRegextr.Match(lRomInfo);
+
+            lResult = lRegextd.Match(lRomInfo);
             if (lResult.Success == false)
             {
                 return false;

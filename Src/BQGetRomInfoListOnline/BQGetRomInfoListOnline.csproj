@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BQ3DSCommonFunction\BQ3DSCommonFunction.csproj">
-      <Project>{BD20FFCB-958A-42E3-80C7-7B94902B5B89}</Project>
+      <Project>{e586b538-cb01-45b6-9c49-eb5092bceac2}</Project>
       <Name>BQ3DSCommonFunction</Name>
     </ProjectReference>
     <ProjectReference Include="..\BQStructure\BQStructure.csproj">

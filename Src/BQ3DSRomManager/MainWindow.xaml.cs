@@ -47,7 +47,7 @@ namespace BQ3DSRomManager
             //lWRI.ShowDialog();
 
             Webgametdb3ds webgametdb3Ds = new Webgametdb3ds();
-            webgametdb3Ds.GetGameConver(lRomInfo.SubSerial);
+            //webgametdb3Ds.GetGameConver(lRomInfo.SubSerial);
             webgametdb3Ds.GetGameInfo(lRomInfo.SubSerial);
 
         }

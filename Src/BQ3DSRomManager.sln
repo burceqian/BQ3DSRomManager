@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQ3DSRomManager", "BQ3DSRomManager\BQ3DSRomManager.csproj", "{FC656618-C3CA-42B0-906C-6525C2F16C49}"
 EndProject
@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQInterface", "BQInterface\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQGetRomInfoListOnline", "BQGetRomInfoListOnline\BQGetRomInfoListOnline.csproj", "{86651A5F-CE36-4F4C-B90A-81754E799462}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQ3DSCommonFunction", "BQ3DSCommonFunction\BQ3DSCommonFunction.csproj", "{BD20FFCB-958A-42E3-80C7-7B94902B5B89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQ3DSCommonFunction", "BQ3DSCommonFunction\BQ3DSCommonFunction.csproj", "{E586B538-CB01-45B6-9C49-EB5092BCEAC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{86651A5F-CE36-4F4C-B90A-81754E799462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86651A5F-CE36-4F4C-B90A-81754E799462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86651A5F-CE36-4F4C-B90A-81754E799462}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BD20FFCB-958A-42E3-80C7-7B94902B5B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD20FFCB-958A-42E3-80C7-7B94902B5B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD20FFCB-958A-42E3-80C7-7B94902B5B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD20FFCB-958A-42E3-80C7-7B94902B5B89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E586B538-CB01-45B6-9C49-EB5092BCEAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E586B538-CB01-45B6-9C49-EB5092BCEAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E586B538-CB01-45B6-9C49-EB5092BCEAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E586B538-CB01-45B6-9C49-EB5092BCEAC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
