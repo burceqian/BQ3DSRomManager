@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Romgamedb3dsInfo.cs" />
     <Compile Include="Rom3dsdbInfo.cs" />
     <Compile Include="RomInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
