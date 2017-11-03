@@ -1,4 +1,5 @@
-﻿using BQ3DSRomLoader;
+﻿using BQ3DSQLite;
+using BQ3DSRomLoader;
 using BQGetRomInfoListOnline;
 using BQInterface;
 using BQStructure;
@@ -55,7 +56,23 @@ namespace BQ3DSRomManager
         private void button_Copy_Click(object sender, RoutedEventArgs e)
         {
             Web3dsdb w3d = new Web3dsdb();
-            w3d.GetRomInfo(null);
+            //w3d.Update3dsreleases();
+
+            List<Rom3dsdbInfo> lRom3dsdbInfoList = w3d.GetRomInfoFrom3dsreleaseXML();
+
+            if (BQSqlite.CheckDBExist() == false)
+            {
+                BQSqlite.CreateNewDB();
+            }
+
+            BQSqlite.InsertRom3dsdbInfo(lRom3dsdbInfoList);
+
+            //foreach (var rom3dsdbInfo in lRom3dsdbInfoList)
+            //{
+            //    BQSqlite.InsertRom3dsdbInfo(rom3dsdbInfo);
+            //}
+
+            Rom3dsdbInfo lRom3dsdbInfo = BQSqlite.GetRom3dsdbInfo(lRom3dsdbInfoList[0].serial);
         }
     }
 }

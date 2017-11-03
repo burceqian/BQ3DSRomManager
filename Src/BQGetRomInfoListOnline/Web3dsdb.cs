@@ -25,8 +25,6 @@ namespace BQGetRomInfoListOnline
                 Directory.CreateDirectory(_3dsreleasesFilePath);
             }
 
-            GetRomInfoFrom3dsreleaseXML();
-
             if (BQWeb.DownloadWebFile("http://3dsdb.com/xml.php", _3dsreleasesFileFullName))
             {
                 GetRomInfoFrom3dsreleaseXML();
@@ -43,7 +41,7 @@ namespace BQGetRomInfoListOnline
             BQWeb.DownloadWebFile(URL3dsdb, _3dsreleasesFileFullName);
         }
 
-        private List<Rom3dsdbInfo> GetRomInfoFrom3dsreleaseXML()
+        public List<Rom3dsdbInfo> GetRomInfoFrom3dsreleaseXML()
         {
             if (File.Exists(_3dsreleasesFileFullName) == false)
             {

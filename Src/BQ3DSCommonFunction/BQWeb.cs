@@ -35,7 +35,7 @@ namespace BQ3DSCommonFunction
                 lFileStream.Close();
                 lWebStream.Close();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
