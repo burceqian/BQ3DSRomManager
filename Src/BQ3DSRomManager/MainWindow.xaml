@@ -5,10 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BQ3DSRomManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="BQ3DSRomManager" Height="409.935" Width="593.347">
     <Grid>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
-        <Button x:Name="button_Copy" Content="Button" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" Width="75" Click="button_Copy_Click"/>
-
+        <Button Name="btnScan" Content="Scan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="btnScan_Click"/>
+        <Grid Margin="0,24,10,15">
+            <DataGrid Name="dgGameList" Height="340" VerticalAlignment="Top"/>
+        </Grid>
+        <ProgressBar Name="progressbar" HorizontalAlignment="Left" Width="100" Height="15" VerticalAlignment="Bottom"/>
+        <Label Name="labProgress" Content="" Margin="100,0,10,0" Height="15" VerticalAlignment="Bottom" FontSize="6" FontFamily="MS Gothic"/>
+        <CheckBox Content="exist" HorizontalAlignment="Left" Margin="533,7,0,0" VerticalAlignment="Top" FontSize="10" Height="12"/>
+        <CheckBox Content="favorite" HorizontalAlignment="Left" Margin="472,7,0,0" VerticalAlignment="Top" FontSize="10" Height="12" Width="56"/>
     </Grid>
 </Window>

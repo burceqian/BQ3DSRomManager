@@ -14,7 +14,7 @@ namespace BQStructure
         public string type { get; set; }
         public string languages { get; set; }
         public string title_1EN_2 { get; set; }//_1 = ( _2 =)
-        public string title_1JP_2 { get; set; }//_1 = ( _2 =)
+        public string title_1JA_2 { get; set; }//_1 = ( _2 =)
         public string title_1ZHTW_2 { get; set; }//_1 = ( _2 =)
         public string developer { get; set; }
         public string publisher { get; set; }

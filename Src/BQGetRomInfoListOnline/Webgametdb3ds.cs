@@ -1,4 +1,5 @@
 ﻿using BQ3DSCommonFunction;
+using BQStructure;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -59,17 +60,19 @@ namespace BQGetRomInfoListOnline
             return true;
         }
 
-        public bool GetGameInfo(string pGameSerial)
+        public Romgamedb3dsInfo GetGameInfo(string pGameSerial)
         {
             string lWebSoruce = BQWeb.DownloadWebHtml(URL3dsdb + pGameSerial);
             lWebSoruce = lWebSoruce.Replace("\n", "");
             lWebSoruce = lWebSoruce.Replace("\r", "");
+            lWebSoruce = lWebSoruce.Replace("<tr><td", "</td></tr><tr><td");
             Regex lRegexInfo = new Regex(@"(<\s*?table\s*?class\s*?=\s*?'DQedit'\s*?>)(?<body>.*)(<\/\s*table>)");
             // <tr>???</tr>
             //Regex lRegextr = new Regex(@"(<\s*?tr\s*?>)(?<tr>.*?)(<\/\s*?tr\s*?>)");
             // <td>???</td>
             Regex lRegextd = new Regex(@"<\s*?td.*?>(?<tdValue>.*?)<\/\s*?td\s*?>");
             Regex lRegextdValue = new Regex(@"(>)(?<value>.*)(<)");
+            Regex lRegextdDummy = new Regex(@"(<).*(>)");
             // <td class='head' align='right' width='110'  valign='top'>??</td>
             //Regex lRegextdHead = new Regex(@"(<)\s*(td)\s+(class)\s*(=)\s*('head')\s+(align)\s*(=)\s*('right')\s+.+(valign)\s*(=)\s*('top')\s*(>)(?<tdValue>.*)(<)(\/)\s*(td)\s*(>)");
             //Regex lRegextdValue = new Regex(@"(<)\s*(td)\s+(align)\s*(=)\s*('right')\s+.+(valign)\s*(=)\s*('top')\s*(>)(?<tdValue>.*)(<)(\/)\s*(td)\s*(>)");
@@ -77,14 +80,14 @@ namespace BQGetRomInfoListOnline
             Match lResult = lRegexInfo.Match(lWebSoruce);
             if (lResult.Success == false)
             {
-                return false;
+                return null;
             }
 
             string lRomInfo = lResult.Groups["body"].Value.ToString();
             MatchCollection lMatchCollection = lRegextd.Matches(lRomInfo);
             if (lMatchCollection.Count <= 0)
             {
-                return false;
+                return null;
             }
             List<string> lTrList = new List<string>();
             foreach (Match match in lMatchCollection)
@@ -93,18 +96,50 @@ namespace BQGetRomInfoListOnline
                 lTrList.Add(gc["tdValue"].ToString());
             }
 
+            Romgamedb3dsInfo romgamedb3DsInfo = new Romgamedb3dsInfo();
 
-            lResult = lRegextd.Match(lRomInfo);
-            if (lResult.Success == false)
+            string tPropName = "";
+            bool tFindProp = false;
+            foreach (var gameInfo in lTrList)
             {
-                return false;
-            }
-            foreach (var item in lResult.Groups)
-            {
-                string lRomtr = lResult.Groups["tr"].ToString();
+                if (gameInfo == "")
+                {
+                    continue;
+                }
+                tFindProp = false;
+                foreach (var item in romgamedb3DsInfo.GetType().GetProperties())
+                {
+                    string prpname = item.Name;
+                    prpname = prpname.Replace("_1", " (");
+                    prpname = prpname.Replace("_2", ")");
+                    prpname = prpname.Replace("_3", " ");
+                    prpname = prpname.Replace("_4", ".");
+                    prpname = prpname.Replace("__", "");
+
+                    if (gameInfo.ToLower() == prpname.ToLower())
+                    {
+                        tFindProp = true;
+                        tPropName = item.Name;
+                        break;
+                    }
+                }
+
+                if (tFindProp)
+                {
+                    continue;
+                }
+
+                if (tPropName != "")
+                {
+                    string value = lRegextdDummy.Replace(gameInfo, "");
+
+                    romgamedb3DsInfo.GetType().GetProperty(tPropName).SetValue(romgamedb3DsInfo, value);
+                    tPropName = "";
+                    tFindProp = false;
+                }
             }
 
-            return true;
+            return romgamedb3DsInfo;
         }
     }
 }

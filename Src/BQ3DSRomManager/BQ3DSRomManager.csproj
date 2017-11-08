@@ -63,6 +63,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -130,6 +131,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BQ3DSCommonFunction\BQ3DSCommonFunction.csproj">
+      <Project>{E586B538-CB01-45B6-9C49-EB5092BCEAC2}</Project>
+      <Name>BQ3DSCommonFunction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BQ3DSQLite\BQ3DSQLite.csproj">
       <Project>{57CE5F04-B9FC-45F9-9717-8105F8EC1F32}</Project>
       <Name>BQ3DSQLite</Name>

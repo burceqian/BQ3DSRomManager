@@ -13,6 +13,10 @@ namespace BQ3DSQLite
     public class BQSqlite
     {
         private static string DBFullName = Environment.CurrentDirectory + @"\DB\gameInfo.db";
+        private const string TableRomInfo = "RomInfo";
+        private const string TableRom3dsdbInfo = "Rom3dsdbInfo";
+        private const string TableRomgamedb3dsInfo = "Romgamedb3dsInfo";
+        private const string TableBQ3dsGameInfo = "BQ3dsGameInfo";
 
         public static bool CheckDBExist()
         {
@@ -52,7 +56,7 @@ namespace BQ3DSQLite
         private static bool CreateTables(SQLiteConnection sqlConnection)
         {
             string lRomInfo = "";
-            lRomInfo += "CREATE TABLE RomInfo(";
+            lRomInfo += "CREATE TABLE " + TableRomInfo + "(";
             lRomInfo += "serial varchar(128),";
             lRomInfo += "capacity varchar(128),";
             lRomInfo += "title_ID varchar(128),";
@@ -62,7 +66,7 @@ namespace BQ3DSQLite
             lRomInfo += "manufacturer varchar(128)";
             lRomInfo += ")";
             string l3dsdbInfo = "";
-            l3dsdbInfo += "CREATE TABLE Rom3dsdbInfo(";
+            l3dsdbInfo += "CREATE TABLE " + TableRom3dsdbInfo + "(";
             l3dsdbInfo += "serial varchar(128),";
             l3dsdbInfo += "id varchar(128),";
             l3dsdbInfo += "name varchar(128),";
@@ -82,14 +86,14 @@ namespace BQ3DSQLite
             l3dsdbInfo += ")";
 
             string lgamedb3dsInfo = "";
-            lgamedb3dsInfo += "CREATE TABLE Romgamedb3dsInfo(";
+            lgamedb3dsInfo += "CREATE TABLE " + TableRomgamedb3dsInfo + "(";
             lgamedb3dsInfo += "serial varchar(128),";
             lgamedb3dsInfo += "id varchar(128),";
             lgamedb3dsInfo += "region varchar(128),";
             lgamedb3dsInfo += "type varchar(128),";
             lgamedb3dsInfo += "languages varchar(128),";
             lgamedb3dsInfo += "title_EN varchar(128),";
-            lgamedb3dsInfo += "title_JP varchar(128),";
+            lgamedb3dsInfo += "title_JA varchar(128),";
             lgamedb3dsInfo += "title_ZHTW varchar(128),";
             lgamedb3dsInfo += "developer varchar(128),";
             lgamedb3dsInfo += "publisher varchar(128),";
@@ -105,11 +109,11 @@ namespace BQ3DSQLite
             lgamedb3dsInfo += ")";
 
             string lBQ3dsGameInfo = "";
-            lBQ3dsGameInfo += "CREATE TABLE BQ3dsGameInfo(";
+            lBQ3dsGameInfo += "CREATE TABLE " + TableBQ3dsGameInfo +  "(";
             lBQ3dsGameInfo += "serial varchar(8),"; //CTR-AG5W
             lBQ3dsGameInfo += "languages varchar(128),"; //EN
             lBQ3dsGameInfo += "title_EN varchar(128),"; //Ice Age - Continental Drift - Arctic Games
-            lBQ3dsGameInfo += "title_JP varchar(128),"; 
+            lBQ3dsGameInfo += "title_JA varchar(128),"; 
             lBQ3dsGameInfo += "title_ZHTW varchar(128),";
             lBQ3dsGameInfo += "title_ZHCN varchar(128),";
             lBQ3dsGameInfo += "developer varchar(128),"; //
@@ -123,7 +127,8 @@ namespace BQ3DSQLite
             lBQ3dsGameInfo += "hasCIA varchar(128),";
             lBQ3dsGameInfo += "has3dz varchar(128),";
             lBQ3dsGameInfo += "card varchar(128),";
-            lBQ3dsGameInfo += "copyserial varchar(128)";
+            lBQ3dsGameInfo += "copyserial varchar(128),";
+            lBQ3dsGameInfo += "favorite bool";
             lBQ3dsGameInfo += ")";
 
             SQLiteCommand cmd = new SQLiteCommand();
@@ -153,7 +158,7 @@ namespace BQ3DSQLite
 
                 SQLiteCommand cmd = new SQLiteCommand();
                 cmd.Connection = lDBConnection;
-                string sql = "INSERT INTO Rom3dsdbInfo(";
+                string sql = "INSERT INTO " + TableRom3dsdbInfo + "(";
                 sql += "id,";
                 sql += "name,";
                 sql += "publisher,";
@@ -271,7 +276,7 @@ namespace BQ3DSQLite
 
                 string sql = "";
 
-                sql = "INSERT INTO Rom3dsdbInfo(";
+                sql = "INSERT INTO " + TableRom3dsdbInfo +  "(";
                 sql += "id,";
                 sql += "name,";
                 sql += "publisher,";
@@ -337,7 +342,7 @@ namespace BQ3DSQLite
                 throw ex;
             }
             return true;
-        }
+         }
 
         public static Rom3dsdbInfo GetRom3dsdbInfo(string serial)
         {
@@ -380,6 +385,276 @@ namespace BQ3DSQLite
             lResult.type = ds.Rows[0]["type"].ToString().Trim();
             lResult.card = ds.Rows[0]["card"].ToString().Trim();
             return lResult;
+        }
+
+        public static bool InsertRomgamedb3dsInfo(Romgamedb3dsInfo pRomgamedb3dsInfo)
+        {
+            try
+            {
+                SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + DBFullName);
+                lDBConnection.Open();
+
+                SQLiteCommand cmd = new SQLiteCommand();
+                cmd.Connection = lDBConnection;
+                string sql = "INSERT INTO " + TableRomgamedb3dsInfo + "(";
+                sql += "serial,";
+                sql += "id,";
+                sql += "region,";
+                sql += "type,";
+                sql += "languages,";
+                sql += "title_EN,";
+                sql += "title_JA,";
+                sql += "title_ZHTW,";
+                sql += "developer,";
+                sql += "publisher,";
+                sql += "release_date,";
+                sql += "genre,";
+                sql += "rating,";
+                sql += "players,";
+                sql += "req_accessories,";
+                sql += "accessories,";
+                sql += "online_players,";
+                sql += "save_blocks,";
+                sql += "[case]";
+                sql += ")values(";
+                sql += "@serial,";
+                sql += "@id,";
+                sql += "@region,";
+                sql += "@type,";
+                sql += "@languages,";
+                sql += "@title_EN,";
+                sql += "@title_JA,";
+                sql += "@title_ZHTW,";
+                sql += "@developer,";
+                sql += "@publisher,";
+                sql += "@release_date,";
+                sql += "@genre,";
+                sql += "@rating,";
+                sql += "@players,";
+                sql += "@req_accessories,";
+                sql += "@accessories,";
+                sql += "@online_players,";
+                sql += "@save_blocks,";
+                sql += "@case";
+                sql += ")";
+
+                cmd.CommandText = sql;
+
+                cmd.Parameters.Add("@serial", DbType.String);
+                cmd.Parameters.Add("@id", DbType.String);
+                cmd.Parameters.Add("@region", DbType.String);
+                cmd.Parameters.Add("@type", DbType.String);
+                cmd.Parameters.Add("@languages", DbType.String);
+                cmd.Parameters.Add("@title_EN", DbType.String);
+                cmd.Parameters.Add("@title_JA", DbType.String);
+                cmd.Parameters.Add("@title_ZHTW", DbType.String);
+                cmd.Parameters.Add("@developer", DbType.String);
+                cmd.Parameters.Add("@publisher", DbType.String);
+                cmd.Parameters.Add("@release_date", DbType.String);
+                cmd.Parameters.Add("@genre", DbType.String);
+                cmd.Parameters.Add("@rating", DbType.String);
+                cmd.Parameters.Add("@players", DbType.String);
+                cmd.Parameters.Add("@req_accessories", DbType.String);
+                cmd.Parameters.Add("@accessories", DbType.String);
+                cmd.Parameters.Add("@online_players", DbType.String);
+                cmd.Parameters.Add("@save_blocks", DbType.String);
+                cmd.Parameters.Add("@case", DbType.String);
+
+                cmd.Parameters["@serial"].Value = pRomgamedb3dsInfo.serial;
+                cmd.Parameters["@id"].Value = pRomgamedb3dsInfo.id==null?"": pRomgamedb3dsInfo.id;
+                cmd.Parameters["@region"].Value = pRomgamedb3dsInfo.region == null ? "" : pRomgamedb3dsInfo.region;
+                cmd.Parameters["@type"].Value = pRomgamedb3dsInfo.type == null ? "" : pRomgamedb3dsInfo.type;
+                cmd.Parameters["@languages"].Value = pRomgamedb3dsInfo.languages == null ? "" : pRomgamedb3dsInfo.languages;
+                cmd.Parameters["@title_EN"].Value = pRomgamedb3dsInfo.title_1EN_2 == null ? "" : pRomgamedb3dsInfo.title_1EN_2;
+                cmd.Parameters["@title_JA"].Value = pRomgamedb3dsInfo.title_1JA_2 == null ? "" : pRomgamedb3dsInfo.title_1JA_2;
+                cmd.Parameters["@title_ZHTW"].Value = pRomgamedb3dsInfo.title_1ZHTW_2 == null ? "" : pRomgamedb3dsInfo.title_1ZHTW_2;
+                cmd.Parameters["@developer"].Value = pRomgamedb3dsInfo.developer == null ? "" : pRomgamedb3dsInfo.developer;
+                cmd.Parameters["@publisher"].Value = pRomgamedb3dsInfo.publisher == null ? "" : pRomgamedb3dsInfo.publisher;
+                cmd.Parameters["@release_date"].Value = pRomgamedb3dsInfo.release_3date == null ? "" : pRomgamedb3dsInfo.release_3date;
+                cmd.Parameters["@genre"].Value = pRomgamedb3dsInfo.genre == null ? "" : pRomgamedb3dsInfo.genre;
+                cmd.Parameters["@rating"].Value = pRomgamedb3dsInfo.rating == null ? "" : pRomgamedb3dsInfo.rating;
+                cmd.Parameters["@players"].Value = pRomgamedb3dsInfo.players == null ? "" : pRomgamedb3dsInfo.players;
+                cmd.Parameters["@req_accessories"].Value = pRomgamedb3dsInfo.req_4accessories == null ? "" : pRomgamedb3dsInfo.req_4accessories;
+                cmd.Parameters["@accessories"].Value = pRomgamedb3dsInfo.accessories == null ? "" : pRomgamedb3dsInfo.accessories;
+                cmd.Parameters["@online_players"].Value = pRomgamedb3dsInfo.online_3players == null ? "" : pRomgamedb3dsInfo.online_3players;
+                cmd.Parameters["@save_blocks"].Value = pRomgamedb3dsInfo.save_3blocks == null ? "" : pRomgamedb3dsInfo.save_3blocks;
+                cmd.Parameters["@case"].Value = pRomgamedb3dsInfo.__case == null ? "" : pRomgamedb3dsInfo.__case;
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                string xx = ex.ToString();
+                //throw ex;
+            }
+            return true;
+        }
+
+        public static Romgamedb3dsInfo GetRomgamedb3dsInfo(string serial)
+        {
+            SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + DBFullName);
+            lDBConnection.Open();
+
+            SQLiteCommand cmd = new SQLiteCommand();
+            cmd.Connection = lDBConnection;
+            cmd.CommandText = "SELECT * FROM " + TableRomgamedb3dsInfo + " WHERE serial='" + serial + "'";
+
+            SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
+
+            DataTable ds = new DataTable();
+            da.Fill(ds);
+            da.Dispose();
+            cmd.Dispose();
+
+            lDBConnection.Close();
+
+            if (ds.Rows.Count == 0)
+            {
+                return null;
+            }
+
+            Romgamedb3dsInfo lResult = new Romgamedb3dsInfo();
+            lResult.serial = ds.Rows[0]["serial"].ToString().Trim();
+            lResult.id = ds.Rows[0]["id"].ToString().Trim();
+            lResult.region = ds.Rows[0]["region"].ToString().Trim();
+            lResult.type = ds.Rows[0]["type"].ToString().Trim();
+            lResult.languages = ds.Rows[0]["languages"].ToString().Trim();
+            lResult.title_1EN_2 = ds.Rows[0]["title_EN"].ToString().Trim();
+            lResult.title_1JA_2 = ds.Rows[0]["title_JA"].ToString().Trim();
+            lResult.title_1ZHTW_2 = ds.Rows[0]["title_ZHTW"].ToString().Trim();
+            lResult.developer = ds.Rows[0]["developer"].ToString().Trim();
+            lResult.publisher = ds.Rows[0]["publisher"].ToString().Trim();
+            lResult.release_3date = ds.Rows[0]["release_date"].ToString().Trim();
+            lResult.genre = ds.Rows[0]["genre"].ToString().Trim();
+            lResult.rating = ds.Rows[0]["rating"].ToString().Trim();
+            lResult.players = ds.Rows[0]["players"].ToString().Trim();
+            lResult.req_4accessories = ds.Rows[0]["req_accessories"].ToString().Trim();
+            lResult.accessories = ds.Rows[0]["accessories"].ToString().Trim();
+            lResult.online_3players = ds.Rows[0]["online_players"].ToString().Trim();
+            lResult.save_3blocks = ds.Rows[0]["save_blocks"].ToString().Trim();
+            lResult.__case = ds.Rows[0]["case"].ToString().Trim();
+
+            return lResult;
+        }
+
+        public static bool InsertRomInfo(RomInfo pRomInfo)
+        {
+            try
+            {
+                SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + DBFullName);
+                lDBConnection.Open();
+
+                SQLiteCommand cmd = new SQLiteCommand();
+                cmd.Connection = lDBConnection;
+                string sql = "INSERT INTO " + TableRomInfo + "(";
+                sql += "serial,";
+                sql += "capacity,";
+                sql += "title_ID,";
+                sql += "card_Type,";
+                sql += "card_ID,";
+                sql += "chip_ID,";
+                sql += "manufacturer";
+                sql += ")values(";
+                sql += "@serial,";
+                sql += "@capacity,";
+                sql += "@title_ID,";
+                sql += "@card_Type,";
+                sql += "@card_ID,";
+                sql += "@chip_ID,";
+                sql += "@manufacturer";
+                sql += ")";
+
+                cmd.CommandText = sql;
+
+                cmd.Parameters.Add("@serial", DbType.String);
+                cmd.Parameters.Add("@capacity", DbType.String);
+                cmd.Parameters.Add("@title_ID", DbType.String);
+                cmd.Parameters.Add("@card_Type", DbType.String);
+                cmd.Parameters.Add("@card_ID", DbType.String);
+                cmd.Parameters.Add("@chip_ID", DbType.String);
+                cmd.Parameters.Add("@manufacturer", DbType.String);
+
+                cmd.Parameters["@serial"].Value = pRomInfo.Serial;
+                cmd.Parameters["@capacity"].Value = pRomInfo.Capacity;
+                cmd.Parameters["@title_ID"].Value = pRomInfo.Title_ID;
+                cmd.Parameters["@card_Type"].Value = pRomInfo.Card_Type==CardType.Card1?"1":"2";
+                cmd.Parameters["@card_ID"].Value = pRomInfo.Card_ID;
+                cmd.Parameters["@chip_ID"].Value = pRomInfo.Chip_ID;
+                cmd.Parameters["@manufacturer"].Value = pRomInfo.Manufacturer;
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return true;
+        }
+
+        public static RomInfo GetRomInfo(string serial)
+        {
+            SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + DBFullName);
+            lDBConnection.Open();
+
+            SQLiteCommand cmd = new SQLiteCommand();
+            cmd.Connection = lDBConnection;
+            cmd.CommandText = "SELECT * FROM " + TableRomInfo + " WHERE serial='" + serial + "'";
+
+            SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
+
+            DataTable ds = new DataTable();
+            da.Fill(ds);
+            da.Dispose();
+            cmd.Dispose();
+
+            lDBConnection.Close();
+
+            if (ds.Rows.Count == 0)
+            {
+                return null;
+            }
+
+            RomInfo lResult = new RomInfo();
+            lResult.Serial = ds.Rows[0]["serial"].ToString().Trim();
+            lResult.Capacity = ds.Rows[0]["capacity"].ToString().Trim();
+            lResult.Title_ID = ds.Rows[0]["title_ID"].ToString().Trim();
+            lResult.Card_Type = ds.Rows[0]["card_Type"].ToString().Trim()=="1"?CardType.Card1:CardType.Card2;
+            lResult.Card_ID = ds.Rows[0]["card_ID"].ToString().Trim();
+            lResult.Chip_ID = ds.Rows[0]["chip_ID"].ToString().Trim();
+            lResult.Manufacturer = ds.Rows[0]["manufacturer"].ToString().Trim();
+
+
+            return lResult;
+        }
+
+        public static void ClearDB()
+        {
+            try
+            {
+                SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + DBFullName);
+                lDBConnection.Open();
+
+                SQLiteCommand cmd = new SQLiteCommand();
+                cmd.Connection = lDBConnection;
+
+                cmd.CommandText = "DELETE FROM " + TableRomInfo;
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "DELETE FROM " + TableRom3dsdbInfo;
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "DELETE FROM " + TableRomgamedb3dsInfo;
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "DELETE FROM " + TableBQ3dsGameInfo;
+                cmd.ExecuteNonQuery();
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

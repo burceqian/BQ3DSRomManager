@@ -19,7 +19,7 @@ namespace BQ3DSRomLoader
             tFS.Position = 0X1150;
             tByteContent = new byte[10];
             tFS.Read(tByteContent, 0, tByteContent.Length);
-            lRomInfo.Serial = System.Text.Encoding.Default.GetString(tByteContent);
+            lRomInfo.Serial = System.Text.Encoding.Default.GetString(tByteContent).TrimEnd('\0');
 
             // Title_ID
             tFS.Position = 0X108;
