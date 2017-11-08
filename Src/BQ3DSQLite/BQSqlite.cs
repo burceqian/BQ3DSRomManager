@@ -627,6 +627,25 @@ namespace BQ3DSQLite
             return lResult;
         }
 
+        public static void Delete3dsdb()
+        {
+            try
+            {
+                SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + DBFullName);
+                lDBConnection.Open();
+
+                SQLiteCommand cmd = new SQLiteCommand();
+                cmd.Connection = lDBConnection;
+
+                cmd.CommandText = "DELETE FROM " + TableRom3dsdbInfo;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static void ClearDB()
         {
             try

@@ -15,5 +15,6 @@
         <Label Name="labProgress" Content="" Margin="100,0,10,0" Height="15" VerticalAlignment="Bottom" FontSize="6" FontFamily="MS Gothic"/>
         <CheckBox Content="exist" HorizontalAlignment="Left" Margin="533,7,0,0" VerticalAlignment="Top" FontSize="10" Height="12"/>
         <CheckBox Content="favorite" HorizontalAlignment="Left" Margin="472,7,0,0" VerticalAlignment="Top" FontSize="10" Height="12" Width="56"/>
+        <Button x:Name="btnUpdate3dsdb" Content="Update3dsdb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="107" Margin="221,0,0,0" Click="btnUpdate3dsdb_Click"/>
     </Grid>
 </Window>

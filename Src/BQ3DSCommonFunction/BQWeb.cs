@@ -46,10 +46,19 @@ namespace BQ3DSCommonFunction
         {
             string strHTML = "";
             WebClient myWebClient = new WebClient();
-            Stream myStream = myWebClient.OpenRead(pURL);
-            StreamReader sr = new StreamReader(myStream, System.Text.Encoding.GetEncoding("utf-8"));
-            strHTML = sr.ReadToEnd();
-            myStream.Close();
+            Stream myStream = null;
+            try
+            {
+                myStream = myWebClient.OpenRead(pURL);
+                StreamReader sr = new StreamReader(myStream, System.Text.Encoding.GetEncoding("utf-8"));
+                strHTML = sr.ReadToEnd();
+                myStream.Close();
+            }
+            catch (Exception ex)
+            {
+                string xx = ex.ToString();
+            }
+
             return strHTML;
         }
     }

@@ -99,48 +99,77 @@ namespace BQ3DSRomManager
 
             for (int i = 0; i < lGameList.Count; i++)
             {
-                IRomLoader lRomLoader;
+                
                 FileInfo romfile = lGameList[i];
                 reportProcess(i + 1, lGameList.Count, "Start Analize Game: " + romfile.Name);
-                if (romfile.Extension.ToLower() == ".3ds")
+
+                if (romfile.Extension.ToLower() == ".7z" ||
+                    romfile.Extension.ToLower() == ".rar" ||
+                        romfile.Extension.ToLower() == ".zip")
                 {
-                    lRomLoader = new Loader3DS();
+                    BQZip.ClearUnZipFolder();
+                    BQZip.UnZipFile(romfile);
+                    List<FileInfo> unziprom = BQZip.GetUnZipRom();
+                    for (int j = 0; j < unziprom.Count; j++)
+                    {
+                        AnalizeRom(unziprom[j]);
+                    }
+                    BQZip.ClearUnZipFolder();
                 }
-                else if (romfile.Extension.ToLower() == ".cia")
+                else if (romfile.Extension.ToLower() == ".3ds" ||
+                        romfile.Extension.ToLower() == ".3dz" ||
+                        romfile.Extension.ToLower() == ".cia")
                 {
-                    lRomLoader = new LoaderCIA();
+                    AnalizeRom(romfile);
                 }
                 else
                 {
-                    continue;
+                    continue;                    
+                }
+            }
+            System.Windows.Forms.MessageBox.Show("Scan Done.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void AnalizeRom(FileInfo romfile)
+        {
+            IRomLoader lRomLoader;
+
+            if (romfile.Extension.ToLower() == ".3ds" ||
+                    romfile.Extension.ToLower() == ".3dz")
+            {
+                lRomLoader = new Loader3DS();
+            }
+            else if (romfile.Extension.ToLower() == ".cia")
+            {
+                lRomLoader = new LoaderCIA();
+            }
+            else
+            {
+                return;
+            }
+
+            RomInfo lRomInfo = lRomLoader.GetRomInfo(romfile.FullName);
+            if (lRomInfo.Serial.Trim() != "")
+            {
+                BQIO.CopyRomToRomFolder(lRomInfo, romfile);
+
+                if (BQSqlite.GetRomInfo(lRomInfo.Serial) == null)
+                {
+                    BQSqlite.InsertRomInfo(lRomInfo);
                 }
 
-                RomInfo lRomInfo = lRomLoader.GetRomInfo(romfile.FullName);
-                if (lRomInfo.Serial.Trim() != "")
+                if (BQSqlite.GetRomgamedb3dsInfo(lRomInfo.Serial) == null)
                 {
-                    BQIO.CopyRomToRomFolder(lRomInfo, romfile);
-
-                    if (BQSqlite.GetRomInfo(lRomInfo.Serial) == null)
+                    Webgametdb3ds webgametdb3Ds = new Webgametdb3ds();
+                    Romgamedb3dsInfo romgamedb3DsInfo = webgametdb3Ds.GetGameInfo(lRomInfo.SubSerial);
+                    if (romgamedb3DsInfo != null)
                     {
-                        BQSqlite.InsertRomInfo(lRomInfo);
-                    }
-
-                    if (BQSqlite.GetRomgamedb3dsInfo(lRomInfo.Serial) == null)
-                    {
-                        Webgametdb3ds webgametdb3Ds = new Webgametdb3ds();
-                        Romgamedb3dsInfo romgamedb3DsInfo = webgametdb3Ds.GetGameInfo(lRomInfo.SubSerial);
                         romgamedb3DsInfo.serial = lRomInfo.Serial;
                         BQSqlite.InsertRomgamedb3dsInfo(romgamedb3DsInfo);
                         webgametdb3Ds.GetGameConver(lRomInfo.SubSerial);
                     }
                 }
-
-
-
-
-                Thread.Sleep(1);
             }
-            System.Windows.Forms.MessageBox.Show("Scan Done.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void reportProcess(int current, int max, string message)
@@ -150,6 +179,26 @@ namespace BQ3DSRomManager
                 progressbar.Maximum = max;
                 labProgress.Content = message;
             }));
+        }
+
+        private void btnUpdate3dsdb_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Update3dsdb()
+        {
+            Web3dsdb w3d = new Web3dsdb();
+            w3d.Update3dsreleases();
+
+            List<Rom3dsdbInfo> lRom3dsdbInfoList = w3d.GetRomInfoFrom3dsreleaseXML();
+
+            if (BQSqlite.CheckDBExist() == false)
+            {
+                BQSqlite.CreateNewDB();
+            }
+
+            BQSqlite.InsertRom3dsdbInfo(lRom3dsdbInfoList);
         }
     }
 }
