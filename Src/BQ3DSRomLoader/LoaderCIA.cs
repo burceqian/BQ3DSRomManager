@@ -11,16 +11,18 @@ namespace BQ3DSRomLoader
 {
     public class LoaderCIA : IRomLoader
     {
-        RomInfo IRomLoader.GetRomInfo(string pRomPath)
+        RomInfo IRomLoader.GetRomInfo(FileInfo pRomFile)
         {
             RomInfo lRomInfo = new RomInfo();
+
+            lRomInfo.OriginalName = pRomFile.Name;
 
             byte[] tByteContent = null;
             string tStrContent = "";
             FileStream tFS;
             try
             {
-                tFS = new FileStream(pRomPath, FileMode.Open);
+                tFS = new FileStream(pRomFile.FullName, FileMode.Open);
             }
             catch (Exception ex)
             {

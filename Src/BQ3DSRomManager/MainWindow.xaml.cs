@@ -35,7 +35,7 @@ namespace BQ3DSRomManager
             }
             IRomLoader ll = new Loader3DS();
             //ll = new LoaderCIA();
-            lRomInfo = ll.GetRomInfo(lOFD.FileName);
+            lRomInfo = ll.GetRomInfo(new FileInfo(lOFD.FileName));
             //WRomInfo lWRI = new WRomInfo();
             //lWRI.GameRomInfo = lRomInfo;
             //lWRI.ShowDialog();
@@ -124,7 +124,7 @@ namespace BQ3DSRomManager
                 }
                 else
                 {
-                    continue;                    
+                    BQIO.CopyToRomTemp(romfile);
                 }
             }
             System.Windows.Forms.MessageBox.Show("Scan Done.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -148,7 +148,7 @@ namespace BQ3DSRomManager
                 return;
             }
 
-            RomInfo lRomInfo = lRomLoader.GetRomInfo(romfile.FullName);
+            RomInfo lRomInfo = lRomLoader.GetRomInfo(romfile);
             if (lRomInfo.Serial.Trim() != "")
             {
                 BQIO.CopyRomToRomFolder(lRomInfo, romfile);
@@ -183,7 +183,7 @@ namespace BQ3DSRomManager
 
         private void btnUpdate3dsdb_Click(object sender, RoutedEventArgs e)
         {
-
+            Update3dsdb();
         }
 
         private void Update3dsdb()

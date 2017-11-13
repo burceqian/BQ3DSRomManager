@@ -22,7 +22,7 @@ namespace BQStructure
         public string Card_ID { get; set; }
         public string Chip_ID { get; set; }
         public string Manufacturer { get; set; }
-
+        public string OriginalName { get; set; }
         private string SetSubSerial(string pSerial)
         {
             return pSerial.Substring(pSerial.Length - 4, 4);

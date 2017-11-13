@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading;
 
 namespace BQ3DSCommonFunction
 {
@@ -9,35 +10,51 @@ namespace BQ3DSCommonFunction
         public static bool DownloadWebFile(string pURL, string pFileFullName)
         {
             float lPercent = 0;
+            HttpWebRequest lHWRT = null;
+            HttpWebResponse lHWRS = null;
+            Stream lWebStream = null;
+            Stream lFileStream = null;
+            long lTotal;
             try
             {
-                HttpWebRequest lHWRT = (HttpWebRequest)HttpWebRequest.Create(pURL);
-                HttpWebResponse lHWRS = (HttpWebResponse)lHWRT.GetResponse();
-                long lTotal = lHWRS.ContentLength;
-                Stream lWebStream = lHWRS.GetResponseStream();
+                lHWRT = (HttpWebRequest)HttpWebRequest.Create(pURL);
+                lHWRS = (HttpWebResponse)lHWRT.GetResponse();
+                lTotal = lHWRS.ContentLength;
+                lWebStream = lHWRS.GetResponseStream();
 
                 if (File.Exists(pFileFullName))
                 {
                     File.Delete(pFileFullName);
                 }
 
-                Stream lFileStream = new FileStream(pFileFullName, FileMode.Create);
+                lFileStream = new FileStream(pFileFullName, FileMode.Create);
                 long totalDownloadedByte = 0;
-                byte[] lByteListContent = new byte[1024];
+                byte[] lByteListContent = new byte[128];
                 int lDataSize = lWebStream.Read(lByteListContent, 0, (int)lByteListContent.Length);
                 while (lDataSize > 0)
                 {
                     totalDownloadedByte = lDataSize + totalDownloadedByte;
                     lFileStream.Write(lByteListContent, 0, lDataSize);
+                    lFileStream.Flush();
                     lDataSize = lWebStream.Read(lByteListContent, 0, (int)lByteListContent.Length);
                     lPercent = (float)totalDownloadedByte / (float)lTotal * 100;
                 }
-                lFileStream.Close();
-                lWebStream.Close();
             }
             catch (Exception ex)
             {
                 return false;
+            }
+            finally
+            {
+                if (lFileStream != null)
+                {
+                    lFileStream.Close();
+                }
+
+                if (lWebStream != null)
+                {
+                    lWebStream.Close();
+                }
             }
             return true;
         }

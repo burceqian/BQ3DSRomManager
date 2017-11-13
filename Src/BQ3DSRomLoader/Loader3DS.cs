@@ -7,13 +7,15 @@ namespace BQ3DSRomLoader
 {
     public class Loader3DS: IRomLoader
     {
-        RomInfo IRomLoader.GetRomInfo(string pRomPath)
+        RomInfo IRomLoader.GetRomInfo(FileInfo pRomFile)
         {
             RomInfo lRomInfo = new RomInfo();
 
+            lRomInfo.OriginalName = pRomFile.Name;
+
             byte[] tByteContent = null;
             string tStrContent = "";
-            FileStream tFS = new FileStream(pRomPath, FileMode.Open);
+            FileStream tFS = new FileStream(pRomFile.FullName, FileMode.Open);
 
             // Serial
             tFS.Position = 0X1150;

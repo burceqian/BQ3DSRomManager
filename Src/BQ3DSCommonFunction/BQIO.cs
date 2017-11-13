@@ -10,7 +10,7 @@ namespace BQ3DSCommonFunction
 {
     public class BQIO
     {
-        private static string RomFolder = System.Environment.CurrentDirectory + @"\Roms\";
+        private static string RomFolder = Environment.CurrentDirectory + @"\Roms\";
         public static List<FileInfo> GetAllFilesInDirectory(DirectoryInfo directoryInfo, List<FileInfo> fileList)
         {
             //遍历文件
@@ -41,6 +41,22 @@ namespace BQ3DSCommonFunction
             if (ltarFile.Exists == false)
             {
                 File.Copy(file.FullName, ltarFile.FullName);
+            }
+        }
+
+        public static void CopyToRomTemp(FileInfo unknownFile)
+        {
+            string lromFolder = RomFolder + @"\Unknow\";
+            string lromfile = lromFolder + unknownFile.Name;
+            FileInfo ltarFile = new FileInfo(lromfile);
+            if (Directory.Exists(lromFolder) == false)
+            {
+                Directory.CreateDirectory(lromFolder);
+            }
+
+            if (ltarFile.Exists == false)
+            {
+                File.Copy(unknownFile.FullName, ltarFile.FullName);
             }
         }
     }
