@@ -5,16 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BQ3DSRomManager"
         mc:Ignorable="d"
-        Title="BQ3DSRomManager" Height="409.935" Width="593.347">
+        Title="BQ3DSRomManager" Height="409.935" Width="593.347" Loaded="Window_Loaded">
     <Grid>
         <Button Name="btnScan" Content="Scan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="btnScan_Click"/>
         <Grid Margin="0,24,10,15">
-            <DataGrid Name="dgGameList" Height="340" VerticalAlignment="Top"/>
+            <DataGrid Name="dgGameList" ItemsSource="{Binding}" IsReadOnly="True" Height="340" VerticalAlignment="Top">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="详细信息" Click="MenuItem_Click"></MenuItem>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.RowStyle >
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFF1FAFF"/>
+                                <Setter Property="Foreground" Value="Tomato"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.CellStyle >
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers >
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="LightGreen"/>
+                                <Setter Property="Foreground" Value="Blue"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Width="80" Binding="{Binding subserial}"/>
+                    <DataGridTextColumn Header="ENName"  Width="80" Binding="{Binding title_EN}" />
+                    <DataGridTextColumn Header="JAName"  Width="80" Binding="{Binding title_JA}"/>
+                    <DataGridTextColumn Header="TWName"  Width="80" Binding="{Binding title_ZHTW}"/>
+                    <DataGridTextColumn Header="CNName"  Width="80" Binding="{Binding title_ZHCN}" Visibility="Hidden"/>
+                    <DataGridTextColumn Header="developer" Width="80" Binding="{Binding developer}"/>
+                    <DataGridTextColumn Header="publisher" Width="80" Binding="{Binding publisher}"/>
+                    <DataGridTextColumn Header="imagesize" Width="80" Binding="{Binding imagesize}"/>
+                    <DataGridCheckBoxColumn Header="favorite" Width="80" Binding="{Binding favorite,Mode=TwoWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
         <ProgressBar Name="progressbar" HorizontalAlignment="Left" Width="100" Height="15" VerticalAlignment="Bottom"/>
         <Label Name="labProgress" Content="" Margin="100,0,10,0" Height="15" VerticalAlignment="Bottom" FontSize="6" FontFamily="MS Gothic"/>
-        <CheckBox Content="exist" HorizontalAlignment="Left" Margin="533,7,0,0" VerticalAlignment="Top" FontSize="10" Height="12"/>
-        <CheckBox Content="favorite" HorizontalAlignment="Left" Margin="472,7,0,0" VerticalAlignment="Top" FontSize="10" Height="12" Width="56"/>
-        <Button x:Name="btnUpdate3dsdb" Content="Update3dsdb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="107" Margin="221,0,0,0" Click="btnUpdate3dsdb_Click"/>
+        <CheckBox Content="exist" HorizontalAlignment="Left" Margin="528,5,0,0" VerticalAlignment="Top" FontSize="10" Height="19"/>
+        <CheckBox Content="favorite" HorizontalAlignment="Left" Margin="467,5,0,0" VerticalAlignment="Top" FontSize="10" Height="19" Width="56"/>
+        <Button x:Name="btnUpdate3dsdb" Content="Update3dsdb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="107" Margin="75,0,0,0" Click="btnUpdate3dsdb_Click"/>
     </Grid>
 </Window>

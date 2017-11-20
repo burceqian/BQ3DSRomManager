@@ -123,11 +123,11 @@ namespace BQ3DSQLite
             lBQ3dsGameInfo += "players varchar(128),"; // 1
             lBQ3dsGameInfo += "imagesize varchar(128),"; //16384
             lBQ3dsGameInfo += "firmware varchar(128),"; //5.1.0K
-            lBQ3dsGameInfo += "has3ds varchar(128),";
-            lBQ3dsGameInfo += "hasCIA varchar(128),";
-            lBQ3dsGameInfo += "has3dz varchar(128),";
             lBQ3dsGameInfo += "card varchar(128),";
             lBQ3dsGameInfo += "copyserial varchar(128),";
+            lBQ3dsGameInfo += "has3ds bool,";
+            lBQ3dsGameInfo += "hasCIA bool,";
+            lBQ3dsGameInfo += "has3dz bool,";
             lBQ3dsGameInfo += "favorite bool";
             lBQ3dsGameInfo += ")";
 
@@ -625,6 +625,175 @@ namespace BQ3DSQLite
 
 
             return lResult;
+        }
+
+        public static List<Rom3dsGameInfo> GetAllGameInfo()
+        {
+            SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + DBFullName);
+            lDBConnection.Open();
+
+            SQLiteCommand cmd = new SQLiteCommand();
+            cmd.Connection = lDBConnection;
+            cmd.CommandText = "SELECT * FROM " + TableBQ3dsGameInfo;
+
+            SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
+
+            DataTable ds = new DataTable();
+            da.Fill(ds);
+            da.Dispose();
+            cmd.Dispose();
+
+            lDBConnection.Close();
+
+            if (ds.Rows.Count == 0)
+            {
+                return null;
+            }
+
+            List<Rom3dsGameInfo> lResult = new List<Rom3dsGameInfo>();
+
+            for (int i = 0; i < ds.Rows.Count; i++)
+            {
+                Rom3dsGameInfo rom3DsGameInfo = new Rom3dsGameInfo();
+
+                rom3DsGameInfo.serial = ds.Rows[0]["serial"].ToString().Trim();
+                rom3DsGameInfo.languages = ds.Rows[0]["languages"].ToString().Trim();
+                rom3DsGameInfo.title_EN = ds.Rows[0]["title_EN"].ToString().Trim();
+                rom3DsGameInfo.title_JA = ds.Rows[0]["title_JA"].ToString().Trim();
+                rom3DsGameInfo.title_ZHTW = ds.Rows[0]["title_ZHTW"].ToString().Trim();
+                rom3DsGameInfo.title_ZHCN = ds.Rows[0]["title_ZHCN"].ToString().Trim();
+                rom3DsGameInfo.developer = ds.Rows[0]["developer"].ToString().Trim();
+                rom3DsGameInfo.publisher = ds.Rows[0]["publisher"].ToString().Trim();
+                rom3DsGameInfo.release_date = ds.Rows[0]["release_date"].ToString().Trim();
+                rom3DsGameInfo.genre = ds.Rows[0]["genre"].ToString().Trim();
+                rom3DsGameInfo.players = ds.Rows[0]["players"].ToString().Trim();
+                rom3DsGameInfo.imagesize = ds.Rows[0]["imagesize"].ToString().Trim();
+                rom3DsGameInfo.firmware = ds.Rows[0]["firmware"].ToString().Trim();
+                rom3DsGameInfo.card = ds.Rows[0]["card"].ToString().Trim();
+                rom3DsGameInfo.copyserial = ds.Rows[0]["copyserial"].ToString().Trim();
+                rom3DsGameInfo.has3ds = ds.Rows[0]["has3ds"].ToString().Trim() == "Ture" ? true : false;
+                rom3DsGameInfo.hasCIA = ds.Rows[0]["hasCIA"].ToString().Trim() == "Ture" ? true : false;
+                rom3DsGameInfo.has3dz = ds.Rows[0]["has3dz"].ToString().Trim() == "Ture" ? true : false;
+                rom3DsGameInfo.favorite = ds.Rows[0]["favorite"].ToString().Trim() == "Ture" ? true : false;
+                lResult.Add(rom3DsGameInfo);
+            }
+            return lResult;
+        }
+
+        public static bool InsertRom3dsGameInfo(List<Rom3dsGameInfo> pRom3dsGameInfo)
+        {
+            SQLiteTransaction trans = null;
+            SQLiteCommand cmd = null;
+            try
+            {
+                SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + DBFullName);
+                lDBConnection.Open();
+
+                trans = lDBConnection.BeginTransaction();
+
+                cmd = new SQLiteCommand();
+                cmd.Connection = lDBConnection;
+                cmd.Transaction = trans;
+
+                cmd.Parameters.Add("@serial", DbType.String);
+                cmd.Parameters.Add("@languages", DbType.String);
+                cmd.Parameters.Add("@title_EN", DbType.String);
+                cmd.Parameters.Add("@title_JA", DbType.String);
+                cmd.Parameters.Add("@title_ZHTW", DbType.String);
+                cmd.Parameters.Add("@title_ZHCN", DbType.String);
+                cmd.Parameters.Add("@developer", DbType.String);
+                cmd.Parameters.Add("@publisher", DbType.String);
+                cmd.Parameters.Add("@release_date", DbType.String);
+                cmd.Parameters.Add("@genre", DbType.String);
+                cmd.Parameters.Add("@players", DbType.String);
+                cmd.Parameters.Add("@imagesize", DbType.String);
+                cmd.Parameters.Add("@firmware", DbType.String);
+                cmd.Parameters.Add("@card", DbType.String);
+                cmd.Parameters.Add("@copyserial", DbType.String);
+                cmd.Parameters.Add("@has3ds", DbType.String);
+                cmd.Parameters.Add("@hasCIA", DbType.Boolean);
+                cmd.Parameters.Add("@has3dz", DbType.Boolean);
+                cmd.Parameters.Add("@favorite", DbType.Boolean);
+
+                string sql = "";
+
+                sql = "INSERT INTO " + TableBQ3dsGameInfo + "(";
+                sql += "serial,";
+                sql += "languages,";
+                sql += "title_EN,";
+                sql += "title_JA,";
+                sql += "title_ZHTW,";
+                sql += "title_ZHCN,";
+                sql += "developer,";
+                sql += "publisher,";
+                sql += "release_date,";
+                sql += "genre,";
+                sql += "players,";
+                sql += "imagesize,";
+                sql += "firmware,";
+                sql += "card,";
+                sql += "copyserial,";
+                sql += "has3ds,";
+                sql += "hasCIA,";
+                sql += "has3dz,";
+                sql += "favorite";
+                sql += ")values(";
+                sql += "@id,";
+                sql += "@name,";
+                sql += "@publisher,";
+                sql += "@region,";
+                sql += "@languages,";
+                sql += "@group,";
+                sql += "@imagesize,";
+                sql += "@serial,";
+                sql += "@titleid,";
+                sql += "@imgcrc,";
+                sql += "@filename,";
+                sql += "@releasename,";
+                sql += "@trimmedsize,";
+                sql += "@firmware,";
+                sql += "@type,";
+                sql += "@card";
+                sql += "@card";
+                sql += "@card";
+                sql += "@card";
+                sql += ")";
+
+                cmd.CommandText = sql;
+
+                for (int i = 0; i < pRom3dsGameInfo.Count; i++)
+                {
+                    //cmd.Parameters["@id"].Value = pRom3dsGameInfo[i].id;
+                    //cmd.Parameters["@name"].Value = pRom3dsGameInfo[i].name;
+                    //cmd.Parameters["@publisher"].Value = pRom3dsGameInfo[i].publisher;
+                    //cmd.Parameters["@region"].Value = pRom3dsGameInfo[i].region;
+                    //cmd.Parameters["@languages"].Value = pRom3dsGameInfo[i].languages;
+                    //cmd.Parameters["@group"].Value = pRom3dsGameInfo[i].group;
+                    //cmd.Parameters["@imagesize"].Value = pRom3dsGameInfo[i].imagesize;
+                    //cmd.Parameters["@serial"].Value = pRom3dsGameInfo[i].serial;
+                    //cmd.Parameters["@titleid"].Value = pRom3dsGameInfo[i].titleid;
+                    //cmd.Parameters["@imgcrc"].Value = pRom3dsGameInfo[i].imgcrc;
+                    //cmd.Parameters["@filename"].Value = pRom3dsGameInfo[i].filename;
+                    //cmd.Parameters["@releasename"].Value = pRom3dsGameInfo[i].releasename;
+                    //cmd.Parameters["@trimmedsize"].Value = pRom3dsGameInfo[i].trimmedsize;
+                    //cmd.Parameters["@firmware"].Value = pRom3dsGameInfo[i].firmware;
+                    //cmd.Parameters["@type"].Value = pRom3dsGameInfo[i].type;
+                    //cmd.Parameters["@card"].Value = pRom3dsGameInfo[i].card;
+                    cmd.ExecuteNonQuery();
+                }
+                trans.Commit();
+            }
+            catch (Exception ex)
+            {
+                trans.Rollback();
+                throw ex;
+            }
+            return true;
+        }
+
+        public static void SynchronizeRom3dsGameInfo()
+        {
+
         }
 
         public static void Delete3dsdb()

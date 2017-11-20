@@ -200,5 +200,16 @@ namespace BQ3DSRomManager
 
             BQSqlite.InsertRom3dsdbInfo(lRom3dsdbInfoList);
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WRomInfo wRomInfo = new WRomInfo();
+            //wRomInfo.GameRomInfo = 
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //BQ3DSQLite.BQSqlite.GetRomInfo
+        }
     }
 }
