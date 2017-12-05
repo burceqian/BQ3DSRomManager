@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 
 namespace BQ3DSRomManager
 {
@@ -204,12 +205,71 @@ namespace BQ3DSRomManager
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             WRomInfo wRomInfo = new WRomInfo();
-            //wRomInfo.GameRomInfo = 
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //BQ3DSQLite.BQSqlite.GetRomInfo
+
         }
+
+        private void MenuItem_Click_OpenFile(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "3ds|*.3ds|3dz|*.3dz|CIA|*.cia";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.FilterIndex = 1;
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
+                AnalizeRom(fileInfo);
+            }
+
+        }
+
+        private void MenuItem_Click_OpenFolder(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(folderBrowserDialog.SelectedPath);
+                List<FileInfo> pRomList = new List<FileInfo>();
+                GetAllFiles(directoryInfo, pRomList);
+                foreach (var rom in pRomList)
+                {
+                    AnalizeRom(rom);
+                }
+            }
+        }
+
+        private void MenuItem_Click_UpdateDataBaseFrom3dsdb(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click_UpdateIconFromGameTDB(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GetAllFiles(DirectoryInfo pDirectoryInfo, List<FileInfo> pFileInfoList)
+        {
+            FileInfo[] lFileList = pDirectoryInfo.GetFiles();
+            foreach (var fileInfo in lFileList)
+            {
+                if (fileInfo.Extension.ToLower() == ".3ds" ||
+                    fileInfo.Extension.ToLower() == ".3dz" ||
+                    fileInfo.Extension.ToLower() == ".cia")
+                {
+                    pFileInfoList.Add(fileInfo);
+                }
+            }
+
+            DirectoryInfo[] directoryInfoList = pDirectoryInfo.GetDirectories();
+            foreach (var dir in directoryInfoList)
+            {
+                GetAllFiles(dir, pFileInfoList);
+            }
+        }
+
     }
 }
