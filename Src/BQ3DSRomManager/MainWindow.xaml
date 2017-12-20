@@ -5,9 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BQ3DSRomManager"
         mc:Ignorable="d"
-        Title="BQ V1.0" Height="409.935" Width="593.347" Loaded="Window_Loaded" Icon="Resources/MainWindowIcon.ico">
+        Title="BQ V1.0" Height="605.947" Width="906.769" Loaded="Window_Loaded" Icon="Resources/MainWindowIcon.ico">
     <Grid>
-        <Menu>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
             <MenuItem Header="Add Rom">
                 <!--<MenuItem.Icon>
                     <StackPanel>
@@ -26,8 +32,17 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Grid Margin="0,50,10,18">
-            <DataGrid Name="dgGameList" ItemsSource="{Binding}" IsReadOnly="True">
+        <Grid Grid.Row="1">
+            <Button HorizontalAlignment="Left" Margin="10,10,0,0" Name="button1" VerticalAlignment="Top" Width="36" Height="36">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/GameCard.ico" Stretch="Fill"/>
+                </Button.Background>
+            </Button>
+            <Button Name="btnAddRomByFolder" Content="Button" Height="36" Width="35" Margin="50,10,814,4"/>
+            <Button Name="btnAddRomBySDCard" Content="Button" Height="36" Width="35" Margin="481,10,383,4"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <DataGrid Name="dgGameList" ItemsSource="{Binding}" IsReadOnly="True" HorizontalAlignment="Left" Width="410" Margin="10,0,0,0">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="详细信息" Click="MenuItem_Click"></MenuItem>
@@ -65,10 +80,50 @@
                     <DataGridCheckBoxColumn Header="favorite" Width="80" Binding="{Binding favorite,Mode=TwoWay}"/>
                 </DataGrid.Columns>
             </DataGrid>
+            <DataGrid x:Name="dgSDGameList" ItemsSource="{Binding}" IsReadOnly="True" Margin="479,0,0,0" HorizontalAlignment="Left" Width="410">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="详细信息" Click="MenuItem_Click"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.RowStyle >
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFF1FAFF"/>
+                                <Setter Property="Foreground" Value="Tomato"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.CellStyle >
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Style.Triggers >
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="LightGreen"/>
+                                <Setter Property="Foreground" Value="Blue"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Width="80" Binding="{Binding subserial}"/>
+                    <DataGridTextColumn Header="ENName"  Width="80" Binding="{Binding title_EN}" Visibility="Hidden"/>
+                    <DataGridTextColumn Header="JAName"  Width="80" Binding="{Binding title_JA}" Visibility="Hidden"/>
+                    <DataGridTextColumn Header="TWName"  Width="80" Binding="{Binding title_ZHTW}"/>
+                    <DataGridTextColumn Header="CNName"  Width="80" Binding="{Binding title_ZHCN}" Visibility="Hidden"/>
+                    <DataGridTextColumn Header="developer" Width="80" Binding="{Binding developer}" Visibility="Hidden"/>
+                    <DataGridTextColumn Header="publisher" Width="80" Binding="{Binding publisher}" Visibility="Hidden"/>
+                    <DataGridTextColumn Header="imagesize" Width="80" Binding="{Binding imagesize}" Visibility="Hidden"/>
+                    <DataGridCheckBoxColumn Header="favorite" Width="80" Binding="{Binding favorite, Mode=TwoWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
-        <ProgressBar Name="progressbar" HorizontalAlignment="Left" Width="100" Height="15" VerticalAlignment="Bottom" Margin="0,0,0,1"/>
-        <Label Name="labProgress" Content="" Margin="100,0,10,1" Height="15" VerticalAlignment="Bottom" FontSize="6" FontFamily="MS Gothic"/>
-        <CheckBox Content="exist" HorizontalAlignment="Left" Margin="530,31,0,0" VerticalAlignment="Top" FontSize="10" Height="19"/>
-        <CheckBox Content="favorite" HorizontalAlignment="Left" Margin="469,31,0,0" VerticalAlignment="Top" FontSize="10" Height="19" Width="56"/>
+        <Grid Grid.Row="3" >
+            <ProgressBar Name="progressbar" HorizontalAlignment="Left" Width="100" Height="15" VerticalAlignment="Bottom" Margin="0,0,0,1"/>
+            <Label Name="labProgress" Content="" Margin="100,0,10,1" Height="15" VerticalAlignment="Bottom" FontSize="6" FontFamily="MS Gothic"/>
+            <CheckBox Content="exist" HorizontalAlignment="Left" Margin="322,31,0,0" VerticalAlignment="Top" FontSize="10" Height="19"/>
+            <CheckBox Content="favorite" HorizontalAlignment="Left" Margin="247,31,0,0" VerticalAlignment="Top" FontSize="10" Height="19" Width="56"/>
+        </Grid>
     </Grid>
 </Window>

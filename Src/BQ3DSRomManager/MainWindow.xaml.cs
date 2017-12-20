@@ -271,5 +271,32 @@ namespace BQ3DSRomManager
             }
         }
 
+        private void Image_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "3ds|*.3ds|3dz|*.3dz|CIA|*.cia";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.FilterIndex = 1;
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
+                AnalizeRom(fileInfo);
+            }
+        }
+
+        private void Image_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
+
+        private void Image_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
+
+        private void Image_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
