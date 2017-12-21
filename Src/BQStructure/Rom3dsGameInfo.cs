@@ -9,32 +9,55 @@ namespace BQStructure
     public class Rom3dsGameInfo
     {
 
-        public string serial { get; set; }
-        public string subserial
+        public string Serial { get; set; }
+        public string Subserial
         {
             get
             {
-                return SetSubSerial(serial);
+                return SetSubSerial(Serial);
             }
         }
-        public string languages { get; set; }
-        public string title_EN { get; set; }
-        public string title_JA { get; set; }
-        public string title_ZHTW { get; set; }
-        public string title_ZHCN { get; set; }
-        public string developer { get; set; }
-        public string publisher { get; set; }
-        public string release_date { get; set; }
-        public string genre { get; set; }
-        public string players { get; set; }
-        public string imagesize { get; set; }
-        public string firmware { get; set; }
-        public string card { get; set; }
-        public string copyserial { get; set; }
-        public bool has3ds { get; set; }
-        public bool hasCIA { get; set; }
-        public bool has3dz { get; set; }
-        public bool favorite { get; set; }
+        public string Languages { get; set; }
+        public string Title
+        {
+            get
+            {
+                if (Title_ZHCN != "")
+                {
+                    return Title_ZHCN;
+                }
+                else if (Title_ZHTW != "")
+                {
+                    return Title_ZHTW;
+                }
+                else if (Title_JA != "")
+                {
+                    return Title_JA;
+                }
+                else
+                {
+                    return Title_EN;
+                }
+
+            }
+        }
+        public string Title_EN { get; set; }
+        public string Title_JA { get; set; }
+        public string Title_ZHTW { get; set; }
+        public string Title_ZHCN { get; set; }
+        public string Developer { get; set; }
+        public string Publisher { get; set; }
+        public string Release_date { get; set; }
+        public string Genre { get; set; }
+        public string Players { get; set; }
+        public string Imagesize { get; set; }
+        public string Firmware { get; set; }
+        public string Card { get; set; }
+        public string Copyserial { get; set; }
+        public bool Has3ds { get; set; }
+        public bool HasCIA { get; set; }
+        public bool Has3dz { get; set; }
+        public bool Favorite { get; set; }
 
         private string SetSubSerial(string pSerial)
         {

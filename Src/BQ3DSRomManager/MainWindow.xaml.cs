@@ -6,6 +6,7 @@ using BQInterface;
 using BQStructure;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -284,19 +285,33 @@ namespace BQ3DSRomManager
             }
         }
 
-        private void Image_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void MenuItemLeft_Different_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Image_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void MenuItemLeft_Same_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Image_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Window_Initialized(object sender, EventArgs e)
         {
+            this.Title = "BQ 3DS Rom Manager V" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major + "." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor;
 
+            ObservableCollection<Rom3dsGameInfo> lGameList = new ObservableCollection<Rom3dsGameInfo>();
+
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB01", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB02", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB03", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB04", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB05", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB06", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB07", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB08", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB09", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB10", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            dgGameList.ItemsSource = lGameList;
         }
     }
 }
