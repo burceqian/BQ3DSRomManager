@@ -18,7 +18,7 @@
             <ColumnDefinition Width="3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Menu Grid.Row="0" Grid.Column="0" Background="White">
-            <MenuItem>
+            <MenuItem Click="MenuItem_Click_1">
                 <MenuItem.Header>
                     <Image Source="Resources/GameCard.ico"></Image>
                 </MenuItem.Header>
@@ -85,6 +85,20 @@
                 </Style>
             </DataGrid.CellStyle>
             <DataGrid.Columns>
+                <DataGridTemplateColumn Visibility="Hidden">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding SmallIcon}" Stretch="Fill"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="游戏图片">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding LargeIcon}" Stretch="Fill"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="序列号" IsReadOnly="True" Width="7*" Binding="{Binding Subserial}"/>
                 <DataGridTextColumn Header="游戏名" IsReadOnly="True" Width="15*" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="英文名" IsReadOnly="True" Width="10*"  Binding="{Binding Title_EN}" Visibility="Hidden"/>

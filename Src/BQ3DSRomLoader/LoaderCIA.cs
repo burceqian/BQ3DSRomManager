@@ -1,4 +1,5 @@
-﻿using BQInterface;
+﻿using BQ3DSRomLoader.UT;
+using BQInterface;
 using BQStructure;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace BQ3DSRomLoader
     {
         RomInfo IRomLoader.GetRomInfo(FileInfo pRomFile)
         {
+            CIAGame cIAGame = new CIAGame(pRomFile.FullName);
+
             RomInfo lRomInfo = new RomInfo();
 
             lRomInfo.OriginalName = pRomFile.Name;

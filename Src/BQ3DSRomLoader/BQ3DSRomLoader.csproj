@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +45,21 @@
     <Compile Include="LoaderCIA.cs" />
     <Compile Include="Loader3DS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UT\ApplicationTitle.cs" />
+    <Compile Include="UT\BinaryExtensions.cs" />
+    <Compile Include="UT\CIA.cs" />
+    <Compile Include="UT\CIAGame.cs" />
+    <Compile Include="UT\CIAHeader.cs" />
+    <Compile Include="UT\CXI.cs" />
+    <Compile Include="UT\CXIHeader.cs" />
+    <Compile Include="UT\EnumExtensions.cs" />
+    <Compile Include="UT\GameMediaType.cs" />
+    <Compile Include="UT\ImageUtil.cs" />
+    <Compile Include="UT\NCCHContentType.cs" />
+    <Compile Include="UT\NCCHFlags.cs" />
+    <Compile Include="UT\NCCHPartitionType.cs" />
+    <Compile Include="UT\StreamExtensions.cs" />
+    <Compile Include="UT\TitleLanguage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BQInterface\BQInterface.csproj">

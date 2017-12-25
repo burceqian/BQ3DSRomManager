@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace BQStructure
 {
@@ -54,6 +56,8 @@ namespace BQStructure
         public string Firmware { get; set; }
         public string Card { get; set; }
         public string Copyserial { get; set; }
+        public BitmapImage SmallIcon { get; set; }
+        public BitmapImage LargeIcon { get; set; }
         public bool Has3ds { get; set; }
         public bool HasCIA { get; set; }
         public bool Has3dz { get; set; }
