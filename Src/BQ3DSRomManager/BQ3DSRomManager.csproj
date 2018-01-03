@@ -178,6 +178,22 @@
   <ItemGroup>
     <Resource Include="Resources\GameCard.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Delete.ico" />
+    <Resource Include="Resources\Folder.ico" />
+    <Resource Include="Resources\SDCard.ico" />
+    <Resource Include="Resources\Setting.ico" />
+    <Resource Include="Resources\UpdateDB.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Favorite.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Move.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Back.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

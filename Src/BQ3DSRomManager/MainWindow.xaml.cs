@@ -1,11 +1,14 @@
 ﻿using BQ3DSCommonFunction;
 using BQ3DSQLite;
 using BQ3DSRomLoader;
+using BQ3DSRomLoader.UT;
 using BQGetRomInfoListOnline;
 using BQInterface;
 using BQStructure;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -284,19 +287,77 @@ namespace BQ3DSRomManager
             }
         }
 
-        private void Image_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void MenuItemLeft_Different_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Image_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void MenuItemLeft_Same_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Image_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
+        ObservableCollection<Rom3dsGameInfo> lGameList = new ObservableCollection<Rom3dsGameInfo>();
 
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            this.Title = "BQ 3DS Rom Manager V" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major + "." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor;
+
+            
+
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB01", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB02", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB03", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB04", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB05", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB06", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB07", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB08", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB09", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB10", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            dgGameList.ItemsSource = lGameList;
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "3ds|*.3ds|3dz|*.3dz|CIA|*.cia";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.FilterIndex = 1;
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
+                CIAGame cIAGame = new CIAGame(fileInfo.FullName);
+                lGameList.Add(new Rom3dsGameInfo() { Serial = cIAGame.Serial,
+                    Languages = "EN", Title_EN = cIAGame.Titles[0].ShortDescription,
+                    Title_ZHCN = cIAGame.Titles[0].LongDescription,
+                    Title_JA = cIAGame.Titles[0].LongDescription,
+                    Title_ZHTW = "繁体游戏名", Developer = cIAGame.Titles[0].Publisher, Favorite = true,
+                    Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者",
+                    SmallIcon = BitmapToBitmapImage(cIAGame.SmallIcon), LargeIcon = BitmapToBitmapImage(cIAGame.LargeIcon)
+                });
+            }
+        }
+
+        public BitmapImage BitmapToBitmapImage(Bitmap bitmap)
+        {
+            Bitmap bitmapSource = new Bitmap(bitmap.Width, bitmap.Height);
+            int i, j;
+            for (i = 0; i < bitmap.Width; i++)
+                for (j = 0; j < bitmap.Height; j++)
+                {
+                    Color pixelColor = bitmap.GetPixel(i, j);
+                    Color newColor = Color.FromArgb(pixelColor.R, pixelColor.G, pixelColor.B);
+                    bitmapSource.SetPixel(i, j, newColor);
+                }
+            MemoryStream ms = new MemoryStream();
+            bitmapSource.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.StreamSource = new MemoryStream(ms.ToArray());
+            bitmapImage.EndInit();
+
+            return bitmapImage;
         }
     }
 }

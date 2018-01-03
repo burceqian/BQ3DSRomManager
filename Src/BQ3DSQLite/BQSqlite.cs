@@ -656,25 +656,25 @@ namespace BQ3DSQLite
             {
                 Rom3dsGameInfo rom3DsGameInfo = new Rom3dsGameInfo();
 
-                rom3DsGameInfo.serial = ds.Rows[0]["serial"].ToString().Trim();
-                rom3DsGameInfo.languages = ds.Rows[0]["languages"].ToString().Trim();
-                rom3DsGameInfo.title_EN = ds.Rows[0]["title_EN"].ToString().Trim();
-                rom3DsGameInfo.title_JA = ds.Rows[0]["title_JA"].ToString().Trim();
-                rom3DsGameInfo.title_ZHTW = ds.Rows[0]["title_ZHTW"].ToString().Trim();
-                rom3DsGameInfo.title_ZHCN = ds.Rows[0]["title_ZHCN"].ToString().Trim();
-                rom3DsGameInfo.developer = ds.Rows[0]["developer"].ToString().Trim();
-                rom3DsGameInfo.publisher = ds.Rows[0]["publisher"].ToString().Trim();
-                rom3DsGameInfo.release_date = ds.Rows[0]["release_date"].ToString().Trim();
-                rom3DsGameInfo.genre = ds.Rows[0]["genre"].ToString().Trim();
-                rom3DsGameInfo.players = ds.Rows[0]["players"].ToString().Trim();
-                rom3DsGameInfo.imagesize = ds.Rows[0]["imagesize"].ToString().Trim();
-                rom3DsGameInfo.firmware = ds.Rows[0]["firmware"].ToString().Trim();
-                rom3DsGameInfo.card = ds.Rows[0]["card"].ToString().Trim();
-                rom3DsGameInfo.copyserial = ds.Rows[0]["copyserial"].ToString().Trim();
-                rom3DsGameInfo.has3ds = ds.Rows[0]["has3ds"].ToString().Trim() == "Ture" ? true : false;
-                rom3DsGameInfo.hasCIA = ds.Rows[0]["hasCIA"].ToString().Trim() == "Ture" ? true : false;
-                rom3DsGameInfo.has3dz = ds.Rows[0]["has3dz"].ToString().Trim() == "Ture" ? true : false;
-                rom3DsGameInfo.favorite = ds.Rows[0]["favorite"].ToString().Trim() == "Ture" ? true : false;
+                rom3DsGameInfo.Serial = ds.Rows[0]["serial"].ToString().Trim();
+                rom3DsGameInfo.Languages = ds.Rows[0]["languages"].ToString().Trim();
+                rom3DsGameInfo.Title_EN = ds.Rows[0]["title_EN"].ToString().Trim();
+                rom3DsGameInfo.Title_JA = ds.Rows[0]["title_JA"].ToString().Trim();
+                rom3DsGameInfo.Title_ZHTW = ds.Rows[0]["title_ZHTW"].ToString().Trim();
+                rom3DsGameInfo.Title_ZHCN = ds.Rows[0]["title_ZHCN"].ToString().Trim();
+                rom3DsGameInfo.Developer = ds.Rows[0]["developer"].ToString().Trim();
+                rom3DsGameInfo.Publisher = ds.Rows[0]["publisher"].ToString().Trim();
+                rom3DsGameInfo.Release_date = ds.Rows[0]["release_date"].ToString().Trim();
+                rom3DsGameInfo.Genre = ds.Rows[0]["genre"].ToString().Trim();
+                rom3DsGameInfo.Players = ds.Rows[0]["players"].ToString().Trim();
+                rom3DsGameInfo.Imagesize = ds.Rows[0]["imagesize"].ToString().Trim();
+                rom3DsGameInfo.Firmware = ds.Rows[0]["firmware"].ToString().Trim();
+                rom3DsGameInfo.Card = ds.Rows[0]["card"].ToString().Trim();
+                rom3DsGameInfo.Copyserial = ds.Rows[0]["copyserial"].ToString().Trim();
+                rom3DsGameInfo.Has3ds = ds.Rows[0]["has3ds"].ToString().Trim() == "Ture" ? true : false;
+                rom3DsGameInfo.HasCIA = ds.Rows[0]["hasCIA"].ToString().Trim() == "Ture" ? true : false;
+                rom3DsGameInfo.Has3dz = ds.Rows[0]["has3dz"].ToString().Trim() == "Ture" ? true : false;
+                rom3DsGameInfo.Favorite = ds.Rows[0]["favorite"].ToString().Trim() == "Ture" ? true : false;
                 lResult.Add(rom3DsGameInfo);
             }
             return lResult;
