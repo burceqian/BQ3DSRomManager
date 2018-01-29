@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BQComEnum.cs" />
     <Compile Include="BQIO.cs" />
     <Compile Include="BQWeb.cs" />
     <Compile Include="BQZip.cs" />

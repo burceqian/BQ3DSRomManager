@@ -1,35 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BQ3DSCommonFunction
 {
     public class BQZip
     {
-        private static string UnZipPath = Environment.CurrentDirectory + @"\UnZip\";
+        private static string DECOMPRESSION_TEMPDIR = Path.Combine(Environment.CurrentDirectory,@"\Temp\UnZip\");
 
         public static void UnZipFile(FileInfo file)
         {
-            if (Directory.Exists(UnZipPath) == false)
+            if (Directory.Exists(DECOMPRESSION_TEMPDIR) == false)
             {
-                Directory.CreateDirectory(UnZipPath);
+                Directory.CreateDirectory(DECOMPRESSION_TEMPDIR);
             }
 
             SevenZipExtractor.ArchiveFile archiveFile = new SevenZipExtractor.ArchiveFile(file.FullName);
-            archiveFile.Extract(UnZipPath);
+            archiveFile.Extract(DECOMPRESSION_TEMPDIR);
         }
 
         public static List<FileInfo> GetUnZipRom()
         {
-            return GetAllFilesInDirectory(new DirectoryInfo(UnZipPath), new List<FileInfo>());
+            return GetAllFilesInDirectory(new DirectoryInfo(DECOMPRESSION_TEMPDIR), new List<FileInfo>());
         }
 
         public static void ClearUnZipFolder()
         {
-            DirectoryInfo dir = new DirectoryInfo(UnZipPath);
+            DirectoryInfo dir = new DirectoryInfo(DECOMPRESSION_TEMPDIR);
             if (dir.Exists)
             {
                 dir.Delete(true);
@@ -38,17 +35,16 @@ namespace BQ3DSCommonFunction
 
         public static List<FileInfo> GetAllFilesInDirectory(DirectoryInfo directoryInfo, List<FileInfo> fileList)
         {
-            //遍历文件
-            foreach (FileInfo file in directoryInfo.GetFiles())
+            List<string> lSupportExtension = new List<string>() { "*.3ds", "*.3dz", "*.cia" };
+
+            foreach (var extension in lSupportExtension)
             {
-                if (file.Extension.ToLower() == ".3ds" ||
-                    file.Extension.ToLower() == ".cia")
+                foreach (FileInfo file in directoryInfo.GetFiles(extension))
                 {
                     fileList.Add(file);
                 }
             }
 
-            //遍历文件夹
             foreach (DirectoryInfo subfolder in directoryInfo.GetDirectories())
             {
                 fileList = GetAllFilesInDirectory(subfolder, fileList);

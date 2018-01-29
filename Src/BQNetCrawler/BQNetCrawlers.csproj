@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{265D943B-3590-4BE7-B542-F2B938903C23}</ProjectGuid>
+    <ProjectGuid>{BC0DE78E-4E6E-47DF-9F2B-FD722FB8344E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BQInterface</RootNamespace>
-    <AssemblyName>BQInterface</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>BQNetCrawlers</RootNamespace>
+    <AssemblyName>BQNetCrawlers</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,14 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IRomInfoNetCrawler.cs" />
-    <Compile Include="IRomParser.cs" />
-    <Compile Include="IRomLoader.cs" />
+    <Compile Include="Crawlergametdb3ds.cs" />
+    <Compile Include="Crawler3dsdb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BQ3DSCommonFunction\BQ3DSCommonFunction.csproj">
+      <Project>{E586B538-CB01-45B6-9C49-EB5092BCEAC2}</Project>
+      <Name>BQ3DSCommonFunction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BQInterface\BQInterface.csproj">
+      <Project>{265D943B-3590-4BE7-B542-F2B938903C23}</Project>
+      <Name>BQInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BQStructure\BQStructure.csproj">
-      <Project>{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}</Project>
+      <Project>{806ffeaa-f1e2-4d1f-943e-662eca3b87a3}</Project>
       <Name>BQStructure</Name>
     </ProjectReference>
   </ItemGroup>

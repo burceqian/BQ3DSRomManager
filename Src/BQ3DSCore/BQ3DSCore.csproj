@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{265D943B-3590-4BE7-B542-F2B938903C23}</ProjectGuid>
+    <ProjectGuid>{E3A93C3B-5DC7-4682-B748-8D03847009A4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BQInterface</RootNamespace>
-    <AssemblyName>BQInterface</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>BQ3DSCore</RootNamespace>
+    <AssemblyName>BQ3DSCore</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,12 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IRomInfoNetCrawler.cs" />
-    <Compile Include="IRomParser.cs" />
-    <Compile Include="IRomLoader.cs" />
+    <Compile Include="BQDirectory.cs" />
+    <Compile Include="Core.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RomInfoListControler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BQInterface\BQInterface.csproj">
+      <Project>{265D943B-3590-4BE7-B542-F2B938903C23}</Project>
+      <Name>BQInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BQStructure\BQStructure.csproj">
       <Project>{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}</Project>
       <Name>BQStructure</Name>

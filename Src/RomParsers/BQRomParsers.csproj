@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{265D943B-3590-4BE7-B542-F2B938903C23}</ProjectGuid>
+    <ProjectGuid>{638FE1D1-DE4A-4833-B7A4-D860C02622D0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BQInterface</RootNamespace>
-    <AssemblyName>BQInterface</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>RomParsers</RootNamespace>
+    <AssemblyName>RomParsers</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,14 +41,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IRomInfoNetCrawler.cs" />
-    <Compile Include="IRomParser.cs" />
-    <Compile Include="IRomLoader.cs" />
+    <Compile Include="Rom3DSParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RomCIA2Parser.cs" />
+    <Compile Include="RomCIAParser.cs" />
+    <Compile Include="UT\ApplicationTitle.cs" />
+    <Compile Include="UT\BinaryExtensions.cs" />
+    <Compile Include="UT\CIA.cs" />
+    <Compile Include="UT\CIAGame.cs" />
+    <Compile Include="UT\CIAHeader.cs" />
+    <Compile Include="UT\CXI.cs" />
+    <Compile Include="UT\CXIHeader.cs" />
+    <Compile Include="UT\EnumExtensions.cs" />
+    <Compile Include="UT\GameMediaType.cs" />
+    <Compile Include="UT\ImageUtil.cs" />
+    <Compile Include="UT\NCCHContentType.cs" />
+    <Compile Include="UT\NCCHFlags.cs" />
+    <Compile Include="UT\NCCHPartitionType.cs" />
+    <Compile Include="UT\StreamExtensions.cs" />
+    <Compile Include="UT\TitleLanguage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BQInterface\BQInterface.csproj">
+      <Project>{265D943B-3590-4BE7-B542-F2B938903C23}</Project>
+      <Name>BQInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BQStructure\BQStructure.csproj">
-      <Project>{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}</Project>
+      <Project>{806ffeaa-f1e2-4d1f-943e-662eca3b87a3}</Project>
       <Name>BQStructure</Name>
     </ProjectReference>
   </ItemGroup>
