@@ -45,10 +45,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BQ3DSCommonFunction\BQ3DSCommonFunction.csproj">
-      <Project>{E586B538-CB01-45B6-9C49-EB5092BCEAC2}</Project>
-      <Name>BQ3DSCommonFunction</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BQInterface\BQInterface.csproj">
       <Project>{265D943B-3590-4BE7-B542-F2B938903C23}</Project>
       <Name>BQInterface</Name>
@@ -56,6 +52,10 @@
     <ProjectReference Include="..\BQStructure\BQStructure.csproj">
       <Project>{806ffeaa-f1e2-4d1f-943e-662eca3b87a3}</Project>
       <Name>BQStructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BQUtility\BQUtility.csproj">
+      <Project>{E586B538-CB01-45B6-9C49-EB5092BCEAC2}</Project>
+      <Name>BQUtility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

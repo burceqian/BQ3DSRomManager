@@ -3,8 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BQ3DSRomManager"
         mc:Ignorable="d"
         Title="BQ V" Height="734.609" Width="1289.928" Loaded="Window_Loaded" Icon="Resources/MainWindowIcon.ico" Initialized="Window_Initialized">
+    <Window.Resources>
+        <local:BindingDataConvert x:Key="convertBool"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
@@ -88,27 +92,27 @@
                 <DataGridTemplateColumn Visibility="Hidden">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding SmallIcon}" Stretch="Fill"></Image>
+                            <Image Source="{Binding ExpandInfo.SmallIcon}" Stretch="Fill"></Image>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="游戏图片">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding LargeIcon}" Stretch="Fill"></Image>
+                            <Image Source="{Binding ExpandInfo.LargeIcon}" Stretch="Fill"></Image>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="序列号" IsReadOnly="True" Width="7*" Binding="{Binding Subserial}"/>
-                <DataGridTextColumn Header="游戏名" IsReadOnly="True" Width="15*" Binding="{Binding Title}"/>
-                <DataGridTextColumn Header="英文名" IsReadOnly="True" Width="10*"  Binding="{Binding Title_EN}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="日文名" IsReadOnly="True" Width="10*"  Binding="{Binding Title_JP}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="开发者" IsReadOnly="True" Width="8*"  Binding="{Binding Developer}"/>
-                <DataGridTextColumn Header="发布者" IsReadOnly="True" Width="8*"  Binding="{Binding Publisher}"/>
-                <DataGridTextColumn Header="游戏人数" IsReadOnly="True" Width="8*"  Binding="{Binding Players}"/>
-                <DataGridTextColumn Header="发布时间" IsReadOnly="True" Width="10*"  Binding="{Binding Release_date}"/>
-                <DataGridTextColumn Header="文件大小" IsReadOnly="True" Width="8*"  Binding="{Binding Imagesize}"/>
-                <DataGridCheckBoxColumn Header="收藏" Width="5*" Binding="{Binding Favorite}"/>
+                <DataGridTextColumn Header="序列号" IsReadOnly="True" Width="7*" Binding="{Binding BasicInfo.Subserial}"/>
+                <DataGridTextColumn Header="游戏名" IsReadOnly="True" Width="15*" Binding="{Binding BasicInfo.English_Title}"/>
+                <DataGridTextColumn Header="英文名" IsReadOnly="True" Width="10*"  Binding="{Binding BasicInfo.English_Title}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="日文名" IsReadOnly="True" Width="10*"  Binding="{Binding BasicInfo.Japanese_Title}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="开发者" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Developer}"/>
+                <DataGridTextColumn Header="发布者" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Publisher}"/>
+                <DataGridTextColumn Header="游戏人数" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Players}"/>
+                <DataGridTextColumn Header="发布时间" IsReadOnly="True" Width="10*" Binding="{Binding BasicInfo.ReleaseDate}"/>
+                <DataGridTextColumn Header="文件大小" IsReadOnly="True" Width="8*" Binding="{Binding BasicInfo.Imagesize}"/>
+                <DataGridCheckBoxColumn Header="收藏" Width="5*" Binding="{Binding Path=BasicInfo.Favorite,Converter={StaticResource convertBool}}"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="2" Grid.Column="1" Margin="4,216,0,0" Height="46" VerticalAlignment="Top" HorizontalAlignment="Left" Width="42">

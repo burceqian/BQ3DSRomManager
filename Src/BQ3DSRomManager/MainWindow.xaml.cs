@@ -1,16 +1,10 @@
-﻿using BQ3DSCommonFunction;
-using BQ3DSQLite;
-using BQ3DSRomLoader;
-using BQ3DSRomLoader.UT;
-using BQGetRomInfoListOnline;
-using BQInterface;
+﻿using BQ3DSCore;
 using BQStructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -32,44 +26,44 @@ namespace BQ3DSRomManager
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog lOFD = new OpenFileDialog();
-            if (lOFD.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-            {
-                return;
-            }
-            IRomLoader ll = new Loader3DS();
-            //ll = new LoaderCIA();
-            lRomInfo = ll.GetRomInfo(new FileInfo(lOFD.FileName));
-            //WRomInfo lWRI = new WRomInfo();
-            //lWRI.GameRomInfo = lRomInfo;
-            //lWRI.ShowDialog();
+            //OpenFileDialog lOFD = new OpenFileDialog();
+            //if (lOFD.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            //{
+            //    return;
+            //}
+            //IRomLoader ll = new Loader3DS();
+            ////ll = new LoaderCIA();
+            //lRomInfo = ll.GetRomInfo(new FileInfo(lOFD.FileName));
+            ////WRomInfo lWRI = new WRomInfo();
+            ////lWRI.GameRomInfo = lRomInfo;
+            ////lWRI.ShowDialog();
 
-            Webgametdb3ds webgametdb3Ds = new Webgametdb3ds();
-            //webgametdb3Ds.GetGameConver(lRomInfo.SubSerial);
-            webgametdb3Ds.GetGameInfo(lRomInfo.SubSerial);
+            //Webgametdb3ds webgametdb3Ds = new Webgametdb3ds();
+            ////webgametdb3Ds.GetGameConver(lRomInfo.SubSerial);
+            //webgametdb3Ds.GetGameInfo(lRomInfo.SubSerial);
 
         }
 
         private void button_Copy_Click(object sender, RoutedEventArgs e)
         {
-            Web3dsdb w3d = new Web3dsdb();
-            //w3d.Update3dsreleases();
+            //Web3dsdb w3d = new Web3dsdb();
+            ////w3d.Update3dsreleases();
 
-            List<Rom3dsdbInfo> lRom3dsdbInfoList = w3d.GetRomInfoFrom3dsreleaseXML();
+            //List<Rom3dsdbInfo> lRom3dsdbInfoList = w3d.GetRomInfoFrom3dsreleaseXML();
 
-            if (BQSqlite.CheckDBExist() == false)
-            {
-                BQSqlite.CreateNewDB();
-            }
-
-            BQSqlite.InsertRom3dsdbInfo(lRom3dsdbInfoList);
-
-            //foreach (var rom3dsdbInfo in lRom3dsdbInfoList)
+            //if (BQSqlite.CheckDBExist() == false)
             //{
-            //    BQSqlite.InsertRom3dsdbInfo(rom3dsdbInfo);
+            //    BQSqlite.CreateNewDB();
             //}
 
-            Rom3dsdbInfo lRom3dsdbInfo = BQSqlite.GetRom3dsdbInfo(lRom3dsdbInfoList[0].serial);
+            //BQSqlite.InsertRom3dsdbInfo(lRom3dsdbInfoList);
+
+            ////foreach (var rom3dsdbInfo in lRom3dsdbInfoList)
+            ////{
+            ////    BQSqlite.InsertRom3dsdbInfo(rom3dsdbInfo);
+            ////}
+
+            //Rom3dsdbInfo lRom3dsdbInfo = BQSqlite.GetRom3dsdbInfo(lRom3dsdbInfoList[0].serial);
         }
 
         private void btnScan_Click(object sender, RoutedEventArgs e)
@@ -92,88 +86,88 @@ namespace BQ3DSRomManager
 
         private void ScanRomFolder(DirectoryInfo folder)
         {
-            if (BQSqlite.CheckDBExist() == false)
-            {
-                BQSqlite.CreateNewDB();
-            }
+            //if (BQSqlite.CheckDBExist() == false)
+            //{
+            //    BQSqlite.CreateNewDB();
+            //}
 
-            List<FileInfo> lGameList = new List<FileInfo>();
-            lGameList = BQIO.GetAllFilesInDirectory(folder, lGameList);
-            reportProcess(1, 1, "Found " + lGameList.Count + "Game Roms");
+            //List<FileInfo> lGameList = new List<FileInfo>();
+            //lGameList = BQIO.GetAllFilesInDirectory(folder, lGameList);
+            //reportProcess(1, 1, "Found " + lGameList.Count + "Game Roms");
 
-            for (int i = 0; i < lGameList.Count; i++)
-            {
+            //for (int i = 0; i < lGameList.Count; i++)
+            //{
                 
-                FileInfo romfile = lGameList[i];
-                reportProcess(i + 1, lGameList.Count, "Start Analize Game: " + romfile.Name);
+            //    FileInfo romfile = lGameList[i];
+            //    reportProcess(i + 1, lGameList.Count, "Start Analize Game: " + romfile.Name);
 
-                if (romfile.Extension.ToLower() == ".7z" ||
-                    romfile.Extension.ToLower() == ".rar" ||
-                        romfile.Extension.ToLower() == ".zip")
-                {
-                    BQZip.ClearUnZipFolder();
-                    BQZip.UnZipFile(romfile);
-                    List<FileInfo> unziprom = BQZip.GetUnZipRom();
-                    for (int j = 0; j < unziprom.Count; j++)
-                    {
-                        AnalizeRom(unziprom[j]);
-                    }
-                    BQZip.ClearUnZipFolder();
-                }
-                else if (romfile.Extension.ToLower() == ".3ds" ||
-                        romfile.Extension.ToLower() == ".3dz" ||
-                        romfile.Extension.ToLower() == ".cia")
-                {
-                    AnalizeRom(romfile);
-                }
-                else
-                {
-                    BQIO.CopyToRomTemp(romfile);
-                }
-            }
-            System.Windows.Forms.MessageBox.Show("Scan Done.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    if (romfile.Extension.ToLower() == ".7z" ||
+            //        romfile.Extension.ToLower() == ".rar" ||
+            //            romfile.Extension.ToLower() == ".zip")
+            //    {
+            //        BQZip.ClearUnZipFolder();
+            //        BQZip.UnZipFile(romfile);
+            //        List<FileInfo> unziprom = BQZip.GetUnZipRom();
+            //        for (int j = 0; j < unziprom.Count; j++)
+            //        {
+            //            AnalizeRom(unziprom[j]);
+            //        }
+            //        BQZip.ClearUnZipFolder();
+            //    }
+            //    else if (romfile.Extension.ToLower() == ".3ds" ||
+            //            romfile.Extension.ToLower() == ".3dz" ||
+            //            romfile.Extension.ToLower() == ".cia")
+            //    {
+            //        AnalizeRom(romfile);
+            //    }
+            //    else
+            //    {
+            //        BQIO.CopyToRomTemp(romfile);
+            //    }
+            //}
+            //System.Windows.Forms.MessageBox.Show("Scan Done.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void AnalizeRom(FileInfo romfile)
         {
-            IRomLoader lRomLoader;
+            //IRomLoader lRomLoader;
 
-            if (romfile.Extension.ToLower() == ".3ds" ||
-                    romfile.Extension.ToLower() == ".3dz")
-            {
-                lRomLoader = new Loader3DS();
-            }
-            else if (romfile.Extension.ToLower() == ".cia")
-            {
-                lRomLoader = new LoaderCIA();
-            }
-            else
-            {
-                return;
-            }
+            //if (romfile.Extension.ToLower() == ".3ds" ||
+            //        romfile.Extension.ToLower() == ".3dz")
+            //{
+            //    lRomLoader = new Loader3DS();
+            //}
+            //else if (romfile.Extension.ToLower() == ".cia")
+            //{
+            //    lRomLoader = new LoaderCIA();
+            //}
+            //else
+            //{
+            //    return;
+            //}
 
-            RomInfo lRomInfo = lRomLoader.GetRomInfo(romfile);
-            if (lRomInfo.Serial.Trim() != "")
-            {
-                BQIO.CopyRomToRomFolder(lRomInfo, romfile);
+            //RomInfo lRomInfo = lRomLoader.GetRomInfo(romfile);
+            //if (lRomInfo.Serial.Trim() != "")
+            //{
+            //    BQIO.CopyRomToRomFolder(lRomInfo, romfile);
 
-                if (BQSqlite.GetRomInfo(lRomInfo.Serial) == null)
-                {
-                    BQSqlite.InsertRomInfo(lRomInfo);
-                }
+            //    if (BQSqlite.GetRomInfo(lRomInfo.Serial) == null)
+            //    {
+            //        BQSqlite.InsertRomInfo(lRomInfo);
+            //    }
 
-                if (BQSqlite.GetRomgamedb3dsInfo(lRomInfo.Serial) == null)
-                {
-                    Webgametdb3ds webgametdb3Ds = new Webgametdb3ds();
-                    Romgamedb3dsInfo romgamedb3DsInfo = webgametdb3Ds.GetGameInfo(lRomInfo.SubSerial);
-                    if (romgamedb3DsInfo != null)
-                    {
-                        romgamedb3DsInfo.serial = lRomInfo.Serial;
-                        BQSqlite.InsertRomgamedb3dsInfo(romgamedb3DsInfo);
-                        webgametdb3Ds.GetGameConver(lRomInfo.SubSerial);
-                    }
-                }
-            }
+            //    if (BQSqlite.GetRomgamedb3dsInfo(lRomInfo.Serial) == null)
+            //    {
+            //        Webgametdb3ds webgametdb3Ds = new Webgametdb3ds();
+            //        Romgamedb3dsInfo romgamedb3DsInfo = webgametdb3Ds.GetGameInfo(lRomInfo.SubSerial);
+            //        if (romgamedb3DsInfo != null)
+            //        {
+            //            romgamedb3DsInfo.serial = lRomInfo.Serial;
+            //            BQSqlite.InsertRomgamedb3dsInfo(romgamedb3DsInfo);
+            //            webgametdb3Ds.GetGameConver(lRomInfo.SubSerial);
+            //        }
+            //    }
+            //}
         }
 
         private void reportProcess(int current, int max, string message)
@@ -192,17 +186,31 @@ namespace BQ3DSRomManager
 
         private void Update3dsdb()
         {
-            Web3dsdb w3d = new Web3dsdb();
-            w3d.Update3dsreleases();
+            BQCore.Initialize();
+            List<RomInformation> lAllRomInfomation =  BQCore.InitializeFirstRomList();
+            List<RomBasicInfo> laa = new List<RomBasicInfo>();
+            laa.Add(lAllRomInfomation[0].BasicInfo);
+            //dgGameList.DataContext = lAllRomInfomation;
+            //dgGameList.ItemsSource = laa;
+            dgGameList.ItemsSource = lAllRomInfomation;
+            //dgGameList.DisplayMemberPath = "BasicInfo";
 
-            List<Rom3dsdbInfo> lRom3dsdbInfoList = w3d.GetRomInfoFrom3dsreleaseXML();
+            //dgGameList.ItemsSource = lAllRomInfomation;
+            //dgGameList.DisplayMemberPath = "BasicInfo";
 
-            if (BQSqlite.CheckDBExist() == false)
-            {
-                BQSqlite.CreateNewDB();
-            }
+            //dgGameList.DataContext = lAllRomInfomation;
 
-            BQSqlite.InsertRom3dsdbInfo(lRom3dsdbInfoList);
+            //Web3dsdb w3d = new Web3dsdb();
+            //w3d.Update3dsreleases();
+
+            //List<Rom3dsdbInfo> lRom3dsdbInfoList = w3d.GetRomInfoFrom3dsreleaseXML();
+
+            //if (BQSqlite.CheckDBExist() == false)
+            //{
+            //    BQSqlite.CreateNewDB();
+            //}
+
+            //BQSqlite.InsertRom3dsdbInfo(lRom3dsdbInfoList);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -212,7 +220,7 @@ namespace BQ3DSRomManager
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            //Update3dsdb();
         }
 
         private void MenuItem_Click_OpenFile(object sender, RoutedEventArgs e)
@@ -303,40 +311,41 @@ namespace BQ3DSRomManager
         {
             this.Title = "BQ 3DS Rom Manager V" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major + "." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor;
 
-            
+            Update3dsdb();
 
-            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB01", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
-            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB02", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
-            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB03", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
-            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB04", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
-            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB05", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
-            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB06", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
-            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB07", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
-            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB08", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
-            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB09", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
-            lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB10", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
-            dgGameList.ItemsSource = lGameList;
+
+            //lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB01", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            //lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB02", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            //lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB03", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            //lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB04", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            //lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB05", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            //lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB06", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            //lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB07", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            //lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB08", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            //lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB09", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            //lGameList.Add(new Rom3dsGameInfo() { Serial = "SCR-AB10", Languages = "EN", Title_EN = "TestGameEN", Title_ZHCN = "测试游戏名", Title_JA = "testuJP", Title_ZHTW = "繁体游戏名", Developer = "测试游戏开发者", Favorite = true, Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者" });
+            //dgGameList.ItemsSource = lGameList;
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "3ds|*.3ds|3dz|*.3dz|CIA|*.cia";
-            openFileDialog.RestoreDirectory = true;
-            openFileDialog.FilterIndex = 1;
-            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
-                CIAGame cIAGame = new CIAGame(fileInfo.FullName);
-                lGameList.Add(new Rom3dsGameInfo() { Serial = cIAGame.Serial,
-                    Languages = "EN", Title_EN = cIAGame.Titles[0].ShortDescription,
-                    Title_ZHCN = cIAGame.Titles[0].LongDescription,
-                    Title_JA = cIAGame.Titles[0].LongDescription,
-                    Title_ZHTW = "繁体游戏名", Developer = cIAGame.Titles[0].Publisher, Favorite = true,
-                    Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者",
-                    SmallIcon = BitmapToBitmapImage(cIAGame.SmallIcon), LargeIcon = BitmapToBitmapImage(cIAGame.LargeIcon)
-                });
-            }
+            //OpenFileDialog openFileDialog = new OpenFileDialog();
+            //openFileDialog.Filter = "3ds|*.3ds|3dz|*.3dz|CIA|*.cia";
+            //openFileDialog.RestoreDirectory = true;
+            //openFileDialog.FilterIndex = 1;
+            //if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
+            //    CIAGame cIAGame = new CIAGame(fileInfo.FullName);
+            //    lGameList.Add(new Rom3dsGameInfo() { Serial = cIAGame.Serial,
+            //        Languages = "EN", Title_EN = cIAGame.Titles[0].ShortDescription,
+            //        Title_ZHCN = cIAGame.Titles[0].LongDescription,
+            //        Title_JA = cIAGame.Titles[0].LongDescription,
+            //        Title_ZHTW = "繁体游戏名", Developer = cIAGame.Titles[0].Publisher, Favorite = true,
+            //        Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者",
+            //        SmallIcon = BitmapToBitmapImage(cIAGame.SmallIcon), LargeIcon = BitmapToBitmapImage(cIAGame.LargeIcon)
+            //    });
+            //}
         }
 
         public BitmapImage BitmapToBitmapImage(Bitmap bitmap)

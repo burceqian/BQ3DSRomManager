@@ -15,7 +15,7 @@ namespace BQRomParsers
         {
             RomInformation lRomInfo = new RomInformation();
 
-            lRomInfo.OriginalName = pRomFile.Name;
+            lRomInfo.BasicInfo.OriginalName = pRomFile.Name;
 
             byte[] tByteContent = null;
             string tStrContent = "";
@@ -33,7 +33,7 @@ namespace BQRomParsers
             tFS.Position = 0X3a90;
             tByteContent = new byte[10];
             tFS.Read(tByteContent, 0, tByteContent.Length);
-            lRomInfo.Serial = System.Text.Encoding.Default.GetString(tByteContent);
+            lRomInfo.BasicInfo.Serial = Encoding.Default.GetString(tByteContent);
 
             // Title_ID
             tFS.Position = 0X3a48;
@@ -45,7 +45,7 @@ namespace BQRomParsers
                 tStrContent += tByteContent[i].ToString("X2");
             }
 
-            lRomInfo.Title_ID = tStrContent;
+            lRomInfo.BasicInfo.Title_ID = tStrContent;
 
             tFS.Close();
 

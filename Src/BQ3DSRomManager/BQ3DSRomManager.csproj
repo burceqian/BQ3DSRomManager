@@ -83,6 +83,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BindingDataConvert.cs" />
     <Compile Include="WRomInfo.xaml.cs">
       <DependentUpon>WRomInfo.xaml</DependentUpon>
     </Compile>
@@ -132,25 +133,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BQ3DSCommonFunction\BQ3DSCommonFunction.csproj">
-      <Project>{E586B538-CB01-45B6-9C49-EB5092BCEAC2}</Project>
-      <Name>BQ3DSCommonFunction</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BQ3DSQLite\BQ3DSQLite.csproj">
-      <Project>{57CE5F04-B9FC-45F9-9717-8105F8EC1F32}</Project>
-      <Name>BQ3DSQLite</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BQ3DSRomLoader\BQ3DSRomLoader.csproj">
-      <Project>{54F1CBAD-078D-40D3-9E8A-4C89D479A693}</Project>
-      <Name>BQ3DSRomLoader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BQGetRomInfoListOnline\BQGetRomInfoListOnline.csproj">
-      <Project>{86651A5F-CE36-4F4C-B90A-81754E799462}</Project>
-      <Name>BQGetRomInfoListOnline</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BQInterface\BQInterface.csproj">
-      <Project>{265D943B-3590-4BE7-B542-F2B938903C23}</Project>
-      <Name>BQInterface</Name>
+    <ProjectReference Include="..\BQ3DSCore\BQ3DSCore.csproj">
+      <Project>{e3a93c3b-5dc7-4682-b748-8d03847009a4}</Project>
+      <Name>BQ3DSCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\BQStructure\BQStructure.csproj">
       <Project>{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}</Project>
@@ -193,6 +178,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Back.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

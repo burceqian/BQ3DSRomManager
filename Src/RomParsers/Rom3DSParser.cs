@@ -175,7 +175,7 @@ namespace BQRomParsers
         {
             RomInformation lRomInfo = new RomInformation();
 
-            lRomInfo.OriginalName = pRomFile.Name;
+            lRomInfo.BasicInfo.OriginalName = pRomFile.Name;
 
             byte[] tByteContent = null;
             string tStrContent = "";
@@ -185,7 +185,7 @@ namespace BQRomParsers
             tFS.Position = 0X1150;
             tByteContent = new byte[10];
             tFS.Read(tByteContent, 0, tByteContent.Length);
-            lRomInfo.Serial = System.Text.Encoding.Default.GetString(tByteContent).TrimEnd('\0');
+            lRomInfo.BasicInfo.Serial = System.Text.Encoding.Default.GetString(tByteContent).TrimEnd('\0');
 
             // Title_ID
             tFS.Position = 0X108;
@@ -197,7 +197,7 @@ namespace BQRomParsers
                 tStrContent += tByteContent[i].ToString("X2");
             }
 
-            lRomInfo.Title_ID = tStrContent;
+            lRomInfo.BasicInfo.Title_ID = tStrContent;
 
             // Card_Type
             tFS.Position = 0X18D;
@@ -206,11 +206,11 @@ namespace BQRomParsers
 
             if (tByteContent[0] == 0X1)
             {
-                lRomInfo.Card_Type = CardType.Card1;
+                lRomInfo.BasicInfo.Card_Type = "1";
             }
             else
             {
-                lRomInfo.Card_Type = CardType.Card2;
+                lRomInfo.BasicInfo.Card_Type = "2";
             }
 
             // Capacity
@@ -225,27 +225,27 @@ namespace BQRomParsers
 
             if (tStrContent == "00000400")
             {
-                lRomInfo.Capacity = "128 MB";
+                lRomInfo.BasicInfo.Capacity = "128 MB";
             }
             else if (tStrContent == "00000800")
             {
-                lRomInfo.Capacity = "256 MB";
+                lRomInfo.BasicInfo.Capacity = "256 MB";
             }
             else if (tStrContent == "00001000")
             {
-                lRomInfo.Capacity = "512 MB";
+                lRomInfo.BasicInfo.Capacity = "512 MB";
             }
             else if (tStrContent == "00002000")
             {
-                lRomInfo.Capacity = "1 GB";
+                lRomInfo.BasicInfo.Capacity = "1 GB";
             }
             else if (tStrContent == "00004000")
             {
-                lRomInfo.Capacity = "2 GB";
+                lRomInfo.BasicInfo.Capacity = "2 GB";
             }
             else if (tStrContent == "00008000")
             {
-                lRomInfo.Capacity = "4 GB";
+                lRomInfo.BasicInfo.Capacity = "4 GB";
             }
 
             // Manufacturer
@@ -255,57 +255,57 @@ namespace BQRomParsers
             tStrContent = tByteContent[0].ToString("X2");
             if (tStrContent == "C2")
             {
-                lRomInfo.Manufacturer = "Macronix";
+                lRomInfo.BasicInfo.Manufacturer = "Macronix";
             }
             else if (tStrContent == "45")
             {
-                lRomInfo.Manufacturer = "SanDisk";
+                lRomInfo.BasicInfo.Manufacturer = "SanDisk";
             }
             else if (tStrContent == "AE")
             {
-                lRomInfo.Manufacturer = "OKI Semiconductor";
+                lRomInfo.BasicInfo.Manufacturer = "OKI Semiconductor";
             }
             else
             {
-                lRomInfo.Manufacturer = "Un Know";
+                lRomInfo.BasicInfo.Manufacturer = "Un Know";
             }
 
             // ChipID
-            lRomInfo.Chip_ID = tStrContent;
-            if (lRomInfo.Capacity == "128 MB")
+            lRomInfo.BasicInfo.Chip_ID = tStrContent;
+            if (lRomInfo.BasicInfo.Capacity == "128 MB")
             {
-                lRomInfo.Chip_ID += "7F";
+                lRomInfo.BasicInfo.Chip_ID += "7F";
             }
-            else if (lRomInfo.Capacity == "256 MB")
+            else if (lRomInfo.BasicInfo.Capacity == "256 MB")
             {
-                lRomInfo.Chip_ID += "FF";
+                lRomInfo.BasicInfo.Chip_ID += "FF";
             }
-            else if (lRomInfo.Capacity == "512 MB")
+            else if (lRomInfo.BasicInfo.Capacity == "512 MB")
             {
-                lRomInfo.Chip_ID += "FE";
+                lRomInfo.BasicInfo.Chip_ID += "FE";
             }
-            else if (lRomInfo.Capacity == "1 GB")
+            else if (lRomInfo.BasicInfo.Capacity == "1 GB")
             {
-                lRomInfo.Chip_ID += "FA";
+                lRomInfo.BasicInfo.Chip_ID += "FA";
             }
-            else if (lRomInfo.Capacity == "2 GB")
+            else if (lRomInfo.BasicInfo.Capacity == "2 GB")
             {
-                lRomInfo.Chip_ID += "F8";
+                lRomInfo.BasicInfo.Chip_ID += "F8";
             }
-            else if (lRomInfo.Capacity == "4 GB")
+            else if (lRomInfo.BasicInfo.Capacity == "4 GB")
             {
-                lRomInfo.Chip_ID += "F0";
+                lRomInfo.BasicInfo.Chip_ID += "F0";
             }
 
-            lRomInfo.Chip_ID += "00";
+            lRomInfo.BasicInfo.Chip_ID += "00";
 
-            if (lRomInfo.Card_Type == CardType.Card1)
+            if (lRomInfo.BasicInfo.Card_Type == "1")
             {
-                lRomInfo.Chip_ID += "90";
+                lRomInfo.BasicInfo.Chip_ID += "90";
             }
             else
             {
-                lRomInfo.Chip_ID += "98";
+                lRomInfo.BasicInfo.Chip_ID += "98";
             }
 
             // Card_ID
@@ -314,7 +314,7 @@ namespace BQRomParsers
             tFS.Read(tByteContent, 0, tByteContent.Length);
             if (tByteContent[0].ToString("X2") == "FF")
             {
-                lRomInfo.Card_ID = "No ID in Rom";
+                lRomInfo.BasicInfo.Card_ID = "No ID in Rom";
             }
             else
             {
@@ -323,7 +323,7 @@ namespace BQRomParsers
                 {
                     tStrContent += tByteContent[i].ToString("X2");
                 }
-                lRomInfo.Card_ID = tStrContent;
+                lRomInfo.BasicInfo.Card_ID = tStrContent;
             }
 
             tFS.Close();

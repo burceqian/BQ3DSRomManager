@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BQ3DSCommonFunction
+namespace BQUtility
 {
     public enum RomType
     {

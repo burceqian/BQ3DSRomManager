@@ -1,36 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 
-namespace BQ3DSCommonFunction
+namespace BQUtility
 {
-    public class BQZip
+    public class BQCompression
     {
-        private static string DECOMPRESSION_TEMPDIR = Path.Combine(Environment.CurrentDirectory,@"\Temp\UnZip\");
-
-        public static void UnZipFile(FileInfo file)
+        public static void CompressionFile(FileInfo pSrcFile, FileInfo pTarFile)
         {
-            if (Directory.Exists(DECOMPRESSION_TEMPDIR) == false)
-            {
-                Directory.CreateDirectory(DECOMPRESSION_TEMPDIR);
-            }
-
-            SevenZipExtractor.ArchiveFile archiveFile = new SevenZipExtractor.ArchiveFile(file.FullName);
-            archiveFile.Extract(DECOMPRESSION_TEMPDIR);
+            ZipFile.CreateFromDirectory(pSrcFile.FullName, pTarFile.FullName);
         }
 
-        public static List<FileInfo> GetUnZipRom()
+        public static void UnCompressionFile(FileInfo pFile, DirectoryInfo pTarFolder)
         {
-            return GetAllFilesInDirectory(new DirectoryInfo(DECOMPRESSION_TEMPDIR), new List<FileInfo>());
+            ZipFile.ExtractToDirectory(pFile.FullName, pTarFolder.FullName);
         }
 
-        public static void ClearUnZipFolder()
+        public static void ClearUnCompressionFolder()
         {
-            DirectoryInfo dir = new DirectoryInfo(DECOMPRESSION_TEMPDIR);
+            DirectoryInfo dir = new DirectoryInfo(BQDirectory.TempDir);
             if (dir.Exists)
             {
                 dir.Delete(true);
             }
+            dir.Create();
         }
 
         public static List<FileInfo> GetAllFilesInDirectory(DirectoryInfo directoryInfo, List<FileInfo> fileList)

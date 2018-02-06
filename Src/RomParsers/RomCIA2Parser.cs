@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BQStructure;
 using System.IO;
+using BQUtility;
 
 namespace BQRomParsers
 {
@@ -15,9 +16,13 @@ namespace BQRomParsers
         {
             RomInformation lRomInfo = new RomInformation();
             CIAGame cIAGame = new CIAGame(pRomFile.FullName);
-            lRomInfo.Serial = cIAGame.Serial;
-            lRomInfo.Title_ID = cIAGame.TitleId;
-            lRomInfo.English_Title = cIAGame.Titles[0].ShortDescription;
+            lRomInfo.BasicInfo.Serial = cIAGame.Serial;
+            lRomInfo.BasicInfo.Title_ID = cIAGame.TitleId;
+            lRomInfo.BasicInfo.Publisher = cIAGame.Publisher;
+            lRomInfo.BasicInfo.Manufacturer = cIAGame.MakerCode;
+            lRomInfo.BasicInfo.English_Title = cIAGame.Titles[0].ShortDescription;
+            lRomInfo.ExpandInfo.LargeIcon = BQIO.BitmapToBitmapImage(cIAGame.LargeIcon);
+            lRomInfo.ExpandInfo.SmallIcon = BQIO.BitmapToBitmapImage(cIAGame.SmallIcon);
             return lRomInfo;
         }
     }

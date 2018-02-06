@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -69,6 +70,10 @@
     <ProjectReference Include="..\BQStructure\BQStructure.csproj">
       <Project>{806ffeaa-f1e2-4d1f-943e-662eca3b87a3}</Project>
       <Name>BQStructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BQUtility\BQUtility.csproj">
+      <Project>{E586B538-CB01-45B6-9C49-EB5092BCEAC2}</Project>
+      <Name>BQUtility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

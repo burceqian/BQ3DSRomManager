@@ -3,11 +3,11 @@ using System.IO;
 using System.Net;
 using System.Threading;
 
-namespace BQ3DSCommonFunction
+namespace BQUtility
 {
     public class BQWeb
     {
-        public static bool DownloadWebFile(string pURL, string pFileFullName)
+        public static bool DownloadWebFile(string pURL, FileInfo pFile)
         {
             float lPercent = 0;
             HttpWebRequest lHWRT = null;
@@ -22,12 +22,12 @@ namespace BQ3DSCommonFunction
                 lTotal = lHWRS.ContentLength;
                 lWebStream = lHWRS.GetResponseStream();
 
-                if (File.Exists(pFileFullName))
+                if (pFile.Exists)
                 {
-                    File.Delete(pFileFullName);
+                    pFile.Delete();
                 }
 
-                lFileStream = new FileStream(pFileFullName, FileMode.Create);
+                lFileStream = new FileStream(pFile.FullName, FileMode.Create);
                 long totalDownloadedByte = 0;
                 byte[] lByteListContent = new byte[128];
                 int lDataSize = lWebStream.Read(lByteListContent, 0, (int)lByteListContent.Length);
