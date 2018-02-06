@@ -11,11 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQInterface", "BQInterface\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQ3DSCore", "BQ3DSCore\BQ3DSCore.csproj", "{E3A93C3B-5DC7-4682-B748-8D03847009A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQRomParsers", "RomParsers\BQRomParsers.csproj", "{638FE1D1-DE4A-4833-B7A4-D860C02622D0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQNetCrawlers", "BQNetCrawler\BQNetCrawlers.csproj", "{BC0DE78E-4E6E-47DF-9F2B-FD722FB8344E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQUtility", "BQUtility\BQUtility.csproj", "{E586B538-CB01-45B6-9C49-EB5092BCEAC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQRomParsers", "BQRomParsers\BQRomParsers.csproj", "{638FE1D1-DE4A-4833-B7A4-D860C02622D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +39,6 @@ Global
 		{E3A93C3B-5DC7-4682-B748-8D03847009A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3A93C3B-5DC7-4682-B748-8D03847009A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3A93C3B-5DC7-4682-B748-8D03847009A4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{638FE1D1-DE4A-4833-B7A4-D860C02622D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{638FE1D1-DE4A-4833-B7A4-D860C02622D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{638FE1D1-DE4A-4833-B7A4-D860C02622D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{638FE1D1-DE4A-4833-B7A4-D860C02622D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC0DE78E-4E6E-47DF-9F2B-FD722FB8344E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BC0DE78E-4E6E-47DF-9F2B-FD722FB8344E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC0DE78E-4E6E-47DF-9F2B-FD722FB8344E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +47,10 @@ Global
 		{E586B538-CB01-45B6-9C49-EB5092BCEAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E586B538-CB01-45B6-9C49-EB5092BCEAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E586B538-CB01-45B6-9C49-EB5092BCEAC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{638FE1D1-DE4A-4833-B7A4-D860C02622D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{638FE1D1-DE4A-4833-B7A4-D860C02622D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{638FE1D1-DE4A-4833-B7A4-D860C02622D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{638FE1D1-DE4A-4833-B7A4-D860C02622D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
