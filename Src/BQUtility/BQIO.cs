@@ -166,6 +166,10 @@ namespace BQUtility
 
         public static BitmapImage BitmapToBitmapImage(Bitmap bitmap)
         {
+            if (bitmap == null)
+            {
+                return null;
+            }
             Bitmap bitmapSource = new Bitmap(bitmap.Width, bitmap.Height);
             int i, j;
             for (i = 0; i < bitmap.Width; i++)

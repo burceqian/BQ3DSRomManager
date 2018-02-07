@@ -25,7 +25,10 @@ namespace BQRomParsers
             lRomInfo.BasicInfo.Title_ID = cIAGame.TitleId;
             lRomInfo.BasicInfo.Publisher = cIAGame.Publisher;
             lRomInfo.BasicInfo.Manufacturer = cIAGame.MakerCode;
-            lRomInfo.BasicInfo.English_Title = cIAGame.Titles[0].ShortDescription;
+            if (cIAGame.Titles.Count > 0)
+            {
+                lRomInfo.BasicInfo.English_Title = cIAGame.Titles[0].ShortDescription;
+            }
             lRomInfo.ExpandInfo.LargeIcon = BQIO.BitmapToBitmapImage(cIAGame.LargeIcon);
             lRomInfo.ExpandInfo.SmallIcon = BQIO.BitmapToBitmapImage(cIAGame.SmallIcon);
             return lRomInfo;

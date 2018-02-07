@@ -20,9 +20,9 @@ namespace BQ3DSCore
             // initialize components
             //_RomParserList = Assembly.GetExecutingAssembly().GetTypes()
             _RomParserList = Assembly.Load("BQRomParsers").GetTypes()
-                .Where(elementClass => elementClass.IsAssignableFrom(typeof(IRomParser))).Select(type => (IRomParser)Activator.CreateInstance(type)).ToList();
+                .Where(elementClass => typeof(IRomParser).IsAssignableFrom(elementClass)).Select(type => (IRomParser)Activator.CreateInstance(type)).ToList();
             _RomInfoNetCrawlerList = Assembly.Load("BQNetCrawlers").GetTypes()
-                .Where(elementClass => elementClass.IsAssignableFrom(typeof(IRomInfoNetCrawler))).Select(type => (IRomInfoNetCrawler)Activator.CreateInstance(type)).ToList();
+                .Where(elementClass => typeof(IRomInfoNetCrawler).IsAssignableFrom(elementClass)).Select(type => (IRomInfoNetCrawler)Activator.CreateInstance(type)).ToList();
 
             // initialize work folder
             BQDirectory.Initilize();
@@ -70,12 +70,21 @@ namespace BQ3DSCore
                 lPicList.AddRange(item.ScanRomPic(lRomInformation));
             }
 
-            BQIO.DownloadRomPicToFolder(lPicList);
+            if (lPicList.Count > 0)
+            {
+                BQIO.DownloadRomPicToFolder(lPicList);
+            }
 
-            BQIO.SaveLargeIco(lRomInformation.ExpandInfo.LargeIcon, lRomInformation);
+            if (lRomInformation.ExpandInfo.LargeIcon != null)
+            {
+                BQIO.SaveLargeIco(lRomInformation.ExpandInfo.LargeIcon, lRomInformation);
+            }
 
-            BQIO.SaveLargeIco(lRomInformation.ExpandInfo.SmallIcon, lRomInformation);
-
+            if (lRomInformation.ExpandInfo.SmallIcon != null)
+            {
+                BQIO.SaveLargeIco(lRomInformation.ExpandInfo.SmallIcon, lRomInformation);
+            }
+            
             return lRomInformation;
         }
 
@@ -146,12 +155,14 @@ namespace BQ3DSCore
             {
                 foreach (var baseRomInfoProp in pBaseRomInfo.BasicInfo.GetType().GetProperties())
                 {
-                    if (baseRomInfoProp.Name == addromInfoProp.Name)
+                    if (baseRomInfoProp.Name != "SubSerial" && baseRomInfoProp.Name == addromInfoProp.Name)
                     {
-                        var baseValue = baseRomInfoProp.GetValue(pBaseRomInfo);
-                        if (baseValue.ToString() == "")
+                        var baseValue = baseRomInfoProp.GetValue(pBaseRomInfo.BasicInfo);
+                        var tarValue = addromInfoProp.GetValue(pAdditionRomInfo.BasicInfo);
+                        if ((baseValue == null || baseValue.ToString().Trim() == "") &&
+                            (tarValue != null && tarValue.ToString().Trim() != ""))
                         {
-                            baseRomInfoProp.SetValue(pBaseRomInfo, addromInfoProp.GetValue(pAdditionRomInfo));
+                            baseRomInfoProp.SetValue(pBaseRomInfo.BasicInfo, tarValue);
                         }
                     }
                 }

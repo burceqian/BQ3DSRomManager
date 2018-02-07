@@ -128,7 +128,11 @@ namespace BQStructure
 
         private string SetSubSerial(string pSerial)
         {
-            return pSerial.Substring(pSerial.Length - 4, 4);
+            if (pSerial != null && pSerial.Length > 4)
+            {
+                return pSerial.Substring(pSerial.Length - 4, 4);
+            }
+            return "";
         }
         public List<KeyValuePair<string, string>> DuplicateRomInfo = new List<KeyValuePair<string, string>>();
     }
