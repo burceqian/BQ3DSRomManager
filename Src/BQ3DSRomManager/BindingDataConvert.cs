@@ -29,7 +29,7 @@ namespace BQ3DSRomManager
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.ToString() == "1")
+            if (value == null || value.ToString() == "" || value.ToString() == "0")
             {
                 return false;
             }
@@ -43,11 +43,11 @@ namespace BQ3DSRomManager
         {
             if ((bool)value == true)
             {
-                return "0";
+                return "1";
             }
             else
             {
-                return "1";
+                return "0";
             }
         }
     }

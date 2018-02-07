@@ -18,9 +18,10 @@ namespace BQ3DSCore
         public static void Initialize()
         {
             // initialize components
-            _RomParserList = Assembly.GetExecutingAssembly().GetTypes()
+            //_RomParserList = Assembly.GetExecutingAssembly().GetTypes()
+            _RomParserList = Assembly.Load("BQRomParsers").GetTypes()
                 .Where(elementClass => elementClass.IsAssignableFrom(typeof(IRomParser))).Select(type => (IRomParser)Activator.CreateInstance(type)).ToList();
-            _RomInfoNetCrawlerList = Assembly.GetExecutingAssembly().GetTypes()
+            _RomInfoNetCrawlerList = Assembly.Load("BQNetCrawlers").GetTypes()
                 .Where(elementClass => elementClass.IsAssignableFrom(typeof(IRomInfoNetCrawler))).Select(type => (IRomInfoNetCrawler)Activator.CreateInstance(type)).ToList();
 
             // initialize work folder
@@ -54,7 +55,7 @@ namespace BQ3DSCore
             return lAllRomInfo;
         }
 
-        private RomInformation ParseRom(FileInfo pRomFile)
+        private static RomInformation ParseRom(FileInfo pRomFile)
         {
             RomInformation lRomInformation = new RomInformation();
             foreach (var romParser in _RomParserList)
@@ -78,13 +79,34 @@ namespace BQ3DSCore
             return lRomInformation;
         }
 
-        public List<RomInformation> LoadRom(FileInfo pRomFile)
+        public static List<RomInformation> LoadRom(FileInfo pRomFile)
         {
+            List<RomInformation> lRomInformationList = new List<RomInformation>();
+
+            if (BQSpecs.CompressionFileExtension.Contains(pRomFile.Extension))
+            {
+
+                BQCompression.UnCompressionFile(pRomFile, new DirectoryInfo(BQDirectory.TempDir));
+                List<FileInfo> lFileList = BQIO.GetRomFile(new DirectoryInfo(BQDirectory.TempDir));
+                foreach (var file in lFileList)
+                {
+                    RomInformation tRomInformation = ParseRom(pRomFile);
+                    lRomInformationList.Add(tRomInformation);
+                }
+            }
+            else
+            {
+                RomInformation tRomInformation = ParseRom(pRomFile);
+                lRomInformationList.Add(tRomInformation);
+            }
+
+            return lRomInformationList;
+
             //ParseRom()
 
-            List<FileInfo> lRomFileList = FiledRomFile(pRomFile);
+            //List<FileInfo> lRomFileList = FiledRomFile(pRomFile);
 
-            List<RomInformation> lRomInformationList = new List<RomInformation>();
+
 
             //foreach (var romFile in lRomFileList)
             //{
@@ -111,14 +133,14 @@ namespace BQ3DSCore
             return lRomInformationList;
         }
 
-        public List<RomInformation> LoadRom(DirectoryInfo pDir)
+        public static List<RomInformation> LoadRom(DirectoryInfo pDir)
         {
             List<RomInformation> lResult = new List<RomInformation>();
             pDir.GetFiles().ToList().ForEach(p => { lResult.AddRange(LoadRom(p)); });
             return lResult;
         }
 
-        public void MergeRomInfo(RomInformation pBaseRomInfo, RomInformation pAdditionRomInfo)
+        public static void MergeRomInfo(RomInformation pBaseRomInfo, RomInformation pAdditionRomInfo)
         {
             foreach (var addromInfoProp in pAdditionRomInfo.BasicInfo.GetType().GetProperties())
             {
@@ -136,7 +158,7 @@ namespace BQ3DSCore
             }
         }
 
-        public List<FileInfo> FiledRomFile(FileInfo pRomFile)
+        public static List<FileInfo> FiledRomFile(FileInfo pRomFile)
         {
             List<FileInfo> lResult = new List<FileInfo>();
 

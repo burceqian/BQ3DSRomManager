@@ -173,6 +173,11 @@ namespace BQRomParsers
 
         RomInformation IRomParser.ParseRom(FileInfo pRomFile)
         {
+            if (pRomFile.Extension.ToLower() != ".3ds")
+            {
+                return new RomInformation();
+            }
+
             RomInformation lRomInfo = new RomInformation();
 
             lRomInfo.BasicInfo.OriginalName = pRomFile.Name;

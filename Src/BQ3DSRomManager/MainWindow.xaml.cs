@@ -19,6 +19,8 @@ namespace BQ3DSRomManager
     {
         RomInfo lRomInfo = null;
 
+        ObservableCollection<RomInformation> _RomList = new ObservableCollection<RomInformation>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -187,12 +189,9 @@ namespace BQ3DSRomManager
         private void Update3dsdb()
         {
             BQCore.Initialize();
-            List<RomInformation> lAllRomInfomation =  BQCore.InitializeFirstRomList();
-            List<RomBasicInfo> laa = new List<RomBasicInfo>();
-            laa.Add(lAllRomInfomation[0].BasicInfo);
-            //dgGameList.DataContext = lAllRomInfomation;
-            //dgGameList.ItemsSource = laa;
-            dgGameList.ItemsSource = lAllRomInfomation;
+            List<RomInformation> lInitlizeRomList = BQCore.InitializeFirstRomList();
+            lInitlizeRomList.ForEach(rominfo => _RomList.Add(rominfo));
+            dgGameList.ItemsSource = _RomList;
             //dgGameList.DisplayMemberPath = "BasicInfo";
 
             //dgGameList.ItemsSource = lAllRomInfomation;
@@ -327,25 +326,30 @@ namespace BQ3DSRomManager
             //dgGameList.ItemsSource = lGameList;
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_LoadRom(object sender, RoutedEventArgs e)
         {
-            //OpenFileDialog openFileDialog = new OpenFileDialog();
-            //openFileDialog.Filter = "3ds|*.3ds|3dz|*.3dz|CIA|*.cia";
-            //openFileDialog.RestoreDirectory = true;
-            //openFileDialog.FilterIndex = 1;
-            //if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
-            //    CIAGame cIAGame = new CIAGame(fileInfo.FullName);
-            //    lGameList.Add(new Rom3dsGameInfo() { Serial = cIAGame.Serial,
-            //        Languages = "EN", Title_EN = cIAGame.Titles[0].ShortDescription,
-            //        Title_ZHCN = cIAGame.Titles[0].LongDescription,
-            //        Title_JA = cIAGame.Titles[0].LongDescription,
-            //        Title_ZHTW = "繁体游戏名", Developer = cIAGame.Titles[0].Publisher, Favorite = true,
-            //        Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者",
-            //        SmallIcon = BitmapToBitmapImage(cIAGame.SmallIcon), LargeIcon = BitmapToBitmapImage(cIAGame.LargeIcon)
-            //    });
-            //}
+            //_RomList.Add(new RomInformation());
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "3ds|*.3ds|3dz|*.3dz|CIA|*.cia|ZIP|*.zip|RAR|*.rar";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.FilterIndex = 1;
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
+                List<RomInformation> lLoadRoms = BQCore.LoadRom(fileInfo);
+                lLoadRoms.ForEach(rominfo => _RomList.Add(rominfo));
+                //_RomList.AddRange(lLoadRoms);
+                //    FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
+                //    CIAGame cIAGame = new CIAGame(fileInfo.FullName);
+                //    lGameList.Add(new Rom3dsGameInfo() { Serial = cIAGame.Serial,
+                //        Languages = "EN", Title_EN = cIAGame.Titles[0].ShortDescription,
+                //        Title_ZHCN = cIAGame.Titles[0].LongDescription,
+                //        Title_JA = cIAGame.Titles[0].LongDescription,
+                //        Title_ZHTW = "繁体游戏名", Developer = cIAGame.Titles[0].Publisher, Favorite = true,
+                //        Players = "4", Imagesize = "4G", Release_date = "2017-01-01", Publisher = "测试者",
+                //        SmallIcon = BitmapToBitmapImage(cIAGame.SmallIcon), LargeIcon = BitmapToBitmapImage(cIAGame.LargeIcon)
+                //    });
+            }
         }
 
         public BitmapImage BitmapToBitmapImage(Bitmap bitmap)

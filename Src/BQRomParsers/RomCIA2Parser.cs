@@ -14,6 +14,11 @@ namespace BQRomParsers
     {
         RomInformation IRomParser.ParseRom(FileInfo pRomFile)
         {
+            if (pRomFile.Extension.ToLower() != ".cia")
+            {
+                return new RomInformation();
+            }
+
             RomInformation lRomInfo = new RomInformation();
             CIAGame cIAGame = new CIAGame(pRomFile.FullName);
             lRomInfo.BasicInfo.Serial = cIAGame.Serial;
