@@ -14,7 +14,7 @@ namespace BQUtility
         const string ROM_DB = @"DB\";
         const string ROM_ICON = @"ICO\";
         const string ROM_LARGE_ICON = @"ICO\Large\";
-        const string ROM_SMALL_ICON = @"ICO\Large\";
+        const string ROM_SMALL_ICON = @"ICO\Small\";
         const string ROM_TEMP = @"Temp\";
 
         private static string _ConverDir;

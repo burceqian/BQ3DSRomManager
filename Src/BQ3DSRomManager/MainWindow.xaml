@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="BQ V" Height="734.609" Width="1289.928" Loaded="Window_Loaded" Icon="Resources/MainWindowIcon.ico" Initialized="Window_Initialized">
     <Window.Resources>
+        <Style x:Key="dgTextAlignment" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
         <local:BindingDataConvert x:Key="convertBool"/>
     </Window.Resources>
     <Grid>
@@ -64,7 +67,7 @@
                 </MenuItem.Header>
             </MenuItem>
         </Menu>
-        <DataGrid Grid.Row="3" Grid.Column="1" Name="dgGameList" Margin="10,0" AutoGenerateColumns="False" CanUserAddRows="False">
+        <DataGrid Grid.Row="3" Grid.Column="1" Name="dgGameList" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10,0" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="详细信息" Click="MenuItem_Click"></MenuItem>
@@ -107,16 +110,23 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="序列号" IsReadOnly="True" Width="7*" Binding="{Binding BasicInfo.Subserial}"/>
-                <DataGridTextColumn Header="游戏名" IsReadOnly="True" Width="15*" Binding="{Binding BasicInfo.English_Title}"/>
+                <DataGridTextColumn Header="序列号" ElementStyle="{StaticResource dgTextAlignment}" IsReadOnly="True" Width="7*" Binding="{Binding BasicInfo.SubSerial}"/>
+                <DataGridTextColumn Header="游戏名" ElementStyle="{StaticResource dgTextAlignment}" IsReadOnly="True" Width="15*" Binding="{Binding BasicInfo.English_Title}"/>
                 <DataGridTextColumn Header="英文名" IsReadOnly="True" Width="10*"  Binding="{Binding BasicInfo.English_Title}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="日文名" IsReadOnly="True" Width="10*"  Binding="{Binding BasicInfo.Japanese_Title}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="开发者" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Developer}"/>
-                <DataGridTextColumn Header="发布者" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Publisher}"/>
-                <DataGridTextColumn Header="游戏人数" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Players}"/>
-                <DataGridTextColumn Header="发布时间" IsReadOnly="True" Width="10*" Binding="{Binding BasicInfo.ReleaseDate}"/>
-                <DataGridTextColumn Header="文件大小" IsReadOnly="True" Width="8*" Binding="{Binding BasicInfo.Imagesize}"/>
-                <DataGridCheckBoxColumn Header="收藏" Width="5*" Binding="{Binding Path=BasicInfo.Favorite,Converter={StaticResource convertBool}}"/>
+                <DataGridTextColumn Header="开发者" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Developer}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="发布者" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Publisher}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="游戏人数" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Players}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="发布时间" ElementStyle="{StaticResource dgTextAlignment}"  IsReadOnly="True" Width="10*" Binding="{Binding BasicInfo.ReleaseDate}"/>
+                <DataGridTextColumn Header="文件大小" ElementStyle="{StaticResource dgTextAlignment}"  IsReadOnly="True" Width="8*" Binding="{Binding BasicInfo.Imagesize}"/>
+                <DataGridTemplateColumn Header="收藏">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding Path=BasicInfo.Favorite,Converter={StaticResource convertBool}}"></CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridCheckBoxColumn Header="收藏" ElementStyle="{StaticResource dgTextAlignment}" Width="5*" Binding="{Binding Path=BasicInfo.Favorite,Converter={StaticResource convertBool}}"/>-->
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="3" Grid.Column="2" Margin="4,216,0,0" Height="46" VerticalAlignment="Top" HorizontalAlignment="Left" Width="42">

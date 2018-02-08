@@ -82,7 +82,7 @@ namespace BQ3DSCore
 
             if (lRomInformation.ExpandInfo.SmallIcon != null)
             {
-                BQIO.SaveLargeIco(lRomInformation.ExpandInfo.SmallIcon, lRomInformation);
+                BQIO.SaveSmallIco(lRomInformation.ExpandInfo.SmallIcon, lRomInformation);
             }
             
             return lRomInformation;
@@ -166,6 +166,16 @@ namespace BQ3DSCore
                         }
                     }
                 }
+            }
+
+            if (pBaseRomInfo.ExpandInfo.LargeIcon == null && pAdditionRomInfo.ExpandInfo.LargeIcon != null)
+            {
+                pBaseRomInfo.ExpandInfo.LargeIcon = pAdditionRomInfo.ExpandInfo.LargeIcon;
+            }
+
+            if (pBaseRomInfo.ExpandInfo.SmallIcon == null && pAdditionRomInfo.ExpandInfo.SmallIcon != null)
+            {
+                pBaseRomInfo.ExpandInfo.SmallIcon = pAdditionRomInfo.ExpandInfo.SmallIcon;
             }
         }
 

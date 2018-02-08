@@ -156,12 +156,23 @@ namespace BQUtility
             {
                 if (converFile.Name == pRomInfo.BasicInfo.SubSerial)
                 {
-                    BitmapImage lRomPic = new BitmapImage(new Uri(converFile.FullName));
-                    return lRomPic;
+                    BitmapImage tRomPic = new BitmapImage(new Uri(converFile.FullName));
+                    return tRomPic;
                 }
             }
 
-            return null;
+            BitmapImage lRomPic;
+
+            if (pLargeIco)
+            {
+                lRomPic = BitmapToBitmapImage(ResourceDefault.Large);
+            }
+            else
+            {
+                lRomPic = BitmapToBitmapImage(ResourceDefault.Small);
+            }
+
+            return lRomPic;
         }
 
         public static BitmapImage BitmapToBitmapImage(Bitmap bitmap)
@@ -197,6 +208,11 @@ namespace BQUtility
             string lFolderName = lInfoList[lInfoList.Length - 3] + "\\" + lInfoList[lInfoList.Length - 2];
 
             FileInfo fileInfo = new FileInfo(Path.Combine(BQDirectory.ConverDir, lFolderName, lFileName));
+
+            if (fileInfo.Exists)
+            {
+                return;
+            }
 
             if (Directory.Exists(fileInfo.DirectoryName) == false)
             {
