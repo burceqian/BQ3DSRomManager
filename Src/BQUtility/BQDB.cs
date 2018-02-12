@@ -305,6 +305,185 @@ namespace BQUtility
             return true;
         }
 
+        public static bool InsertRomInfoList(List<RomInformation> pRomInfoList)
+        {
+            SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + _DBFileFullName);
+            SQLiteCommand cmd = new SQLiteCommand();
+            lDBConnection.Open();
+
+            SQLiteTransaction lTransaction = lDBConnection.BeginTransaction();
+            cmd.Connection = lDBConnection;
+
+            try
+            {
+
+                string sql = "INSERT INTO " + _TableName + "(";
+                sql += "Serial ,";
+                sql += "Capacity ,";
+                sql += "Region ,";
+                sql += "Region_Lockout ,";
+                sql += "Languages ,";
+                sql += "Title_ID ,";
+                sql += "Game_Title ,";
+                sql += "English_Title ,";
+                sql += "Japanese_Title ,";
+                sql += "French_Title ,";
+                sql += "German_Title ,";
+                sql += "Italian_Title ,";
+                sql += "Spanish_Title ,";
+                sql += "Simplified_Chinese_Title ,";
+                sql += "Korean_Title ,";
+                sql += "Dutch_Title ,";
+                sql += "Portuguese_Title ,";
+                sql += "Russian_Title ,";
+                sql += "Traditional_Chinese_Title ,";
+                sql += "Platform ,";
+                sql += "Card_Type ,";
+                sql += "Card_ID ,";
+                sql += "Chip_ID ,";
+                sql += "Manufacturer ,";
+                sql += "OriginalName ,";
+                sql += "Developer ,";
+                sql += "Publisher ,";
+                sql += "ReleaseDate ,";
+                sql += "Genre ,";
+                sql += "Rating ,";
+                sql += "Players ,";
+                sql += "Imagesize ,";
+                sql += "Firmware ,";
+                sql += "Favorite, ";
+                sql += "IsCustomsizeRom ,";
+                sql += "SourceSerial ";
+                sql += ")values(";
+                sql += "@Serial ,";
+                sql += "@Capacity ,";
+                sql += "@Region ,";
+                sql += "@Region_Lockout ,";
+                sql += "@Languages ,";
+                sql += "@Title_ID ,";
+                sql += "@Game_Title ,";
+                sql += "@English_Title ,";
+                sql += "@Japanese_Title ,";
+                sql += "@French_Title ,";
+                sql += "@German_Title ,";
+                sql += "@Italian_Title ,";
+                sql += "@Spanish_Title ,";
+                sql += "@Simplified_Chinese_Title ,";
+                sql += "@Korean_Title ,";
+                sql += "@Dutch_Title ,";
+                sql += "@Portuguese_Title ,";
+                sql += "@Russian_Title ,";
+                sql += "@Traditional_Chinese_Title ,";
+                sql += "@Platform ,";
+                sql += "@Card_Type ,";
+                sql += "@Card_ID ,";
+                sql += "@Chip_ID ,";
+                sql += "@Manufacturer ,";
+                sql += "@OriginalName ,";
+                sql += "@Developer ,";
+                sql += "@Publisher ,";
+                sql += "@ReleaseDate ,";
+                sql += "@Genre ,";
+                sql += "@Rating ,";
+                sql += "@Players ,";
+                sql += "@Imagesize ,";
+                sql += "@Firmware ,";
+                sql += "@Favorite ,";
+                sql += "@IsCustomsizeRom ,";
+                sql += "@SourceSerial ";
+                sql += ")";
+
+                cmd.CommandText = sql;
+
+                cmd.Parameters.Add("@Serial", DbType.String);
+                cmd.Parameters.Add("@Capacity", DbType.String);
+                cmd.Parameters.Add("@Region", DbType.String);
+                cmd.Parameters.Add("@Region_Lockout", DbType.String);
+                cmd.Parameters.Add("@Languages", DbType.String);
+                cmd.Parameters.Add("@Title_ID", DbType.String);
+                cmd.Parameters.Add("@Game_Title", DbType.String);
+                cmd.Parameters.Add("@English_Title", DbType.String);
+                cmd.Parameters.Add("@Japanese_Title", DbType.String);
+                cmd.Parameters.Add("@French_Title", DbType.String);
+                cmd.Parameters.Add("@German_Title", DbType.String);
+                cmd.Parameters.Add("@Italian_Title", DbType.String);
+                cmd.Parameters.Add("@Spanish_Title", DbType.String);
+                cmd.Parameters.Add("@Simplified_Chinese_Title", DbType.String);
+                cmd.Parameters.Add("@Korean_Title", DbType.String);
+                cmd.Parameters.Add("@Dutch_Title", DbType.String);
+                cmd.Parameters.Add("@Portuguese_Title", DbType.String);
+                cmd.Parameters.Add("@Russian_Title", DbType.String);
+                cmd.Parameters.Add("@Traditional_Chinese_Title", DbType.String);
+                cmd.Parameters.Add("@Platform", DbType.String);
+                cmd.Parameters.Add("@Card_Type", DbType.String);
+                cmd.Parameters.Add("@Card_ID", DbType.String);
+                cmd.Parameters.Add("@Chip_ID", DbType.String);
+                cmd.Parameters.Add("@Manufacturer", DbType.String);
+                cmd.Parameters.Add("@OriginalName", DbType.String);
+                cmd.Parameters.Add("@Developer", DbType.String);
+                cmd.Parameters.Add("@Publisher", DbType.String);
+                cmd.Parameters.Add("@ReleaseDate", DbType.String);
+                cmd.Parameters.Add("@Genre", DbType.String);
+                cmd.Parameters.Add("@Rating", DbType.String);
+                cmd.Parameters.Add("@Players", DbType.String);
+                cmd.Parameters.Add("@Imagesize", DbType.String);
+                cmd.Parameters.Add("@Firmware", DbType.String);
+                cmd.Parameters.Add("@Favorite", DbType.String);
+                cmd.Parameters.Add("@IsCustomsizeRom", DbType.String);
+                cmd.Parameters.Add("@SourceSerial", DbType.String);
+
+                foreach (var rominfo in pRomInfoList)
+                {
+                    RomBasicInfo tBasic = rominfo.BasicInfo;
+                    cmd.Parameters["@Serial"].Value = tBasic.Serial;
+                    cmd.Parameters["@Capacity"].Value = tBasic.Capacity;
+                    cmd.Parameters["@Region"].Value = tBasic.Region;
+                    cmd.Parameters["@Region_Lockout"].Value = tBasic.Region_Lockout;
+                    cmd.Parameters["@Languages"].Value = tBasic.Languages;
+                    cmd.Parameters["@Title_ID"].Value = tBasic.Title_ID;
+                    cmd.Parameters["@Game_Title"].Value = tBasic.Game_Title;
+                    cmd.Parameters["@English_Title"].Value = tBasic.English_Title;
+                    cmd.Parameters["@Japanese_Title"].Value = tBasic.Japanese_Title;
+                    cmd.Parameters["@French_Title"].Value = tBasic.French_Title;
+                    cmd.Parameters["@German_Title"].Value = tBasic.German_Title;
+                    cmd.Parameters["@Italian_Title"].Value = tBasic.Italian_Title;
+                    cmd.Parameters["@Spanish_Title"].Value = tBasic.Spanish_Title;
+                    cmd.Parameters["@Simplified_Chinese_Title"].Value = tBasic.Simplified_Chinese_Title;
+                    cmd.Parameters["@Korean_Title"].Value = tBasic.Korean_Title;
+                    cmd.Parameters["@Dutch_Title"].Value = tBasic.Dutch_Title;
+                    cmd.Parameters["@Portuguese_Title"].Value = tBasic.Portuguese_Title;
+                    cmd.Parameters["@Russian_Title"].Value = tBasic.Russian_Title;
+                    cmd.Parameters["@Traditional_Chinese_Title"].Value = tBasic.Traditional_Chinese_Title;
+                    cmd.Parameters["@Platform"].Value = tBasic.Platform;
+                    cmd.Parameters["@Card_Type"].Value = tBasic.Card_Type;
+                    cmd.Parameters["@Card_ID"].Value = tBasic.Card_ID;
+                    cmd.Parameters["@Chip_ID"].Value = tBasic.Chip_ID;
+                    cmd.Parameters["@Manufacturer"].Value = tBasic.Manufacturer;
+                    cmd.Parameters["@OriginalName"].Value = tBasic.OriginalName;
+                    cmd.Parameters["@Developer"].Value = tBasic.Developer;
+                    cmd.Parameters["@Publisher"].Value = tBasic.Publisher;
+                    cmd.Parameters["@ReleaseDate"].Value = tBasic.ReleaseDate;
+                    cmd.Parameters["@Genre"].Value = tBasic.Genre;
+                    cmd.Parameters["@Rating"].Value = tBasic.Rating;
+                    cmd.Parameters["@Players"].Value = tBasic.Players;
+                    cmd.Parameters["@Imagesize"].Value = tBasic.Imagesize;
+                    cmd.Parameters["@Firmware"].Value = tBasic.Firmware;
+                    cmd.Parameters["@Favorite"].Value = tBasic.Favorite;
+                    cmd.Parameters["@IsCustomsizeRom"].Value = tBasic.IsCustomsizeRom;
+                    cmd.Parameters["@SourceSerial"].Value = tBasic.SourceSerial;
+                    cmd.ExecuteNonQuery();
+                }
+
+                lTransaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                lTransaction.Rollback();
+                throw ex;
+            }
+            return true;
+        }
+
         public static RomInformation GetGameInfo(string pSerial)
         {
             SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + _DBFileFullName);
@@ -331,7 +510,6 @@ namespace BQUtility
             RomInformation lResult = ConverDataRowToRomInfo(ds.Rows[0]);
             return lResult;
         }
-
         private static RomInformation ConverDataRowToRomInfo(DataRow pDBDataRow)
         {
             RomInformation lResult = new RomInformation();
@@ -373,7 +551,6 @@ namespace BQUtility
             lResult.BasicInfo.SourceSerial = pDBDataRow["SourceSerial"].ToString().Trim();
             return lResult;
         }
-
         public static List<RomInformation> GetAllGameInfo()
         {
             SQLiteConnection lDBConnection = new SQLiteConnection("data source=" + _DBFileFullName);
@@ -403,7 +580,6 @@ namespace BQUtility
             }
             return lResult;
         }
-
         public static void UpdateGameInfo(RomBasicInfo pRomInfo)
         {
             string lSqlHeader = "UPDATE " + _TableName + " SET ";
@@ -474,7 +650,6 @@ namespace BQUtility
                 throw ex;
             }
         }
-
         private static string AddProp(SQLiteCommand pSqlCmd,string pExistValue,string pTarValue,string pItemName)
         {
             string lResult = "";
@@ -488,7 +663,6 @@ namespace BQUtility
 
             return lResult;
         }
-
         public static bool CheckDBExist()
         {
             FileInfo lFile = new FileInfo(_DBFileFullName);
@@ -504,7 +678,6 @@ namespace BQUtility
 
             return false;
         }
-
         public void SaveRomInfoToDB(RomInformation pRomInfo)
         {
 

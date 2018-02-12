@@ -38,7 +38,8 @@ namespace BQ3DSCore
             {
                 BQDB.CreateNewDB();
                 List<RomInformation> AllRomInfoList = BQ3dsdb.GetAllRomInfo();
-                AllRomInfoList.ForEach(rominfo=> BQDB.InsertRomInfo(rominfo.BasicInfo));
+                BQDB.InsertRomInfoList(AllRomInfoList);
+                //AllRomInfoList.ForEach(rominfo=> BQDB.InsertRomInfo(rominfo.BasicInfo));
             }
         }
 
