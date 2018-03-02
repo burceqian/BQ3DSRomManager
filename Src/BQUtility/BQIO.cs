@@ -12,6 +12,11 @@ namespace BQUtility
         private static string _LastDir = "";
         private static List<FileInfo> _LastFileList = null;
 
+        public static bool CheckRomFileExist(RomInformation pRomInfo)
+        {
+            return true;
+        }
+
         public static List<FileInfo> GetRomFile(DirectoryInfo pTarFolder)
         {
             List<FileInfo> lResult = new List<FileInfo>();
