@@ -85,7 +85,20 @@ namespace BQ3DSCore
             {
                 BQIO.SaveSmallIco(lRomInformation.ExpandInfo.SmallIcon, lRomInformation);
             }
-            
+
+            if (lRomInformation.BasicInfo.Serial != "")
+            {
+                RomInformation lDBRomInformation = BQDB.GetGameInfo(lRomInformation.BasicInfo.Serial);
+                MergeRomInfo(lDBRomInformation, lRomInformation);
+                BQDB.UpdateGameInfo(lDBRomInformation.BasicInfo);
+                MergeRomInfo(lRomInformation, lDBRomInformation);
+            }
+
+            if (BQIO.CheckRomFileExist(lRomInformation)== false)
+            {
+                BQIO.CopyRomToRomFolder(lRomInformation, pRomFile);
+            }
+
             return lRomInformation;
         }
 
