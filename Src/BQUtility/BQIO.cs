@@ -232,6 +232,11 @@ namespace BQUtility
 
         }
 
+        public static string GetRomType(FileInfo romFile)
+        {
+            return romFile.Extension.TrimStart('.');
+        }
+
         //public static void CopyToRomTemp(FileInfo unknownFile)
         //{
         //    string lromFolder = RomFolder + @"\Unknow\";
