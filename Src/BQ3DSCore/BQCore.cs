@@ -153,7 +153,8 @@ namespace BQ3DSCore
         public static List<RomInformation> LoadRom(DirectoryInfo pDir)
         {
             List<RomInformation> lResult = new List<RomInformation>();
-            pDir.GetFiles().ToList().ForEach(p => { lResult.AddRange(LoadRom(p)); });
+            List<FileInfo> lFileList = BQIO.GetAllRomFile(pDir);
+            lFileList.ForEach(p => { lResult.AddRange(LoadRom(p)); });
             return lResult;
         }
 

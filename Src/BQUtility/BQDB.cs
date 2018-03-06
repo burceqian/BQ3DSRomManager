@@ -580,8 +580,8 @@ namespace BQUtility
         }
         public static void UpdateGameInfo(RomBasicInfo pRomInfo)
         {
-            string lSqlHeader = "UPDATE " + _TableName + " SET ";
-            string lSqlFooter = "WHERE Serial = '" + pRomInfo.Serial + "' ";
+            string lSqlHeader = " UPDATE " + _TableName + " SET ";
+            string lSqlFooter = " WHERE Serial = '" + pRomInfo.Serial + "' ";
             // FirstName = 'Fred', City = 'Nanjing'
             string lSqlBody = "";
 
@@ -633,7 +633,7 @@ namespace BQUtility
                 lSqlBody += AddProp(cmd, lExistRomInfo.BasicInfo.IsCustomsizeRom, pRomInfo.IsCustomsizeRom, "IsCustomsizeRom");
                 lSqlBody += AddProp(cmd, lExistRomInfo.BasicInfo.SourceSerial, pRomInfo.SourceSerial, "SourceSerial");
 
-                lSqlBody.TrimEnd(',');
+                lSqlBody = lSqlBody.Trim().TrimEnd(',');
 
                 if (lSqlBody == "")
                 {

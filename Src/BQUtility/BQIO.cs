@@ -114,6 +114,22 @@ namespace BQUtility
             return lRomPicList;
         }
 
+        public static List<FileInfo> GetAllRomFile(DirectoryInfo rootDir)
+        {
+            List<string> lRomExtension = new List<string> { ".3ds", ".3dz", ".cia" };
+            List<FileInfo> lResult = new List<FileInfo>();
+            lResult = GetAllFiles(rootDir, lResult);
+            for (int i = lResult.Count - 1; i >= 0; i--)
+            {
+                if (!lRomExtension.Contains(lResult[i].Extension.ToLower()))
+                {
+                    lResult.RemoveAt(i);
+                }
+            }
+
+            return lResult;
+        }
+
         public static void SaveLargeIco(BitmapImage pImage, RomInformation pRomInfo)
         {
             SaveIco(pImage, pRomInfo, true);
