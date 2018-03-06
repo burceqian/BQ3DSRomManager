@@ -28,24 +28,38 @@ namespace BQ3DSCore
             BQDirectory.Initilize();
 
             // Check3dsdb
-            if (!BQ3dsdb.Check3dsdb())
+            try
             {
-                BQ3dsdb.Update3dsdb();
+                if (!BQ3dsdb.Check3dsdb())
+                {
+                    BQ3dsdb.Update3dsdb();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new BQException() { Source = ex.Source, BQErrorMessage = "Update DB Error" };
             }
 
-            // CheckDB
-            if (!BQDB.CheckDBExist())
+
+            try
             {
-                BQDB.CreateNewDB();
-                List<RomInformation> AllRomInfoList = BQ3dsdb.GetAllRomInfo();
-                BQDB.InsertRomInfoList(AllRomInfoList);
-                //AllRomInfoList.ForEach(rominfo=> BQDB.InsertRomInfo(rominfo.BasicInfo));
+                // CheckDB
+                if (!BQDB.CheckDBExist())
+                {
+                    BQDB.CreateNewDB();
+                    List<RomInformation> AllRomInfoList = BQ3dsdb.GetAllRomInfo();
+                    BQDB.InsertRomInfoList(AllRomInfoList);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new BQException() {  Source=ex.Source, BQErrorMessage="Update DB Error"};
             }
         }
 
         public static List<RomInformation> InitializeFirstRomList()
         {
-            List < RomInformation > lAllRomInfo = BQDB.GetAllGameInfo();
+            List<RomInformation> lAllRomInfo = BQDB.GetAllGameInfo();
 
             foreach (var romInfo in lAllRomInfo)
             {
@@ -59,6 +73,9 @@ namespace BQ3DSCore
         private static RomInformation ParseRom(FileInfo pRomFile)
         {
             RomInformation lRomInformation = new RomInformation();
+
+            lRomInformation.ExpandInfo.RomType = pRomFile.Extension.TrimStart('.');
+
             foreach (var romParser in _RomParserList)
             {
                 MergeRomInfo(lRomInformation, romParser.ParseRom(pRomFile));
@@ -89,9 +106,16 @@ namespace BQ3DSCore
             if (lRomInformation.BasicInfo.Serial != "")
             {
                 RomInformation lDBRomInformation = BQDB.GetGameInfo(lRomInformation.BasicInfo.Serial);
-                MergeRomInfo(lDBRomInformation, lRomInformation);
-                BQDB.UpdateGameInfo(lDBRomInformation.BasicInfo);
-                MergeRomInfo(lRomInformation, lDBRomInformation);
+                if (lDBRomInformation != null)
+                {
+                    MergeRomInfo(lDBRomInformation, lRomInformation);
+                    BQDB.UpdateGameInfo(lDBRomInformation.BasicInfo);
+                    MergeRomInfo(lRomInformation, lDBRomInformation);
+                }
+                else
+                {
+                    BQDB.InsertRomInfo(lRomInformation.BasicInfo);
+                }
             }
 
             if (BQIO.CheckRomFileExist(lRomInformation)== false)
@@ -122,36 +146,6 @@ namespace BQ3DSCore
                 RomInformation tRomInformation = ParseRom(pRomFile);
                 lRomInformationList.Add(tRomInformation);
             }
-
-            return lRomInformationList;
-
-            //ParseRom()
-
-            //List<FileInfo> lRomFileList = FiledRomFile(pRomFile);
-
-
-
-            //foreach (var romFile in lRomFileList)
-            //{
-            //    RomInformation tRomInformation = new RomInformation();
-            //    foreach (var romParser in _RomParserList)
-            //    {
-            //        MergeRomInfo(tRomInformation, romParser.ParseRom(pRomFile));
-            //    }
-
-            //    List<string> lPicList = new List<string>();
-
-            //    foreach (var item in _RomInfoNetCrawlerList)
-            //    {
-            //        lPicList.AddRange(item.ScanRomPic(tRomInformation));
-            //    }
-
-            //    BQIO.GetRomConverPic DownloadRomPic(lPicList);
-
-            //    lRomInformationList.Add(tRomInformation);
-
-            //    BQIO.CopyRomToRomFolder(tRomInformation, romFile);
-            //}
 
             return lRomInformationList;
         }

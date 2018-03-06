@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BQException.cs" />
     <Compile Include="Rom3dsdbInfo.cs" />
     <Compile Include="Rom3dsGameInfo.cs" />
     <Compile Include="RomBasicInfo.cs" />

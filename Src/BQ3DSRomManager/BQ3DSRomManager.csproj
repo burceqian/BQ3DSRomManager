@@ -141,6 +141,10 @@
       <Project>{806FFEAA-F1E2-4D1F-943E-662ECA3B87A3}</Project>
       <Name>BQStructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BQUtility\BQUtility.csproj">
+      <Project>{E586B538-CB01-45B6-9C49-EB5092BCEAC2}</Project>
+      <Name>BQUtility</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">

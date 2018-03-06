@@ -12,11 +12,6 @@ namespace BQUtility
         private static string _LastDir = "";
         private static List<FileInfo> _LastFileList = null;
 
-        public static bool CheckRomFileExist(RomInformation pRomInfo)
-        {
-            return true;
-        }
-
         public static List<FileInfo> GetRomFile(DirectoryInfo pTarFolder)
         {
             List<FileInfo> lResult = new List<FileInfo>();
@@ -55,10 +50,38 @@ namespace BQUtility
             return _LastFileList;
         }
 
+        public static bool CheckRomFileExist(RomInformation pRomInfo)
+        {
+            if (pRomInfo.BasicInfo.SubSerial == "")
+            {
+                return false;
+            }
+            string lromFolder = Path.Combine(BQDirectory.RomDir, pRomInfo.BasicInfo.SubSerial);
+            if (pRomInfo.ExpandInfo.RomType == "")
+            {
+                DirectoryInfo ldirInfo = new DirectoryInfo(lromFolder);
+                if (ldirInfo.GetFiles().Length > 0)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.SubSerial + "_" + pRomInfo.ExpandInfo.RomType + ".zip");
+                return File.Exists(lromfile);
+            }
+
+            return false;
+        }
+
         public static void CopyRomToRomFolder(RomInformation pRomInfo, FileInfo pFile)
         {
+            if (CheckRomFileExist(pRomInfo))
+            {
+                return;
+            }
             string lromFolder = Path.Combine(BQDirectory.RomDir, pRomInfo.BasicInfo.SubSerial);
-            string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.SubSerial + ".zip");
+            string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.SubSerial + "_" + pRomInfo.ExpandInfo.RomType + ".zip");
             BQCompression.CompressionFile(pFile, new FileInfo(lromfile));
         }
 

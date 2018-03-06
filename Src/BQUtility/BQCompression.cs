@@ -9,6 +9,13 @@ namespace BQUtility
     {
         public static void CompressionFile(FileInfo pSrcFile, FileInfo pTarFile)
         {
+            if (pTarFile.Directory.Exists == false)
+            {
+                Directory.CreateDirectory(pTarFile.Directory.FullName);
+            }
+
+
+
             ZipFile.CreateFromDirectory(pSrcFile.FullName, pTarFile.FullName);
         }
 

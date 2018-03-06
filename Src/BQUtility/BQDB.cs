@@ -555,7 +555,8 @@ namespace BQUtility
 
             SQLiteCommand cmd = new SQLiteCommand();
             cmd.Connection = lDBConnection;
-            cmd.CommandText = "SELECT * FROM " + _TableName + " Limit 20";
+            cmd.CommandText = "SELECT * FROM " + _TableName;
+            //cmd.CommandText = "SELECT * FROM " + _TableName + " Limit 20";
 
             SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
 
@@ -568,7 +569,7 @@ namespace BQUtility
 
             if (ds.Rows.Count == 0)
             {
-                return null;
+                return new List<RomInformation>();
             }
             List<RomInformation> lResult = new List<RomInformation>();
             foreach (DataRow dataRow in ds.Rows)
@@ -633,6 +634,11 @@ namespace BQUtility
                 lSqlBody += AddProp(cmd, lExistRomInfo.BasicInfo.SourceSerial, pRomInfo.SourceSerial, "SourceSerial");
 
                 lSqlBody.TrimEnd(',');
+
+                if (lSqlBody == "")
+                {
+                    return;
+                }
 
                 lSql += lSqlBody;
 
