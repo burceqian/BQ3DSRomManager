@@ -67,7 +67,7 @@ namespace BQUtility
             }
             else
             {
-                string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.SubSerial + "_" + pRomInfo.ExpandInfo.RomType + ".zip");
+                string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.SubSerial + "." + pRomInfo.ExpandInfo.RomType + ".7z");
                 return File.Exists(lromfile);
             }
 
@@ -81,7 +81,7 @@ namespace BQUtility
                 return;
             }
             string lromFolder = Path.Combine(BQDirectory.RomDir, pRomInfo.BasicInfo.SubSerial);
-            string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.SubSerial + "_" + pRomInfo.ExpandInfo.RomType + ".zip");
+            string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.SubSerial + "." + pRomInfo.ExpandInfo.RomType);
             BQCompression.CompressionFile(pFile, new FileInfo(lromfile));
         }
 

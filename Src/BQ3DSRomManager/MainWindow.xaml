@@ -129,7 +129,7 @@
                 <!--<DataGridCheckBoxColumn Header="收藏" ElementStyle="{StaticResource dgTextAlignment}" Width="5*" Binding="{Binding Path=BasicInfo.Favorite,Converter={StaticResource convertBool}}"/>-->
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Row="3" Grid.Column="2" Margin="4,216,0,0" Height="46" VerticalAlignment="Top" HorizontalAlignment="Left" Width="42">
+        <Button Grid.Row="3" Grid.Column="2" Margin="4,216,0,0" Height="46" VerticalAlignment="Top" HorizontalAlignment="Left" Width="42" Click="Button_Click_MoveToSD">
             <Button.Content>
                 <Image Source="Resources/Move.ico"></Image>
             </Button.Content>

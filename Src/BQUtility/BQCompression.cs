@@ -16,53 +16,6 @@ namespace BQUtility
                 Directory.CreateDirectory(pTarFile.Directory.FullName);
             }
 
-            //MemoryStream ms = new MemoryStream();
-            FileStream fileStream = new FileStream(pTarFile.FullName, FileMode.CreateNew);
-            GZipStream compressedStream = new GZipStream(fileStream, CompressionMode.Compress, true);
-            FileStream fs = new FileStream(pSrcFile.FullName, FileMode.Open);
-            byte[] buf = new byte[10240];
-            int count = 0;
-            do
-            {
-                count = fs.Read(buf, 0, buf.Length);
-                compressedStream.Write(buf, 0, count);
-            }
-            while (count > 0);
-
-            fs.Close();
-            compressedStream.Close();
-
-            //FileStream fileStream = new FileStream(pTarFile.FullName, FileMode.CreateNew);
-            //byte[] buffer = ms.ToArray();
-
-            //fileStream.Write(buffer, 0, buffer.Length);
-            fileStream.Close();
-
-            //System.Diagnostics.Process p = new System.Diagnostics.Process();
-            //p.StartInfo.FileName = "7z.exe";
-            //p.StartInfo.Arguments = " a \"" + pTarFile.FullName + "\" \"" + pSrcFile.FullName + "\"";
-            ////p.StartInfo.UseShellExecute = false;    //是否使用操作系统shell启动
-            ////p.StartInfo.RedirectStandardInput = true;//接受来自调用程序的输入信息
-            ////p.StartInfo.RedirectStandardOutput = true;//由调用程序获取输出信息
-            ////p.StartInfo.RedirectStandardError = true;//重定向标准错误输出
-            ////p.StartInfo.CreateNoWindow = false;//不显示程序窗口
-            //p.Start();//启动程序
-
-            ////向cmd窗口发送输入信息
-            ////p.StandardInput.WriteLine("7z.exe a " + destinationZipFilePath + " " + sourceFilePath + @" >> C:\tasks\7z.log /s /q &exit");
-
-            ////p.StandardInput.AutoFlush = true;
-
-            ////获取cmd窗口的输出信息
-            ////string output = p.StandardOutput.ReadToEnd();
-
-            //p.WaitForExit();//等待程序执行完退出进程
-            //p.Close();
-
-            //ZipFile.CreateFromDirectory(pSrcFile.FullName, pTarFile.FullName);
-
-
-            // 指定7z动态库文件路径，默认是"7z.dll"  
             if (IntPtr.Size == 4)
             {
                 SevenZipCompressor.SetLibraryPath(@"x86\7z.dll");
@@ -72,70 +25,62 @@ namespace BQUtility
                 SevenZipCompressor.SetLibraryPath(@"x64\7z.dll");
             }
 
-            //SevenZipBase.SetLibraryPath(@"C:\Program Files\7-Zip\7z.dll");
+            // Set Temp Folder
+            string lCompressTempFolder = Environment.GetEnvironmentVariable("TEMP");
+            var lSevenZipCompressor = new SevenZipCompressor(lCompressTempFolder);
 
-            //var compressor = new SevenZipCompressor();
-            // 可以在构造时指定临时文件夹  
-            var compressor = new SevenZipCompressor(@"C:\D\ZipTemp");
+            // Print Temp Folder
+            Console.WriteLine(lSevenZipCompressor.TempFolderPath);
 
-            // 打印临时文件夹路径  
-            Console.WriteLine(compressor.TempFolderPath);
+            // Set CompressionLevel
+            lSevenZipCompressor.CompressionLevel = SevenZip.CompressionLevel.Normal;
 
-            // 设置压缩等级  
-            compressor.CompressionLevel = SevenZip.CompressionLevel.Normal;
+            // Set Compress Type 
+            lSevenZipCompressor.ArchiveFormat = OutArchiveFormat.SevenZip;
 
-            // 指定压缩包格式，默认为7z。  
-            // 如果使用的7za.dll则只能使用7z格式。  
-            compressor.ArchiveFormat = OutArchiveFormat.SevenZip;
+            // Save DirectoryStructure
+            lSevenZipCompressor.DirectoryStructure = true;
 
-            // 是否保持目录结构，默认为true。  
-            compressor.DirectoryStructure = true;
+            // Compress blank folder  
+            lSevenZipCompressor.IncludeEmptyDirectories = true;
 
-            // 是否包含空目录，默认true。  
-            compressor.IncludeEmptyDirectories = true;
+            // Use root folder
+            lSevenZipCompressor.PreserveDirectoryRoot = false;
 
-            // 压缩目录时是否使用顶层目录，默认false  
-            compressor.PreserveDirectoryRoot = false;
+            // Encrypt Header
+            lSevenZipCompressor.EncryptHeaders = false;
 
-            // 加密7z头，默认false  
-            compressor.EncryptHeaders = false;
+            // Zip Encryption Method  
+            lSevenZipCompressor.ZipEncryptionMethod = ZipEncryptionMethod.ZipCrypto;
 
-            // 文件加密算法  
-            compressor.ZipEncryptionMethod = ZipEncryptionMethod.ZipCrypto;
+            // Fast Compression
+            // No started event, only finish event
+            lSevenZipCompressor.FastCompression = false;
 
-            // 尽快压缩（不会触发*Started事件，仅触发*Finished事件）  
-            compressor.FastCompression = false;
-
-            // 单个文件开始压缩  
-            compressor.FileCompressionStarted += (sender, eventArgs) =>
+            // start compression file
+            lSevenZipCompressor.FileCompressionStarted += (sender, eventArgs) =>
             {
-                Console.WriteLine($"正在压缩：{eventArgs.FileName}");
-                Console.WriteLine($"进度:{eventArgs.PercentDone}%");
-            };
-
-            compressor.FileCompressionStarted += (sender, eventArgs) =>
-            {
-                Console.WriteLine($"正在压缩：{eventArgs.FileName}");
-                Console.WriteLine($"进度:{eventArgs.PercentDone}%");
+                BQLog.UpdateProgress("Compressing" + eventArgs.FileName, 0, 100);
             };
 
             // 单个文件压缩完成时  
-            compressor.FileCompressionFinished += (sender, eventArgs) =>
+            lSevenZipCompressor.FileCompressionFinished += (sender, eventArgs) =>
             {
-                Console.WriteLine("FileCompressionFinished");
+                BQLog.UpdateProgress("FileCompressionFinished", 100, 100);
             };
 
-            compressor.Compressing += (sender, eventArgs) =>
+            lSevenZipCompressor.Compressing += (sender, eventArgs) =>
             {
-                Console.WriteLine(eventArgs.PercentDelta);
-                Console.WriteLine(eventArgs.PercentDone);
+                BQLog.UpdateProgress("Compressing", eventArgs.PercentDone, 100);
             };
 
             // 压缩完成  
-            compressor.CompressionFinished += (sender, eventArgs) =>
+            lSevenZipCompressor.CompressionFinished += (sender, eventArgs) =>
             {
-                Console.WriteLine("CompressionFinished");
+                BQLog.UpdateProgress("CompressionFinished", 100, 100);
             };
+
+            //lSevenZipCompressor.CompressFiles(pTarFile.FullName, pSrcFile.FullName + ".7z");
 
             // 添加文件  
             //var baseDir = AppDomain.CurrentDomain.BaseDirectory;
@@ -162,8 +107,8 @@ namespace BQUtility
             //MyDic.Add("MEMy.3ds", @"C:\D\3DSTest\Test\Me & My Pets 3D (Europe) (En,Fr,De,Es,It,Nl).3ds\Me & My Pets 3D (Europe) (En,Fr,De,Es,It,Nl).3ds");
             //MyDic.Add(@"AA\MEMy.cia", @"C:\D\3DSTest\Test\Me+%26+My+Pets+3D+%28Europe%29+%28En%2CFr%2CDe%2CEs%2CIt%2CNl%29.cia\Me & My Pets 3D (Europe) (En,Fr,De,Es,It,Nl).cia");
 
-            MyDic.Add("VM.7z", @"C:\VM\Windows XP SP3.ova");
-            compressor.CompressFileDictionary(MyDic, @"C:\VM\test.7z");//注意第二个参数为输出压缩包的文件
+            MyDic.Add(pTarFile.Name, pSrcFile.FullName);
+            lSevenZipCompressor.CompressFileDictionary(MyDic, pTarFile.FullName + ".7z");//注意第二个参数为输出压缩包的文件
             //compressor.CompressFileDictionary(MyDic, @"C:\D\3DSTest\test.7z");//注意第二个参数为输出压缩包的文件
         }
 
@@ -200,61 +145,6 @@ namespace BQUtility
             }
 
             return fileList;
-        }
-
-        public static void Compress(string filePath, string zipPath)
-        {
-            FileStream sourceFile = File.OpenRead(filePath);
-            FileStream destinationFile = File.Create(zipPath);
-            byte[] buffer = new byte[sourceFile.Length];
-            GZipStream zip = null;
-            try
-            {
-                sourceFile.Read(buffer, 0, buffer.Length);
-                zip = new GZipStream(destinationFile, CompressionMode.Compress);
-                zip.Write(buffer, 0, buffer.Length);
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                zip.Close();
-                sourceFile.Close();
-                destinationFile.Close();
-            }
-        }
-
-        public static void Decompress(string zipPath, string filePath)
-        {
-            FileStream sourceFile = File.OpenRead(zipPath);
-
-            string path = filePath.Replace(Path.GetFileName(filePath), "");
-
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            FileStream destinationFile = File.Create(filePath);
-            GZipStream unzip = null;
-            byte[] buffer = new byte[sourceFile.Length];
-            try
-            {
-                unzip = new GZipStream(sourceFile, CompressionMode.Decompress, true);
-                int numberOfBytes = unzip.Read(buffer, 0, buffer.Length);
-
-                destinationFile.Write(buffer, 0, numberOfBytes);
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                sourceFile.Close();
-                destinationFile.Close();
-                unzip.Close();
-            }
         }
     }
 }

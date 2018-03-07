@@ -21,42 +21,73 @@ namespace BQ3DSRomManager
     {
         List<RomInformation> _AllRomList = new List<RomInformation>();
         ObservableCollection<RomInformation> _RomList = new ObservableCollection<RomInformation>();
+        ProgressForm _ProgressForm = new ProgressForm();
 
         public MainWindow()
         {
+            BQLog.initilize(_ProgressForm.UpdateProgress);
             InitializeComponent();
+
         }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            this.Title = "BQ 3DS Rom Manager V" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major + "." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor;
-            try
-            {
-                BQCore.Initialize();
-            }
-            catch (BQException bqE)
-            {
-                System.Windows.MessageBox.Show(bqE.BQErrorMessage);
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.ToString());
-            }
 
-            dgGameList.ItemsSource = _RomList;
+        }
+
+        private void TaskStart(Action task, Action continueTask)
+        {
+            _ProgressForm.Owner = this;
+            //_ProgressForm = new ProgressForm();
+            _ProgressForm.RunTask(task, continueTask);
+            _ProgressForm.ShowDialog();
+            //_ProgressForm.Show();
+            //_ProgressForm.progressbar.Value = 0;
+
+            //for (int i = 0; i < 1000; i++)
+            //{
+            //    _ProgressForm.UpdateProgress("tst", i, 1000);
+            //}
+            //Task tTask = new Task(task);
+            //tTask.ContinueWith(new Action<Task>((t) => { _ProgressForm.Close(); _ProgressForm = null; }));
+            //tTask.Start();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            this.Title = "BQ 3DS Rom Manager V" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major + "." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor;
+            dgGameList.ItemsSource = _RomList;
+
+            TaskStart(new Action(() =>
             {
-                InitializeRomList();
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show("Initialize Rom List Error");
-                System.Windows.MessageBox.Show(ex.ToString());
-            }
+                try
+                {
+                    BQLog.UpdateProgress("Initilize Rom List", 3, 10);
+                    BQCore.Initialize();
+                }
+                catch (BQException bqE)
+                {
+                    System.Windows.MessageBox.Show(bqE.BQErrorMessage);
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show(ex.ToString());
+                }
+
+                try
+                {
+                    BQLog.UpdateProgress("Initilize Elements", 6, 10);
+                    InitializeRomList();
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show("Initialize Rom List Error");
+                    System.Windows.MessageBox.Show(ex.ToString());
+                }
+
+                BQLog.UpdateProgress("All Done", 10, 10);
+            }), null);
+
 
         }
 
@@ -109,20 +140,45 @@ namespace BQ3DSRomManager
         private void MenuItem_Click_LoadRom(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "3ds|*.3ds|3dz|*.3dz|CIA|*.cia|ZIP|*.zip|RAR|*.rar";
+            openFileDialog.Filter = "3dsRom|*.3ds;*.3dz;*.cia|ZIPFile|*.zip;*.rar;*.7z";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.FilterIndex = 1;
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
-                List<RomInformation> tRomList = BQCore.LoadRom(fileInfo);
-                foreach (var rom in tRomList)
+                List<RomInformation> tRomList = null;
+                TaskStart(new Action(() =>
                 {
-                    if (_RomList.FirstOrDefault(r => r.BasicInfo.Serial == rom.BasicInfo.Serial) == null)
+                    FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
+                    tRomList = BQCore.LoadRom(fileInfo);
+
+                }),null);
+
+                try
+                {
+                    foreach (var rom in tRomList)
                     {
-                        _RomList.Add(rom);
+                        if (_RomList.FirstOrDefault(r => r.BasicInfo.Serial == rom.BasicInfo.Serial) == null)
+                        {
+                            _RomList.Add(rom);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+
+
+                //FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
+                //List<RomInformation> tRomList = BQCore.LoadRom(fileInfo);
+                //foreach (var rom in tRomList)
+                //{
+                //    if (_RomList.FirstOrDefault(r => r.BasicInfo.Serial == rom.BasicInfo.Serial) == null)
+                //    {
+                //        _RomList.Add(rom);
+                //    }
+                //}
             }
         }
 
@@ -206,5 +262,14 @@ namespace BQ3DSRomManager
             wRomInfo.ShowDialog();
         }
         #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_MoveToSD(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }
