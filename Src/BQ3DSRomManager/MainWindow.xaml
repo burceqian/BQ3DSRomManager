@@ -179,8 +179,8 @@
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="4" >
-            <ProgressBar Name="progressbar" HorizontalAlignment="Left" Width="100" Height="15" VerticalAlignment="Bottom" Margin="0,0,0,2"/>
-            <Label Name="labProgress" Content="" Margin="100,0,10,1" Height="15" VerticalAlignment="Bottom" FontSize="6" FontFamily="MS Gothic"/>
+            <!--<ProgressBar Name="progressbar" HorizontalAlignment="Left" Width="100" Height="15" VerticalAlignment="Bottom" Margin="0,0,0,2"/>
+            <Label Name="labProgress" Content="" Margin="100,0,10,1" Height="15" VerticalAlignment="Bottom" FontSize="6" FontFamily="MS Gothic"/>-->
         </Grid>
     </Grid>
 </Window>

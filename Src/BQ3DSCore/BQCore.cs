@@ -30,6 +30,7 @@ namespace BQ3DSCore
             // Check3dsdb
             try
             {
+                BQLog.UpdateProgress("初始化Rom信息", 2, 5);
                 if (!BQ3dsdb.Check3dsdb())
                 {
                     BQ3dsdb.Update3dsdb();
@@ -43,6 +44,7 @@ namespace BQ3DSCore
 
             try
             {
+                BQLog.UpdateProgress("初始化Rom数据库", 3, 5);
                 // CheckDB
                 if (!BQDB.CheckDBExist())
                 {
@@ -58,6 +60,25 @@ namespace BQ3DSCore
         }
 
         public static List<RomInformation> InitializeFirstRomList()
+        {
+            List<RomInformation> lAllRomInfo = new List<RomInformation>();
+            List<string> lRomSerialList = BQIO.GetAllRomFileFromLocal();
+
+            for (int i = 0; i < lRomSerialList.Count; i++)
+            {
+                lAllRomInfo.Add(BQDB.GetGameInfo(lRomSerialList[i]));
+            }
+
+            foreach (var romInfo in lAllRomInfo)
+            {
+                romInfo.ExpandInfo.LargeIcon = BQIO.GetRomLargeIco(romInfo);
+                romInfo.ExpandInfo.SmallIcon = BQIO.GetRomSmallIco(romInfo);
+            }
+
+            return lAllRomInfo;
+        }
+
+        public static List<RomInformation> GetAllRomList()
         {
             List<RomInformation> lAllRomInfo = BQDB.GetAllGameInfo();
 

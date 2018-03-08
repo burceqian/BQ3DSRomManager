@@ -12,6 +12,21 @@ namespace BQUtility
         private static string _LastDir = "";
         private static List<FileInfo> _LastFileList = null;
 
+        public static List<string> GetAllRomFileFromLocal()
+        {
+            List<string> lRomSerialList = new List<string>();
+
+            DirectoryInfo lDir = new DirectoryInfo(BQDirectory.RomDir);
+
+            DirectoryInfo[] lDirList = lDir.GetDirectories();
+
+            for (int i = 0; i < lDirList.Length; i++)
+            {
+                lRomSerialList.Add(lDirList[i].Name);
+            }
+            return lRomSerialList;
+        }
+
         public static List<FileInfo> GetRomFile(DirectoryInfo pTarFolder)
         {
             List<FileInfo> lResult = new List<FileInfo>();
@@ -80,8 +95,8 @@ namespace BQUtility
             {
                 return;
             }
-            string lromFolder = Path.Combine(BQDirectory.RomDir, pRomInfo.BasicInfo.SubSerial);
-            string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.SubSerial + "." + pRomInfo.ExpandInfo.RomType);
+            string lromFolder = Path.Combine(BQDirectory.RomDir, pRomInfo.BasicInfo.Serial);
+            string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.Serial + "." + pRomInfo.ExpandInfo.RomType);
             BQCompression.CompressionFile(pFile, new FileInfo(lromfile));
         }
 
@@ -198,7 +213,7 @@ namespace BQUtility
             lAllConverList = GetAllFiles(lDir, lAllConverList);
             foreach (var converFile in lAllConverList)
             {
-                if (converFile.Name == pRomInfo.BasicInfo.SubSerial)
+                if (converFile.Name.Replace(converFile.Extension,"") == pRomInfo.BasicInfo.SubSerial)
                 {
                     BitmapImage tRomPic = new BitmapImage(new Uri(converFile.FullName));
                     return tRomPic;
