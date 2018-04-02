@@ -71,7 +71,7 @@ namespace BQUtility
             {
                 return false;
             }
-            string lromFolder = Path.Combine(BQDirectory.RomDir, pRomInfo.BasicInfo.SubSerial);
+            string lromFolder = Path.Combine(BQDirectory.RomDir, pRomInfo.BasicInfo.Serial);
             if (pRomInfo.ExpandInfo.RomType == "")
             {
                 DirectoryInfo ldirInfo = new DirectoryInfo(lromFolder);
@@ -82,7 +82,7 @@ namespace BQUtility
             }
             else
             {
-                string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.SubSerial + "." + pRomInfo.ExpandInfo.RomType + ".7z");
+                string lromfile = Path.Combine(lromFolder, pRomInfo.BasicInfo.Serial + "." + pRomInfo.ExpandInfo.RomType + ".7z");
                 return File.Exists(lromfile);
             }
 

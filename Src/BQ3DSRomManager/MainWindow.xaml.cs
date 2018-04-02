@@ -100,7 +100,13 @@ namespace BQ3DSRomManager
                 romInfo.ExpandInfo.SmallIcon = BQIO.GetRomSmallIco(romInfo);
             }
 
-            _TempRomInfoList.ForEach(rominfo => _RomList.Add(rominfo));
+            _TempRomInfoList.ForEach(rominfo =>
+            {
+                if (_RomList.FirstOrDefault(rom=>rom.BasicInfo.Serial == rominfo.BasicInfo.Serial) == null)
+                {
+                    _RomList.Add(rominfo);
+                }
+            });
         }
 
         private void MenuItem_Click_UpdateDataBaseFrom3dsdb(object sender, RoutedEventArgs e)
@@ -142,15 +148,6 @@ namespace BQ3DSRomManager
             if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 LoadRomByFolder(folderBrowserDialog.SelectedPath);
-                //DirectoryInfo directoryInfo = new DirectoryInfo(folderBrowserDialog.SelectedPath);
-                //List<RomInformation> tRomList = BQCore.LoadRom(directoryInfo);
-                //foreach (var rom in tRomList)
-                //{
-                //    if (_RomList.FirstOrDefault(r => r.BasicInfo.Serial == rom.BasicInfo.Serial) == null)
-                //    {
-                //        _RomList.Add(rom);
-                //    }
-                //}
             }
         }
 

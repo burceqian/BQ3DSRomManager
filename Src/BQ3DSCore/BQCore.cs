@@ -91,7 +91,7 @@ namespace BQ3DSCore
             return lAllRomInfo;
         }
 
-        private static RomInformation ParseRom(FileInfo pRomFile)
+        private static RomInformation ParseRom(FileInfo pRomFile,bool isCNRom = false)
         {
             RomInformation lRomInformation = new RomInformation();
 
@@ -102,16 +102,16 @@ namespace BQ3DSCore
                 MergeRomInfo(lRomInformation, romParser.ParseRom(pRomFile));
             }
 
-            List<string> lPicList = new List<string>();
-
-            foreach (var item in _RomInfoNetCrawlerList)
+            if (lRomInformation.BasicInfo.Serial != "")
             {
-                lPicList.AddRange(item.ScanRomPic(lRomInformation));
-            }
-
-            if (lPicList.Count > 0)
-            {
-                BQIO.DownloadRomPicToFolder(lPicList);
+                lRomInformation.BasicInfo.SourceSerial = lRomInformation.BasicInfo.Serial;
+                UpdateRomInfoToDB(lRomInformation);
+                if (isCNRom)
+                {
+                    lRomInformation.BasicInfo.SourceSerial = lRomInformation.BasicInfo.Serial;
+                    lRomInformation.BasicInfo.Serial = CreateCNSerial(lRomInformation.BasicInfo.SourceSerial);
+                    UpdateRomInfoToDB(lRomInformation);
+                }
             }
 
             if (lRomInformation.ExpandInfo.LargeIcon != null)
@@ -124,21 +124,6 @@ namespace BQ3DSCore
                 BQIO.SaveSmallIco(lRomInformation.ExpandInfo.SmallIcon, lRomInformation);
             }
 
-            if (lRomInformation.BasicInfo.Serial != "")
-            {
-                RomInformation lDBRomInformation = BQDB.GetGameInfo(lRomInformation.BasicInfo.Serial);
-                if (lDBRomInformation != null)
-                {
-                    MergeRomInfo(lDBRomInformation, lRomInformation);
-                    BQDB.UpdateGameInfo(lDBRomInformation.BasicInfo);
-                    MergeRomInfo(lRomInformation, lDBRomInformation);
-                }
-                else
-                {
-                    BQDB.InsertRomInfo(lRomInformation.BasicInfo);
-                }
-            }
-
             if (BQIO.CheckRomFileExist(lRomInformation)== false)
             {
                 BQIO.CopyRomToRomFolder(lRomInformation, pRomFile);
@@ -147,7 +132,44 @@ namespace BQ3DSCore
             return lRomInformation;
         }
 
-        public static List<RomInformation> LoadRom(FileInfo pRomFile)
+        private static void UpdateRomInfoToDB(RomInformation pRomInfo)
+        {
+            RomInformation lTempRomInformation = BQDB.GetGameInfo(pRomInfo.BasicInfo.Serial);
+
+            if (lTempRomInformation != null)
+            {
+                if (MergeRomInfo(pRomInfo, lTempRomInformation))
+                {
+                    BQDB.UpdateGameInfo(pRomInfo.BasicInfo);
+                }
+            }
+            else
+            {
+                BQDB.InsertRomInfo(pRomInfo.BasicInfo);
+            }
+        }
+
+        public static void DownloadRomPic(RomInformation pBaseRomInfo)
+        {
+            List<string> lPicList = new List<string>();
+
+            foreach (var item in _RomInfoNetCrawlerList)
+            {
+                lPicList.AddRange(item.ScanRomPic(pBaseRomInfo));
+            }
+
+            if (lPicList.Count > 0)
+            {
+                BQIO.DownloadRomPicToFolder(lPicList);
+            }
+        }
+
+        public static string CreateCNSerial(string pSourceSerial)
+        {
+            return "CNR-" + pSourceSerial.Substring(pSourceSerial.Length - 4, 4);
+        }
+
+        public static List<RomInformation> LoadRom(FileInfo pRomFile,bool isCNRom = false)
         {
             List<RomInformation> lRomInformationList = new List<RomInformation>();
 
@@ -158,13 +180,13 @@ namespace BQ3DSCore
                 List<FileInfo> lFileList = BQIO.GetRomFile(new DirectoryInfo(BQDirectory.TempDir));
                 foreach (var file in lFileList)
                 {
-                    RomInformation tRomInformation = ParseRom(pRomFile);
+                    RomInformation tRomInformation = ParseRom(pRomFile, isCNRom);
                     lRomInformationList.Add(tRomInformation);
                 }
             }
             else
             {
-                RomInformation tRomInformation = ParseRom(pRomFile);
+                RomInformation tRomInformation = ParseRom(pRomFile, isCNRom);
                 lRomInformationList.Add(tRomInformation);
             }
 
@@ -179,8 +201,10 @@ namespace BQ3DSCore
             return lResult;
         }
 
-        public static void MergeRomInfo(RomInformation pBaseRomInfo, RomInformation pAdditionRomInfo)
+        public static bool MergeRomInfo(RomInformation pBaseRomInfo, RomInformation pAdditionRomInfo)
         {
+            bool lHasDiff = false;
+
             foreach (var addromInfoProp in pAdditionRomInfo.BasicInfo.GetType().GetProperties())
             {
                 foreach (var baseRomInfoProp in pBaseRomInfo.BasicInfo.GetType().GetProperties())
@@ -193,6 +217,7 @@ namespace BQ3DSCore
                             (tarValue != null && tarValue.ToString().Trim() != ""))
                         {
                             baseRomInfoProp.SetValue(pBaseRomInfo.BasicInfo, tarValue);
+                            lHasDiff = true;
                         }
                     }
                 }
@@ -207,6 +232,8 @@ namespace BQ3DSCore
             {
                 pBaseRomInfo.ExpandInfo.SmallIcon = pAdditionRomInfo.ExpandInfo.SmallIcon;
             }
+
+            return lHasDiff;
         }
 
         public static List<FileInfo> FiledRomFile(FileInfo pRomFile)
