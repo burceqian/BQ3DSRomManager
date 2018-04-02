@@ -175,8 +175,10 @@ namespace BQ3DSRomManager
         #region Local Right Mouse Click
         private void MenuItem_Click_ShowRomDetail(object sender, RoutedEventArgs e)
         {
-            WRomInfo wRomInfo = new WRomInfo();
-            wRomInfo.ShowDialog();
+            //WRomInfo wRomInfo = new WRomInfo();
+            //wRomInfo.ShowDialog();
+            RomInfoWindow rominfowindow = new BQ3DSRomManager.RomInfoWindow();
+            rominfowindow.Show();
         }
 
         private void MenuItem_Click_ShowDuplicateRoms(object sender, RoutedEventArgs e)

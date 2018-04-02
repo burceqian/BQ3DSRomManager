@@ -87,6 +87,9 @@
     <Compile Include="ProgressForm.xaml.cs">
       <DependentUpon>ProgressForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RomInfoWindow.xaml.cs">
+      <DependentUpon>RomInfoWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WRomInfo.xaml.cs">
       <DependentUpon>WRomInfo.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProgressForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RomInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
