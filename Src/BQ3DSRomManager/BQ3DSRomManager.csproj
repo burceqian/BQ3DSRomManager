@@ -172,9 +172,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ICON\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\MainWindowIcon.ico" />
   </ItemGroup>
@@ -198,6 +196,7 @@
     <Resource Include="Resources\Back.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\GetPics.ico" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

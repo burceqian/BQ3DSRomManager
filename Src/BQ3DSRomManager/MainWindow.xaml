@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BQ3DSRomManager"
         mc:Ignorable="d"
-        Title="BQ V" Height="734.609" Width="1289.928" Loaded="Window_Loaded" Icon="Resources/MainWindowIcon.ico" Initialized="Window_Initialized">
+        Title="BQ V" Height="734.609" Width="1289.928" Loaded="Window_Loaded" Icon="Resources/MainWindowIcon.ico" Initialized="Window_Initialized" Background="AliceBlue">
     <Window.Resources>
         <Style x:Key="dgTextAlignment" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -28,7 +28,7 @@
             <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition Width="10"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Menu Grid.Row="1" Grid.Column="1" Background="White">
+        <Menu Grid.Row="1" Grid.Column="1" Background="AliceBlue">
             <MenuItem Click="MenuItem_Click_LoadRom">
                 <MenuItem.Header>
                     <Image Source="Resources/GameCard.ico"></Image>
@@ -55,7 +55,7 @@
                 </MenuItem.Header>
             </MenuItem>
         </Menu>
-        <Menu Grid.Row="1" Grid.Column="3" Background="White">
+        <Menu Grid.Row="1" Grid.Column="3" Background="AliceBlue">
             <MenuItem>
                 <MenuItem.Header>
                     <Image Source="Resources/SDCard.ico"></Image>

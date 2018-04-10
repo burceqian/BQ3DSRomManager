@@ -177,7 +177,8 @@ namespace BQ3DSRomManager
         {
             //WRomInfo wRomInfo = new WRomInfo();
             //wRomInfo.ShowDialog();
-            RomInfoWindow rominfowindow = new BQ3DSRomManager.RomInfoWindow();
+            RomInfoWindow rominfowindow = new BQ3DSRomManager.RomInfoWindow((RomInformation)dgGameList.SelectedItem);
+            //rominfowindow._RomInfo = (RomInformation)dgGameList.SelectedItem;
             rominfowindow.Show();
         }
 

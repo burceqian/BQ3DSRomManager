@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BQ3DSRomManager"
         mc:Ignorable="d"
-        Title="RomInfoWindow" Height="304.249" Width="516.713">
+        Title="RomInfoWindow" Height="355.175" Width="516.713" Initialized="Window_Initialized">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="10"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="10"></RowDefinition>
@@ -19,11 +21,51 @@
             <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition Width="10"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="listBox" Grid.Column="3" Height="auto" Margin="0" Grid.Row="1" VerticalAlignment="Stretch">
-            <Image Stretch="UniformToFill" MaxWidth="200" Width="auto"  Source="C:\aa.jpg"></Image>
+        <Menu Grid.Row="1" Grid.Column="1" Background="White">
+            <MenuItem>
+                <MenuItem.Header>
+                    <Image Source="Resources/GameCard.ico"></Image>
+                </MenuItem.Header>
+            </MenuItem>
+        </Menu>
+        <Grid Name="gridBasicInfo" Grid.Column="1" Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition Width="55"></ColumnDefinition>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Name="imgGameIco" Grid.Column="1" Grid.Row="0" Source="{Binding ExpandInfo.LargeIcon}" Stretch="Fill"/>
+            <Label Background="AliceBlue" Grid.Column="1" Grid.Row="2" Content="序列号"></Label>
+            <Label Name="labSerial" Background="AliceBlue" Grid.Column="3" Grid.Row="2" Content="{Binding BasicInfo.Serial}"></Label>
+            <Label Background="AliceBlue" Grid.Column="1" Grid.Row="4" Content="游戏名"></Label>
+            <Label Name="labEnglishTitle" Background="AliceBlue" Grid.Column="3" Grid.Row="4" Content="{Binding BasicInfo.English_Title}"></Label>
+            <Label Background="AliceBlue" Grid.Column="1" Grid.Row="6" Content="文件ID"></Label>
+            <Label Name="labTitleID" Background="AliceBlue" Grid.Column="3" Grid.Row="6" Content="{Binding BasicInfo.Title_ID}"></Label>
+            <Label Background="AliceBlue" Grid.Column="1" Grid.Row="8" Content="游戏者"></Label>
+            <Label Name="labPlayers" Background="AliceBlue" Grid.Column="3" Grid.Row="8" Content="{Binding BasicInfo.Players}"></Label>
+        </Grid>
+        <ListView x:Name="listBoxRomPic" Grid.Column="3" Height="auto" Margin="0" Grid.RowSpan="3" Grid.Row="1" VerticalAlignment="Stretch">
+            <!--<Image Stretch="UniformToFill" MaxWidth="200" Width="auto"  Source="C:\aa.jpg"></Image>
             <Image Stretch="UniformToFill" MaxWidth="200" Width="auto"  Source="C:\bb.jpg"></Image>
             <Image Stretch="UniformToFill" MaxWidth="200" Width="auto"  Source="C:\aa.jpg"></Image>
-            <Image Stretch="UniformToFill" MaxWidth="200" Width="auto"  Source="C:\bb.jpg"></Image>
+            <Image Stretch="UniformToFill" MaxWidth="200" Width="auto"  Source="C:\bb.jpg"></Image>-->
         </ListView>
     </Grid>
 </Window>
