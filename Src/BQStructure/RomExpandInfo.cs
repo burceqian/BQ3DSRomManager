@@ -9,7 +9,9 @@ namespace BQStructure
         public BitmapImage LargeIcon { get; set; }
         public List<BitmapImage> Convers { get; set; }
         public string RomType { get; set; }
-        public bool Existed { get; set; }
+        public bool Existed3DS { get; set; }
+        public bool Existed3DZ { get; set; }
+        public bool ExistedCIA { get; set; }
 
         public RomExpandInfo()
         {

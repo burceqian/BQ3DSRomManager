@@ -21,8 +21,10 @@ namespace BQ3DSRomManager
     {
         List<RomInformation> _TempRomInfoList = new List<RomInformation>();
         ObservableCollection<RomInformation> _RomList = new ObservableCollection<RomInformation>();
-        ProgressForm _ProgressForm = new ProgressForm();
+        ObservableCollection<RomInformation> _SDRomList = new ObservableCollection<RomInformation>();
 
+        ProgressForm _ProgressForm = new ProgressForm();
+        #region system event
         public MainWindow()
         {
             BQLog.initilize(_ProgressForm.UpdateProgress);
@@ -47,11 +49,20 @@ namespace BQ3DSRomManager
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
             dgGameList.ItemsSource = _RomList;
-
             InitilizeForm();
         }
+
+        private void MenuItem_Click_UpdateDataBaseFrom3dsdb(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click_UpdateIconFromGameTDB(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
 
         private void InitilizeForm()
         {
@@ -83,16 +94,15 @@ namespace BQ3DSRomManager
                 }
 
                 BQLog.UpdateProgress("初始化完成", 5, 5);
-            }), UpdateRomList);
+            }), UpdateLocalRomList);
         }
 
-        List<RomInformation> lExistRomList;
         private void InitializeRomList()
         {
             _TempRomInfoList = BQCore.InitializeFirstRomList();
         }
 
-        private void UpdateRomList()
+        private void UpdateRomList(ObservableCollection<RomInformation> pRomList)
         {
             foreach (var romInfo in _TempRomInfoList)
             {
@@ -102,22 +112,23 @@ namespace BQ3DSRomManager
 
             _TempRomInfoList.ForEach(rominfo =>
             {
-                if (_RomList.FirstOrDefault(rom=>rom.BasicInfo.Serial == rominfo.BasicInfo.Serial) == null)
+                if (pRomList.FirstOrDefault(rom => rom.BasicInfo.Serial == rominfo.BasicInfo.Serial) == null)
                 {
-                    _RomList.Add(rominfo);
+                    pRomList.Add(rominfo);
                 }
             });
         }
 
-        private void MenuItem_Click_UpdateDataBaseFrom3dsdb(object sender, RoutedEventArgs e)
+        private void UpdateLocalRomList()
         {
-
+            UpdateRomList(_RomList);
         }
 
-        private void MenuItem_Click_UpdateIconFromGameTDB(object sender, RoutedEventArgs e)
+        private void UpdateSDRomList()
         {
-
+            UpdateRomList(_SDRomList);
         }
+
 
         #region Left Func Buttons
         private void MenuItem_Click_LoadRom(object sender, RoutedEventArgs e)
@@ -139,7 +150,7 @@ namespace BQ3DSRomManager
                 FileInfo fileInfo = new FileInfo(fileName);
                 _TempRomInfoList = BQCore.LoadRom(fileInfo);
 
-            }), UpdateRomList);
+            }), UpdateLocalRomList);
         }
 
         private void MenuItem_Click_LoadRomByFolder(object sender, RoutedEventArgs e)
@@ -158,12 +169,12 @@ namespace BQ3DSRomManager
                 DirectoryInfo directoryInfo = new DirectoryInfo(foldername);
                 _TempRomInfoList = BQCore.LoadRom(directoryInfo);
 
-            }), UpdateRomList);
+            }), UpdateLocalRomList);
         }
 
         private void MenuItem_Click_Favorite(object sender, RoutedEventArgs e)
         {
-
+            BQCore.UpdateRomInfoToDB((RomInformation)dgGameList.SelectedItem);
         }
 
         private void MenuItem_Click_Setting(object sender, RoutedEventArgs e)
@@ -175,10 +186,7 @@ namespace BQ3DSRomManager
         #region Local Right Mouse Click
         private void MenuItem_Click_ShowRomDetail(object sender, RoutedEventArgs e)
         {
-            //WRomInfo wRomInfo = new WRomInfo();
-            //wRomInfo.ShowDialog();
-            RomInfoWindow rominfowindow = new BQ3DSRomManager.RomInfoWindow((RomInformation)dgGameList.SelectedItem);
-            //rominfowindow._RomInfo = (RomInformation)dgGameList.SelectedItem;
+            RomInfoWindow rominfowindow = new RomInfoWindow((RomInformation)dgGameList.SelectedItem);
             rominfowindow.Show();
         }
 

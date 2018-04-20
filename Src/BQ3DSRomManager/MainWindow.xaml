@@ -116,17 +116,35 @@
                 <DataGridTextColumn Header="日文名" IsReadOnly="True" Width="10*"  Binding="{Binding BasicInfo.Japanese_Title}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="开发者" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Developer}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="发布者" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Publisher}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="游戏人数" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Players}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="游戏人数" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Players}"/>
                 <DataGridTextColumn Header="发布时间" ElementStyle="{StaticResource dgTextAlignment}"  IsReadOnly="True" Width="10*" Binding="{Binding BasicInfo.ReleaseDate}"/>
                 <DataGridTextColumn Header="文件大小" ElementStyle="{StaticResource dgTextAlignment}"  IsReadOnly="True" Width="8*" Binding="{Binding BasicInfo.Imagesize}"/>
                 <DataGridTemplateColumn Header="收藏">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding Path=BasicInfo.Favorite,Converter={StaticResource convertBool}}"></CheckBox>
+                            <!--IsChecked="{Binding Path=BasicInfo.Favorite,Converter={StaticResource convertBool}}"-->
+                            <CheckBox VerticalAlignment="Center" Click="MenuItem_Click_Favorite">
+                                <CheckBox.IsChecked>
+                                    <Binding Path="BasicInfo.Favorite" Converter="{StaticResource convertBool}"/>
+                                </CheckBox.IsChecked>
+                            </CheckBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <!--<DataGridCheckBoxColumn Header="收藏" ElementStyle="{StaticResource dgTextAlignment}" Width="5*" Binding="{Binding Path=BasicInfo.Favorite,Converter={StaticResource convertBool}}"/>-->
+                <DataGridTemplateColumn Header="CIA">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding Path=ExpandInfo.ExistedCIA}" IsEnabled="False"></CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="3DS">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding Path=ExpandInfo.Existed3DS}" IsEnabled="False"></CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="3" Grid.Column="2" Margin="4,216,0,0" Height="46" VerticalAlignment="Top" HorizontalAlignment="Left" Width="42" Click="Button_Click_MoveToSD">
@@ -166,16 +184,36 @@
                 </Style>
             </DataGrid.CellStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="序列号" IsReadOnly="True" Width="7*" Binding="{Binding Subserial}"/>
-                <DataGridTextColumn Header="游戏名" IsReadOnly="True" Width="15*" Binding="{Binding Title}"/>
-                <DataGridTextColumn Header="英文名" IsReadOnly="True" Width="10*"  Binding="{Binding Title_EN}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="日文名" IsReadOnly="True" Width="10*"  Binding="{Binding Title_JP}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="开发者" IsReadOnly="True" Width="8*"  Binding="{Binding Developer}"/>
-                <DataGridTextColumn Header="发布者" IsReadOnly="True" Width="8*"  Binding="{Binding Publisher}"/>
-                <DataGridTextColumn Header="游戏人数" IsReadOnly="True" Width="8*"  Binding="{Binding Players}"/>
-                <DataGridTextColumn Header="发布时间" IsReadOnly="True" Width="10*"  Binding="{Binding Release_date}"/>
-                <DataGridTextColumn Header="文件大小" IsReadOnly="True" Width="8*"  Binding="{Binding Imagesize}"/>
-                <DataGridCheckBoxColumn Header="收藏" Width="5*" Binding="{Binding Favorite}"/>
+                <DataGridTemplateColumn Visibility="Hidden">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding ExpandInfo.SmallIcon}" Stretch="Fill"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="游戏图片">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding ExpandInfo.LargeIcon}" Stretch="Fill"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="序列号" ElementStyle="{StaticResource dgTextAlignment}" IsReadOnly="True" Width="7*" Binding="{Binding BasicInfo.SubSerial}"/>
+                <DataGridTextColumn Header="游戏名" ElementStyle="{StaticResource dgTextAlignment}" IsReadOnly="True" Width="15*" Binding="{Binding BasicInfo.English_Title}"/>
+                <DataGridTextColumn Header="英文名" IsReadOnly="True" Width="10*"  Binding="{Binding BasicInfo.English_Title}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="日文名" IsReadOnly="True" Width="10*"  Binding="{Binding BasicInfo.Japanese_Title}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="开发者" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Developer}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="发布者" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Publisher}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="游戏人数" IsReadOnly="True" Width="8*"  Binding="{Binding BasicInfo.Players}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="发布时间" ElementStyle="{StaticResource dgTextAlignment}"  IsReadOnly="True" Width="10*" Binding="{Binding BasicInfo.ReleaseDate}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="文件大小" ElementStyle="{StaticResource dgTextAlignment}"  IsReadOnly="True" Width="8*" Binding="{Binding BasicInfo.Imagesize}" Visibility="Hidden"/>
+                <!--<DataGridTemplateColumn Header="收藏">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding Path=BasicInfo.Favorite,Converter={StaticResource convertBool}}"></CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="4" >
