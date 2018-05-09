@@ -10,14 +10,9 @@ namespace BQNetCrawlers
 {
     public class Crawler3dsdb : IRomInfoNetCrawler
     {
-        List<string> IRomInfoNetCrawler.ScanRomPic(RomInformation pRomInfo)
-        {
-            return new List<string>();
-        }
-
         RomInformation IRomInfoNetCrawler.ScanRomInfo(RomInformation pRomInfo)
         {
-            return BQ3dsdb.GetRomInfo(pRomInfo);
+            return BQ3dsdbXML.GetRomInfo(pRomInfo);
         }
     }
 }

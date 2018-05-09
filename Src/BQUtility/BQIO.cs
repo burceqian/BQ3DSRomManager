@@ -10,6 +10,7 @@ namespace BQUtility
     public class BQIO
     {
         private static string _LastDir = "";
+
         private static List<FileInfo> _LastFileList = null;
 
         public static List<string> GetAllRomFileFromLocal()
@@ -43,26 +44,21 @@ namespace BQUtility
             return lResult;
         }
 
-        private static List<FileInfo> GetAllFiles(DirectoryInfo directoryInfo, List<FileInfo> fileList)
+        public static List<FileInfo> GetAllFiles(DirectoryInfo directoryInfo)
         {
-            if (_LastDir == directoryInfo.FullName)
-            {
-                return _LastFileList;
-            }
+            List<FileInfo> lFileInfoList = new List<FileInfo>();
 
             foreach (FileInfo file in directoryInfo.GetFiles())
             {
-                fileList.Add(file);
+                lFileInfoList.Add(file);
             }
 
             foreach (DirectoryInfo subfolder in directoryInfo.GetDirectories())
             {
-                fileList = GetAllFiles(subfolder, fileList);
+                lFileInfoList.AddRange(GetAllFiles(subfolder));
             }
 
-            _LastFileList = fileList;
-
-            return _LastFileList;
+            return lFileInfoList;
         }
 
         public static bool CheckRomFileExist(RomInformation pRomInfo)
@@ -100,23 +96,12 @@ namespace BQUtility
             BQCompression.CompressionFile(pFile, new FileInfo(lromfile));
         }
 
-        public static void DownloadRomPicToFolder(List<string> pRomPicList)
-        {
-            foreach (var romPic in pRomPicList)
-            {
-                if (romPic.Length > 5 && romPic.Substring(0,5).ToLower() == "http:")
-                {
-                    SavePic(romPic);
-                }
-            }
-        }
-
         public static List<BitmapImage> GetRomConverPic(RomInformation pRomInfo)
         {
             List<BitmapImage> lRomPicList = new List<BitmapImage>();
             DirectoryInfo lDir = new DirectoryInfo(BQDirectory.ConverDir);
             List<FileInfo> lAllConverList = new List<FileInfo>();
-            lAllConverList=  GetAllFiles(lDir, lAllConverList);
+            lAllConverList=  GetAllFiles(lDir);
             foreach (var converFile in lAllConverList)
             {
                 if (converFile.Name == pRomInfo.BasicInfo.SubSerial)
@@ -133,7 +118,7 @@ namespace BQUtility
         {
             List<string> lRomExtension = new List<string> { ".3ds", ".3dz", ".cia" };
             List<FileInfo> lResult = new List<FileInfo>();
-            lResult = GetAllFiles(rootDir, lResult);
+            lResult = GetAllFiles(rootDir);
             for (int i = lResult.Count - 1; i >= 0; i--)
             {
                 if (!lRomExtension.Contains(lResult[i].Extension.ToLower()))
@@ -210,7 +195,7 @@ namespace BQUtility
             }
             
             List<FileInfo> lAllConverList = new List<FileInfo>();
-            lAllConverList = GetAllFiles(lDir, lAllConverList);
+            lAllConverList = GetAllFiles(lDir);
             foreach (var converFile in lAllConverList)
             {
                 if (converFile.Name.Replace(converFile.Extension,"") == pRomInfo.BasicInfo.SubSerial)
@@ -259,26 +244,19 @@ namespace BQUtility
             return bitmapImage;
         }
 
-        private static void SavePic(string pUrl)
+        public static List<FileInfo> GetRomConvers(RomInformation pRomInfo)
         {
-            // http://art.gametdb.com/3ds/coverM/JA/AVSJ.jpg
-            string[] lInfoList = pUrl.Split('/');
-            string lFileName = lInfoList[lInfoList.Length - 1];
-            string lFolderName = lInfoList[lInfoList.Length - 3] + "\\" + lInfoList[lInfoList.Length - 2];
-
-            FileInfo fileInfo = new FileInfo(Path.Combine(BQDirectory.ConverDir, lFolderName, lFileName));
-
-            if (fileInfo.Exists)
+            DirectoryInfo converDir = new DirectoryInfo(BQDirectory.ConverDir);
+            List<FileInfo> fileList = GetAllRomFile(converDir);
+            for (int i = fileList.Count - 1; i >= 0; i--)
             {
-                return;
+                if (fileList[i].Name != pRomInfo.BasicInfo.SubSerial + ".jpg")
+                {
+                    fileList.RemoveAt(i);
+                }
             }
 
-            if (Directory.Exists(fileInfo.DirectoryName) == false)
-            {
-                Directory.CreateDirectory(fileInfo.DirectoryName);
-            }
-
-            BQWeb.DownloadWebFile(pUrl, fileInfo);
+            return fileList;
         }
 
         public static void Initialize()

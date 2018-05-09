@@ -18,7 +18,6 @@ namespace BQ3DSCore
         public static void Initialize()
         {
             // initialize components
-            //_RomParserList = Assembly.GetExecutingAssembly().GetTypes()
             _RomParserList = Assembly.Load("BQRomParsers").GetTypes()
                 .Where(elementClass => typeof(IRomParser).IsAssignableFrom(elementClass)).Select(type => (IRomParser)Activator.CreateInstance(type)).ToList();
             _RomInfoNetCrawlerList = Assembly.Load("BQNetCrawlers").GetTypes()
@@ -31,16 +30,15 @@ namespace BQ3DSCore
             try
             {
                 BQLog.UpdateProgress("初始化Rom信息", 2, 5);
-                if (!BQ3dsdb.Check3dsdb())
+                if (!BQ3dsdbXML.Check3dsdb())
                 {
-                    BQ3dsdb.Update3dsdb();
+                    BQ3dsdbXML.Update3dsdbXMLFile();
                 }
             }
             catch (Exception ex)
             {
                 throw new BQException() { Source = ex.Source, BQErrorMessage = "Update DB Error" };
             }
-
 
             try
             {
@@ -49,7 +47,7 @@ namespace BQ3DSCore
                 if (!BQDB.CheckDBExist())
                 {
                     BQDB.CreateNewDB();
-                    List<RomInformation> AllRomInfoList = BQ3dsdb.GetAllRomInfo();
+                    List<RomInformation> AllRomInfoList = BQ3dsdbXML.GetAllRomInfo();
                     BQDB.InsertRomInfoList(AllRomInfoList);
                 }
             }
@@ -149,21 +147,6 @@ namespace BQ3DSCore
             }
         }
 
-        public static void DownloadRomPic(RomInformation pBaseRomInfo)
-        {
-            List<string> lPicList = new List<string>();
-
-            foreach (var item in _RomInfoNetCrawlerList)
-            {
-                lPicList.AddRange(item.ScanRomPic(pBaseRomInfo));
-            }
-
-            if (lPicList.Count > 0)
-            {
-                BQIO.DownloadRomPicToFolder(lPicList);
-            }
-        }
-
         public static string CreateCNSerial(string pSourceSerial)
         {
             return "CNR-" + pSourceSerial.Substring(pSourceSerial.Length - 4, 4);
@@ -193,13 +176,7 @@ namespace BQ3DSCore
             return lRomInformationList;
         }
 
-        public static List<RomInformation> LoadRom(DirectoryInfo pDir)
-        {
-            List<RomInformation> lResult = new List<RomInformation>();
-            List<FileInfo> lFileList = BQIO.GetAllRomFile(pDir);
-            lFileList.ForEach(p => { lResult.AddRange(LoadRom(p)); });
-            return lResult;
-        }
+
 
         public static bool MergeRomInfo(RomInformation pBaseRomInfo, RomInformation pAdditionRomInfo)
         {
@@ -256,5 +233,114 @@ namespace BQ3DSCore
 
             return lResult;
         }
+
+
+        //public static List<RomInformation> LoadRom(DirectoryInfo pInputDir, FileInfo pInputFile, InputFileType pType)
+        //{
+        //    List<FileInfo> lInputFiles = null;
+        //    if (pType == InputFileType.CompressionFile)
+        //    {
+        //        BQCompression.UnCompressionFile(pInputFile, new DirectoryInfo(BQDirectory.TempDir));
+        //        lInputFiles = BQIO.GetRomFile(new DirectoryInfo(BQDirectory.TempDir));
+        //    }
+        //    else if (pType == InputFileType.Directory)
+        //    {
+        //        DirectoryInfo tInputDir = new DirectoryInfo(pInput);
+        //        lInputFiles = BQIO.GetRomFile(new DirectoryInfo(BQDirectory.TempDir));
+        //    }
+        //}
+
+        #region 整理好的
+        public static List<RomInformation> LoadRom(DirectoryInfo pInputDir)
+        {
+            List<RomInformation> lResult = new List<RomInformation>();
+            List<FileInfo> lFileList = BQIO.GetAllFiles(pInputDir);
+
+            foreach (var file in lFileList)
+            {
+                if (BQSpecs.CompressionFileExtension.Contains(file.Extension) ||
+                    BQSpecs.RomFileExtension.Contains(file.Extension))
+                {
+                    lResult.AddRange(LoadRom(file)); 
+                }
+            }
+            return lResult;
+        }
+
+        public static List<RomInformation> LoadRom(FileInfo pInputFile)
+        {
+            List<RomInformation> lRomInformationList = new List<RomInformation>();
+
+            List<FileInfo> tRomFiles = null;
+
+            tRomFiles = PreTreatRom(pInputFile);
+
+            foreach (var romFile in tRomFiles)
+            {
+                RomInformation tRomInfo = ParseRom(romFile);
+                if (tRomInfo != null)
+                {
+                    lRomInformationList.Add(tRomInfo);
+                }
+            }
+
+            return lRomInformationList;
+        }
+
+        private static List<FileInfo> PreTreatRom(FileInfo pRomFile)
+        {
+            if (BQSpecs.CompressionFileExtension.Contains(pRomFile.Extension))
+            {
+                BQCompression.UnCompressionFile(pRomFile, new DirectoryInfo(BQDirectory.TempDir));
+                return BQIO.GetRomFile(new DirectoryInfo(BQDirectory.TempDir));
+            }
+            else
+            {
+                return new List<FileInfo>() { pRomFile };
+            }
+        }
+
+        private static RomInformation ParseRom(FileInfo pRomFile)
+        {
+            RomInformation lRomInformation = new RomInformation();
+
+            lRomInformation.ExpandInfo.RomType = pRomFile.Extension.TrimStart('.');
+
+            BQLog.WriteMsgToUI("解析Rom。");
+
+            foreach (var romParser in _RomParserList)
+            {
+                MergeRomInfo(lRomInformation, romParser.ParseRom(pRomFile));
+            }
+
+            if (lRomInformation.BasicInfo.Serial == "")
+            {
+                BQLog.WriteMsgToUI("解析Rom失败。");
+                return null;
+            }
+
+            if (lRomInformation.ExpandInfo.LargeIcon != null)
+            {
+                BQLog.WriteMsgToUI("保持大图标文件");
+                BQIO.SaveLargeIco(lRomInformation.ExpandInfo.LargeIcon, lRomInformation);
+            }
+
+            if (lRomInformation.ExpandInfo.SmallIcon != null)
+            {
+                BQLog.WriteMsgToUI("保持小图标文件");
+                BQIO.SaveSmallIco(lRomInformation.ExpandInfo.SmallIcon, lRomInformation);
+            }
+
+            BQLog.WriteMsgToUI("复制Rom文件");
+            BQIO.CopyRomToRomFolder(lRomInformation, pRomFile);
+  
+            return lRomInformation;
+        }
+
+        private static void AfterParseRom()
+        {
+            BQCompression.ClearUnCompressionFolder();
+        }
+        #endregion
     }
 }

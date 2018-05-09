@@ -19,4 +19,11 @@ namespace BQStructure
     {
 
     }
+
+    public enum InputFileType
+    {
+        RomFile,
+        CompressionFile,
+        Directory
+    }
 }

@@ -25,7 +25,7 @@ namespace BQ3DSRomManager
 
         public MainWindow()
         {
-            BQLog.initilize(_ProgressForm.UpdateProgress);
+            BQLog.UpdateProgressHandler = _ProgressForm.UpdateProgress;
             InitializeComponent();
         }
 

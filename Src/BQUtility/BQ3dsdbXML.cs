@@ -9,13 +9,10 @@ using System.Xml;
 
 namespace BQUtility
 {
-    public class BQ3dsdb
+    public class BQ3dsdbXML
     {
         const string URL3dsdb = "http://3dsdb.com/xml.php";
-        //private static string _3dsreleasesFileFullName = System.Environment.CurrentDirectory + @"\3dsreleases\3dsreleases.xml";
-        //private static string _3dsreleasesFilePath = System.Environment.CurrentDirectory + @"\3dsreleases\";
-
-        private static string _3dsreleasesFileName = @"3dsreleases.xml";
+        const string _3dsreleasesFileName = @"3dsreleases.xml";
 
         public static bool Check3dsdb()
         {
@@ -24,12 +21,14 @@ namespace BQUtility
             return l3dsdb.Exists;
         }
 
-        public static void Update3dsdb()
+        public static void Update3dsdbXMLFile()
         {
             FileInfo l3dsdb = new FileInfo(Path.Combine(BQDirectory.DBDir, _3dsreleasesFileName));
 
+            BQLog.WriteMsgToUI("开始更新3dsrelease.xml");
             if (!l3dsdb.Exists)
             {
+                BQLog.WriteMsgToUI("开始从3dsdb.com下载");
                 BQWeb.DownloadWebFile(URL3dsdb, l3dsdb);
             }
             else
@@ -37,35 +36,29 @@ namespace BQUtility
                 FileInfo l3dsdbNew = new FileInfo(l3dsdb.FullName + "new");
                 if (l3dsdbNew.Exists)
                 {
+                    BQLog.WriteMsgToUI("删除上次残留的3dsrelease.xml文件");
                     l3dsdbNew.Delete();
                 }
+                BQLog.WriteMsgToUI("开始从3dsdb.com下载");
                 BQWeb.DownloadWebFile(URL3dsdb, l3dsdbNew);
                 l3dsdb.Delete();
                 l3dsdbNew.MoveTo(l3dsdb.FullName);
             }
-        }
 
-        public static FileInfo Get3dsdbFile()
-        {
-            FileInfo l3dsdb = new FileInfo(Path.Combine(BQDirectory.DBDir, _3dsreleasesFileName));
-            if (l3dsdb.Exists)
-            {
-                return l3dsdb;
-            }
-            return null;
+            BQLog.WriteMsgToUI("3dsrelease.xml更新成功");
         }
 
         public static List<RomInformation> GetAllRomInfo()
         {
             List<RomInformation> lRomInfoList = new List<RomInformation>();
-            List<Rom3dsdbInfo> l3dsdbGameInfoList = GetRomInfoFrom3dsreleaseXML();
+            List<Rom3dsdbInfo> l3dsdbGameInfoList = Parse3dsreleaseXML();
             l3dsdbGameInfoList.ForEach(dsdbGameInfo => lRomInfoList.Add(Conver3dsdbToRomInfo(dsdbGameInfo)));
             return lRomInfoList;
         }
 
         public static RomInformation GetRomInfo(RomInformation pRomInfo)
         {
-            List<Rom3dsdbInfo> l3dsdbGameInfoList = GetRomInfoFrom3dsreleaseXML();
+            List<Rom3dsdbInfo> l3dsdbGameInfoList = Parse3dsreleaseXML();
             Rom3dsdbInfo l3dsdbGameInfo = l3dsdbGameInfoList.AsParallel().FirstOrDefault(gameinfo => gameinfo.serial == pRomInfo.BasicInfo.Serial);
             if (l3dsdbGameInfo != null)
             {
@@ -76,6 +69,16 @@ namespace BQUtility
             {
                 return new RomInformation();
             }
+        }
+
+        private static FileInfo Get3dsdbFile()
+        {
+            FileInfo l3dsdb = new FileInfo(Path.Combine(BQDirectory.DBDir, _3dsreleasesFileName));
+            if (l3dsdb.Exists)
+            {
+                return l3dsdb;
+            }
+            return null;
         }
 
         private static RomInformation Conver3dsdbToRomInfo(Rom3dsdbInfo pRom3dsdbInfo)
@@ -94,9 +97,9 @@ namespace BQUtility
             return lresult;
         }
 
-        private static List<Rom3dsdbInfo> GetRomInfoFrom3dsreleaseXML()
+        private static List<Rom3dsdbInfo> Parse3dsreleaseXML()
         {
-            FileInfo l3dsdbFile = BQ3dsdb.Get3dsdbFile();
+            FileInfo l3dsdbFile = BQ3dsdbXML.Get3dsdbFile();
 
             if (!l3dsdbFile.Exists)
             {

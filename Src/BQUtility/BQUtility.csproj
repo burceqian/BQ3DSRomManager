@@ -83,7 +83,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BQ3dsdb.cs" />
+    <Compile Include="BQ3dsdbXML.cs" />
+    <Compile Include="BQ3dsGameInfo.cs" />
     <Compile Include="BQComEnum.cs" />
     <Compile Include="BQDB.cs" />
     <Compile Include="BQDirectory.cs" />

@@ -12,7 +12,6 @@ namespace BQNetCrawlers
     {
         private static string _BufferCrawleredSubSerial = "";
         private static string _BufferCrawleredUrl = "";
-        private const string _RegexImagePattern = @"href=""(?<imgLink>http:\/\/[-A-Za-z0-9+&@#\/%?=~_|!:,.;]+[-A-Za-z0-9+&@#\/%=~_|].jpg)""";
         private Regex lRegexInfo = new Regex(@"(<\s*?table\s*?class\s*?=\s*?'DQedit'\s*?>)(?<body>.*)(<\/\s*table>)");
         // <tr>???</tr>
         //Regex lRegextr = new Regex(@"(<\s*?tr\s*?>)(?<tr>.*?)(<\/\s*?tr\s*?>)");
@@ -21,11 +20,7 @@ namespace BQNetCrawlers
         private Regex lRegextdValue = new Regex(@"(>)(?<value>.*)(<)");
         private Regex lRegextdDummy = new Regex(@"(<).*(>)");
         // <td class='head' align='right' width='110'  valign='top'>??</td>
-        //Regex lRegextdHead = new Regex(@"(<)\s*(td)\s+(class)\s*(=)\s*('head')\s+(align)\s*(=)\s*('right')\s+.+(valign)\s*(=)\s*('top')\s*(>)(?<tdValue>.*)(<)(\/)\s*(td)\s*(>)");
-        //Regex lRegextdValue = new Regex(@"(<)\s*(td)\s+(align)\s*(=)\s*('right')\s+.+(valign)\s*(=)\s*('top')\s*(>)(?<tdValue>.*)(<)(\/)\s*(td)\s*(>)");
-
         const string URL3dsdb = "http://www.gametdb.com/3DS/";
-        private string _3dsdbFilePath = Environment.CurrentDirectory + @"\Covers\";
 
         RomInformation IRomInfoNetCrawler.ScanRomInfo(RomInformation pRomInfo)
         {
@@ -117,91 +112,6 @@ namespace BQNetCrawlers
 
             return lreslut;
         }
-
-        List<string> IRomInfoNetCrawler.ScanRomPic(RomInformation pRomInfo)
-        {
-            List<string> lGameConverURLList = new List<string>();
-            string lWebSoruce = "";
-            if (_BufferCrawleredSubSerial == pRomInfo.BasicInfo.SubSerial)
-            {
-                lWebSoruce = _BufferCrawleredUrl;
-            }
-            else
-            {
-                lWebSoruce = BQWeb.DownloadWebHtml(URL3dsdb + pRomInfo.BasicInfo.SubSerial);
-                lWebSoruce = lWebSoruce.Replace("\n", "");
-                lWebSoruce = lWebSoruce.Replace("\r", "");
-                _BufferCrawleredUrl = lWebSoruce;
-            }
-
-            MatchCollection lResult = Regex.Matches(lWebSoruce, _RegexImagePattern);
-            if (lResult.Count <= 0)
-            {
-                return lGameConverURLList;
-            }
-            foreach (Match match in lResult)
-            {
-                GroupCollection gc = match.Groups;
-                lGameConverURLList.Add(gc["imgLink"].ToString());
-            }
-
-            return lGameConverURLList;
-        }
-
-        ///// <summary>
-        ///// get pic like this
-        ///// "http://art.gametdb.com/3ds/coverM/JA/AVSJ.jpg"
-        ///// </summary>
-        ///// <param name="pGameSerial"></param>
-        ///// <returns></returns>
-        //private List<string> GetGameConver(string pGameSerial)
-        //{
-        //    List<string> lGameConverURLList = new List<string>();
-        //    if (_BufferCrawleredSubSerial = )
-        //    {
-
-        //    }
-
-        //    string lWebSoruce = BQWeb.DownloadWebHtml(URL3dsdb + pGameSerial);
-        //    lWebSoruce = lWebSoruce.Replace("\n", "");
-        //    lWebSoruce = lWebSoruce.Replace("\r", "");
-
-        //    MatchCollection lResult = Regex.Matches(lWebSoruce, _RegexImagePattern);
-        //    if (lResult.Count <= 0)
-        //    {
-        //        return lGameConverURLList;
-        //    }
-        //    foreach (Match match in lResult)
-        //    {
-        //        GroupCollection gc = match.Groups;
-        //        lGameConverURLList.Add(gc["imgLink"].ToString());
-        //    }
-
-        //    return lGameConverURLList;
-
-            
-        //    //foreach (var imageUrl in lGameConverURLList)
-        //    //{
-        //    //    string tImagePath = imageUrl.Replace(@"http://art.gametdb.com/3ds/", "");
-        //    //    tImagePath = tImagePath.Replace(@"/", @"\");
-        //    //    string tImageFullName = _3dsdbFilePath + tImagePath;
-        //    //    if (File.Exists(tImageFullName))
-        //    //    {
-        //    //        continue;
-        //    //    }
-
-        //    //    FileInfo fileInfo = new FileInfo(tImageFullName);
-
-        //    //    if (Directory.Exists(fileInfo.DirectoryName) == false)
-        //    //    {
-        //    //        Directory.CreateDirectory(fileInfo.DirectoryName);
-        //    //    }
-
-        //    //    BQWeb.DownloadWebFile(imageUrl, fileInfo.FullName);
-        //    //}
-
-        //    //return true;
-        //}
 
         private Romgamedb3dsInfo GetGameInfo(string pGameSerial)
         {
@@ -308,4 +218,5 @@ namespace BQNetCrawlers
         public string save_3blocks { get; set; }
         public string __case { get; set; }// __ = ""
     }
+
 }
