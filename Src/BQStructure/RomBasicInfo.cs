@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BQStructure
 {
-    public class RomBasicInfo
+    public class RomBasicInfo: INotifyPropertyChanged
     {
         /// <summary>
         /// CTR-A22J
@@ -135,5 +136,24 @@ namespace BQStructure
             return "";
         }
         public List<KeyValuePair<string, string>> DuplicateRomInfo = new List<KeyValuePair<string, string>>();
+
+        public RomBasicInfo()
+        {
+            Favorite = "0";
+        }
+
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+                return;
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

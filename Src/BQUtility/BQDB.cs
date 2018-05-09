@@ -657,7 +657,7 @@ namespace BQUtility
         {
             string lResult = "";
 
-            if (pExistValue != pTarValue)
+            if (pTarValue != null && pTarValue != "" && pExistValue != pTarValue)
             {
                 lResult = " " + pItemName + " = '@" + pItemName + "', ";
                 pSqlCmd.Parameters.Add("@" + pItemName, DbType.String);

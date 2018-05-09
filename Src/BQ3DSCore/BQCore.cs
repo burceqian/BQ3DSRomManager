@@ -64,7 +64,11 @@ namespace BQ3DSCore
 
             for (int i = 0; i < lRomSerialList.Count; i++)
             {
-                lAllRomInfo.Add(BQDB.GetGameInfo(lRomSerialList[i]));
+                RomInformation lRomInformation = BQDB.GetGameInfo(lRomSerialList[i]);
+                if (lRomInformation != null)
+                {
+                    lAllRomInfo.Add(lRomInformation);
+                }
             }
 
             foreach (var romInfo in lAllRomInfo)
@@ -99,9 +103,13 @@ namespace BQ3DSCore
             {
                 MergeRomInfo(lRomInformation, romParser.ParseRom(pRomFile));
             }
-
             if (lRomInformation.BasicInfo.Serial != "")
             {
+                if (lRomInformation.BasicInfo.Serial.Length == 10)
+                {
+                    lRomInformation.BasicInfo.Serial = lRomInformation.BasicInfo.Serial.Substring(0, 4) + lRomInformation.BasicInfo.Serial.Substring(6, 4);
+                }
+
                 lRomInformation.BasicInfo.SourceSerial = lRomInformation.BasicInfo.Serial;
                 UpdateRomInfoToDB(lRomInformation);
                 if (isCNRom)
@@ -127,10 +135,25 @@ namespace BQ3DSCore
                 BQIO.CopyRomToRomFolder(lRomInformation, pRomFile);
             }
 
+            switch (pRomFile.Extension.ToLower())
+            {
+                case ".3ds":
+                    lRomInformation.ExpandInfo.Existed3DS = true;
+                    break;
+                case ".3dz":
+                    lRomInformation.ExpandInfo.Existed3DZ = true;
+                    break;
+                case ".cia":
+                    lRomInformation.ExpandInfo.ExistedCIA = true;
+                    break;
+                default:
+                    break;
+            }
+
             return lRomInformation;
         }
 
-        private static void UpdateRomInfoToDB(RomInformation pRomInfo)
+        public static void UpdateRomInfoToDB(RomInformation pRomInfo)
         {
             RomInformation lTempRomInformation = BQDB.GetGameInfo(pRomInfo.BasicInfo.Serial);
 
@@ -184,9 +207,13 @@ namespace BQ3DSCore
 
             foreach (var addromInfoProp in pAdditionRomInfo.BasicInfo.GetType().GetProperties())
             {
+                if (addromInfoProp.Name == "SubSerial")
+                {
+                    continue;
+                }
                 foreach (var baseRomInfoProp in pBaseRomInfo.BasicInfo.GetType().GetProperties())
                 {
-                    if (baseRomInfoProp.Name != "SubSerial" && baseRomInfoProp.Name == addromInfoProp.Name)
+                    if (baseRomInfoProp.Name == addromInfoProp.Name)
                     {
                         var baseValue = baseRomInfoProp.GetValue(pBaseRomInfo.BasicInfo);
                         var tarValue = addromInfoProp.GetValue(pAdditionRomInfo.BasicInfo);
@@ -196,6 +223,7 @@ namespace BQ3DSCore
                             baseRomInfoProp.SetValue(pBaseRomInfo.BasicInfo, tarValue);
                             lHasDiff = true;
                         }
+                        break;
                     }
                 }
             }
